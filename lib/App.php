@@ -122,6 +122,8 @@ class App{
      */
     public function run(){
         $urlArray = explode('/', $this->_url);
+
+
     }
 
     /**
