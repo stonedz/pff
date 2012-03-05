@@ -138,6 +138,8 @@
     <exec executable="phpdoc">
     <arg value="--directory" />
     <arg path="${basedir}/lib" />
+    <arg value="--ignore" />
+    <arg value="autoload.php" />
     <arg value="--target" />
     <arg path="${basedir}/tmp/build/api" />
     </exec>
