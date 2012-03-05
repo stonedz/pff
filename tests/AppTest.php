@@ -1,6 +1,5 @@
 <?php
 
-require_once '/home/stonedz/Documents/Work/pff/lib/App.php';
 
 /**
  * Test class for App.
