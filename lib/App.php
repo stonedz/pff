@@ -37,7 +37,7 @@ class App {
      * Sets error reporting
      */
     public function setErrorReporting() {
-        if (DEVELOPMENT_ENVIRONMENT == true) {
+        if (defined('DEVELOPMENT_ENVIRONMENT') && DEVELOPMENT_ENVIRONMENT == true) {
             error_reporting(E_ALL);
             ini_set('display_errors','On');
         } else {
@@ -53,6 +53,7 @@ class App {
      *
      * @param $value array|string
      * @return array|string
+     * @codeCoverageIgnore
      */
     private function stripSlashesDeep($value) {
         $value = is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
@@ -61,6 +62,7 @@ class App {
 
     /**
      * Removes magic quotes from requests
+     * @codeCoverageIgnore
      */
     public function removeMagicQuotes() {
         if ( get_magic_quotes_gpc() ) {
@@ -72,6 +74,8 @@ class App {
 
     /**
      * Check register globals and remove them
+     *
+     * @codeCoverageIgnore
      */
     public function unregisterGlobals() {
         if (ini_get('register_globals')) {
@@ -87,9 +91,9 @@ class App {
     }
 
     /**
-     * Add a static route to the application
+     * Add a route to the application
      *
-     * For example $app->addRoute('admin','adminController');
+     * For example $app->addRoute('admin','strangelyNamedController');
      *
      * @param $url string Desired request
      * @param $destController string Controller to manage request
@@ -109,7 +113,7 @@ class App {
     }
 
     /**
-     * Apply the routes specified by the user to the request
+     * Apply the routes specified by the user with the request
      *
      * @return array The new urlArray;
      */
