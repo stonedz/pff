@@ -9,7 +9,7 @@
  * @version 0.1
  */
 
-class App{
+class App {
 
     /**
      * @var string
@@ -29,7 +29,7 @@ class App{
     /**
      * @param $url string The request URL
      */
-    public function __construct($url){
+    public function __construct($url) {
         $this->setUrl($url);
     }
 
@@ -94,7 +94,7 @@ class App{
      * @param $url string Desired request
      * @param $destController string Controller to manage request
      */
-    public function addRoute($url, $destController){
+    public function addRoute($url, $destController) {
         $this->_routes[$url] = $destController;
     }
 
@@ -104,7 +104,7 @@ class App{
      * @param $url string Desired request
      * @param $destPage
      */
-    public function addStaticRoute($url, $destPage){
+    public function addStaticRoute($url, $destPage) {
         $this->_staticRoutes[$url] = $destPage;
     }
 
@@ -113,14 +113,14 @@ class App{
      *
      * @return array The new urlArray;
      */
-    private function applyRouting(){
+    private function applyRouting() {
 
     }
 
     /**
      * Runs the application
      */
-    public function run(){
+    public function run() {
         $urlArray = explode('/', $this->_url);
 
     }
