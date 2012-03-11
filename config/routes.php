@@ -9,4 +9,4 @@
  * @version
  */
 
-$app->addRoute('admin', 'AController');
+//$app->addRoute('admin', 'AController');

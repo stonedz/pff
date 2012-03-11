@@ -1,4 +1,6 @@
 <?php
+// @codeCoverageIgnoreStart
+
 /**
  * General bootstrap operations for the framework.
  *
@@ -14,4 +16,5 @@ $app = new App($url);
 $app->setErrorReporting();
 $app->removeMagicQuotes();
 $app->unregisterGlobals();
-
+$app->run();
+// @codeCoverageIgnoreStop

@@ -7,7 +7,15 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'app' => '/App.php'
+                'pff\\amodule' => '/modules/AModule.php',
+                'pff\\app' => '/App.php',
+                'pff\\configexception' => '/exceptions/ConfigException.php',
+                'pff\\iroutingstrategy' => '/core/IRoutingStrategy.php',
+                'pff\\pffexception' => '/exceptions/PffException.php',
+                'pff\\routing' => '/core/Routing.php',
+                'pff\\routingexception' => '/exceptions/RoutingException.php',
+                'pff\\routingmvc' => '/core/RoutingMVC.php',
+                'pff\\routingpage' => '/core/RoutingPage.php'
             );
         }
         $cn = strtolower($class);

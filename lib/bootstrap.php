@@ -1,4 +1,6 @@
 <?php
+/** @codeCoverageIgnoreStart */
+
 /**
  * Initializes includes.
  *
@@ -13,4 +15,4 @@ require_once (ROOT . DS . 'config' . DS . 'config.php');
 require_once (ROOT . DS . 'lib' . DS . 'App.php');
 require_once (ROOT . DS . 'lib' . DS . 'shared.php');
 require_once (ROOT . DS . 'config' . DS . 'routes.php');
-
+/** @codeCoverageIgnoreStop */

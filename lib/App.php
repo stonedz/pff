@@ -1,4 +1,7 @@
 <?php
+
+namespace pff;
+
 /**
  * Main app
  *
@@ -16,16 +19,9 @@ class App {
      */
     private $_url;
 
-    /**
-     * @var array Contains a map of routes
-     */
-    private $_routes;
-
-    /**
-     * @var array Contains a map of _static_ routes. (pages)
-     */
     private $_staticRoutes;
 
+    private $_routes;
     /**
      * @param $url string The request URL
      */
@@ -91,34 +87,61 @@ class App {
     }
 
     /**
-     * Add a route to the application
+     * Adds a static route to a page (the result is something similar to page controller pattern).
      *
-     * For example $app->addRoute('admin','strangelyNamedController');
-     *
-     * @param $url string Desired request
-     * @param $destController string Controller to manage request
+     * @param string $request
+     * @param string $destinationPage
+     * @throws \pff\RoutingException
      */
-    public function addRoute($url, $destController) {
-        $this->_routes[$url] = $destController;
+    public function addStaticRoute($request, $destinationPage) {
+        if(file_exists(ROOT . DS . 'app' . DS . 'pages' . DS . $destinationPage)){
+            $this->_staticRoutes[$request] = $destinationPage;
+        }
+        else{
+            throw new \pff\RoutingException('Non existant static route specified: '.$destinationPage);
+        }
     }
 
     /**
-     * Add a static route (NO MVC!), the destPage
+     * Adds a non-standard MVC route, for example request xxx to yyy_Controller.
      *
-     * @param $url string Desired request
-     * @param $destPage
+     * @param string $request
+     * @param string $destinationController
+     * @throws \pff\RoutingException
      */
-    public function addStaticRoute($url, $destPage) {
-        $this->_staticRoutes[$url] = $destPage;
+    public function addRoute($request, $destinationController) {
+        if(file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($destinationController).'_Controller.php')){
+            $this->_routes[$request] = ucfirst($destinationController);
+        }
+        else{
+            throw new \pff\RoutingException('Non existant MVC route specified: '.$destinationController);
+        }
+
     }
 
     /**
-     * Apply the routes specified by the user with the request
+     * Apply static routes.
      *
-     * @return array The new urlArray;
+     * @param string $request
+     * @return bool True if a match is found
      */
-    private function applyRouting() {
+    public function applyStaticRouting(&$request) {
+        if(isset($this->_staticRoutes[$request])){
+            $request = $this->_staticRoutes[$request];
+            $request = 'app'. DS . 'pages' . DS . $request;
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * Apply user-defined MVC routes.
+     *
+     * @param string $request
+     * @return bool True if a match is found
+     */
+    public function applyRouting(&$request) {
+        return false;
     }
 
     /**
@@ -126,7 +149,13 @@ class App {
      */
     public function run() {
         $urlArray = explode('/', $this->_url);
-
+        $tmpController = $urlArray[0] ? $urlArray[0] : 'index';
+        if($this->applyStaticRouting($tmpController)){
+            include(ROOT . DS . $tmpController);
+        }
+        //elseif(){
+        //
+        //}
     }
 
     /**
@@ -157,8 +186,3 @@ class App {
         return $this->_staticRoutes;
     }
 }
-
-
-
-
-
