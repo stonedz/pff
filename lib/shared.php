@@ -12,9 +12,8 @@
  */
 
 // Create a new app with the current request
-$app = new App($url);
+$app = new \pff\App($url);
 $app->setErrorReporting();
 $app->removeMagicQuotes();
 $app->unregisterGlobals();
-$app->run();
 // @codeCoverageIgnoreStop

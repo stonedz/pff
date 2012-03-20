@@ -9,4 +9,12 @@
  * @version
  */
 
+/**
+ * Set to 1/true if in DEBUG mode
+ */
 define('DEVELOPMENT_ENVIRONMENT',1);
+
+/**
+ * Default controller action
+ */
+define('DEFAULT_ACTION', 'index');

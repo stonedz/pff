@@ -53,7 +53,12 @@ class AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Test', $tmp['test']);
     }
 
-    /**
+    public function testApplyRouting() {
+        $this->object->addRoute('test', 'test');
+        $tmpReq = 'test';
+        $this->assertTrue($this->object->applyRouting($tmpReq));
+        $this->assertEquals($tmpReq, 'Test_Controller');
+    }    /**
      * Fails the addition to a static route that points to a non existant file
      */
     public function testSetRoutesFails() {
@@ -86,8 +91,5 @@ class AppTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('\\pff\\RoutingException');
         $this->object->addStaticRoute('test', 'testNOTPage.php');
     }
-
-
-
 
 }

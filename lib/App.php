@@ -141,6 +141,11 @@ class App {
      * @return bool True if a match is found
      */
     public function applyRouting(&$request) {
+        if(isset($this->_routes[$request])){
+            $request = $this->_routes[$request];
+            $request = ucfirst($request).'_Controller';
+            return true;
+        }
         return false;
     }
 
@@ -149,13 +154,44 @@ class App {
      */
     public function run() {
         $urlArray = explode('/', $this->_url);
-        $tmpController = $urlArray[0] ? $urlArray[0] : 'index';
+        //Deletes last element if empty
+        $lastElement = end($urlArray);
+        if($lastElement == ''){
+            array_pop($urlArray);
+        }
+        //If not empty let's see if it's a list of GET parameters
+        //elseif('?' == substr($lastElement,0,1)){
+        //   echo substr($lastElement,1);
+        //}
+        reset($urlArray);
+
+        $action = DEFAULT_ACTION;
+
+        // If present take the first element as the controller
+        $tmpController = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
         if($this->applyStaticRouting($tmpController)){
             include(ROOT . DS . $tmpController);
         }
-        //elseif(){
-        //
-        //}
+        elseif($this->applyRouting($tmpController)){
+            include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
+            $controller = new $tmpController($tmpController, $action);
+        }
+        else{
+            include (ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php');
+            $controllerClassName = ucfirst($tmpController).'_Controller';
+            $controller = new $controllerClassName($tmpController, $action);
+        }
+
+        if(isset($controller)){
+            if ((int)method_exists($controller, $action)) {
+                call_user_func_array(array($controller,"beforeAction"),$urlArray);
+                call_user_func_array(array($controller,$action),$urlArray);
+                call_user_func_array(array($controller,"afterAction"),$urlArray);
+            } else {
+                throw new \pff\RoutingException('Not a valid action: '.$action);
+            }
+        }
+
     }
 
     /**

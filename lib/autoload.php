@@ -7,15 +7,16 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
+                'pff\\acontroller' => '/core/AController.php',
+                'pff\\amodel' => '/core/AModel.php',
                 'pff\\amodule' => '/modules/AModule.php',
                 'pff\\app' => '/App.php',
+                'pff\\aview' => '/core/AView.php',
                 'pff\\configexception' => '/exceptions/ConfigException.php',
-                'pff\\iroutingstrategy' => '/core/IRoutingStrategy.php',
                 'pff\\pffexception' => '/exceptions/PffException.php',
+                'pff\\pro' => '/exceptions/Pro.php',
                 'pff\\routing' => '/core/Routing.php',
-                'pff\\routingexception' => '/exceptions/RoutingException.php',
-                'pff\\routingmvc' => '/core/RoutingMVC.php',
-                'pff\\routingpage' => '/core/RoutingPage.php'
+                'pff\\routingexception' => '/exceptions/RoutingException.php'
             );
         }
         $cn = strtolower($class);
