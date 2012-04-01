@@ -9,4 +9,6 @@ namespace pff;
  */
 class AModel {
 
+
+
 }

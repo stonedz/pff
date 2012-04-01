@@ -11,7 +11,6 @@ namespace pff;
  * @category lib
  * @version 0.1
  */
-
 class App {
 
     /**
@@ -19,9 +18,20 @@ class App {
      */
     private $_url;
 
+    /**
+     * Contains user defined routes for page controllers
+     *
+     * @var array
+     */
     private $_staticRoutes;
 
+    /**
+     * Contains user defined routes
+     *
+     * @var array
+     */
     private $_routes;
+
     /**
      * @param $url string The request URL
      */

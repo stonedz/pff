@@ -7,6 +7,9 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
+                'pff\\models\\address' => '/models/Address.php',
+                'pff\\models\\test' => '/models/Test.php',
+                'pff\\proxies\\__cg__\\pff\\models\\address' => '/proxies/__CG__pffmodelsAddress.php',
                 'test_controller' => '/controllers/Test_Controller.php'
             );
         }

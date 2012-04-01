@@ -22,6 +22,8 @@ class AppTest extends PHPUnit_Framework_TestCase
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
+     *
+     * @return void
      */
     protected function tearDown() {
     }
@@ -35,6 +37,7 @@ class AppTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers \pff\App::setErrorReporting
+     * @return void
      */
     public function testSetErrorReportingDev() {
         define('DEVELOPMENT_ENVIRONMENT',1);
@@ -44,6 +47,8 @@ class AppTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the setting of a user defined route.
+     *
+     * @return void
      */
     public function testSetRoutes() {
         $this->assertEmpty($this->object->getRoutes());
@@ -58,8 +63,12 @@ class AppTest extends PHPUnit_Framework_TestCase
         $tmpReq = 'test';
         $this->assertTrue($this->object->applyRouting($tmpReq));
         $this->assertEquals($tmpReq, 'Test_Controller');
-    }    /**
+    }
+
+    /**
      * Fails the addition to a static route that points to a non existant file
+     *
+     * @return void
      */
     public function testSetRoutesFails() {
         $this->setExpectedException('\\pff\\RoutingException');
@@ -68,6 +77,8 @@ class AppTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the setting of a user defined route.
+     *
+     * @return void
      */
     public function testSetStaticRoutes() {
         $this->assertEmpty($this->object->getStaticRoutes());
@@ -86,6 +97,8 @@ class AppTest extends PHPUnit_Framework_TestCase
 
     /**
      * Fails the addition to a static route that points to a non existant file
+     *
+     * @return void
      */
     public function testSetStaticRoutesFails() {
         $this->setExpectedException('\\pff\\RoutingException');
