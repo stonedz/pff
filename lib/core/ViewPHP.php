@@ -41,7 +41,6 @@ class ViewPHP extends \pff\AView {
      * @return string
      */
     public function preView($output) {
-
         $config = \HTMLPurifier_Config::createDefault();
         $config->set('Core.Encoding', 'UTF-8');
         $config->set('HTML.TidyLevel', 'medium');

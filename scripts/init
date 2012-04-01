@@ -1,0 +1,104 @@
+#!/bin/bash
+
+green='\e[0;32m'
+GREEN='\e[1;32m'
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Color
+
+function help() {
+    echo -e "${NC}-f    Force the update";
+}
+
+echo -e "${GREEN}========== \n${BLUE} pf${RED}f ${BLUE}init \n${GREEN}=========="
+
+# Gets the parameters
+while getopts ":f" opt; do
+    case $opt in
+        f)
+            force=true
+            echo -e "${red}Force upload!" 
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            echo -e "\n"
+            help
+            exit
+            ;;
+    esac
+done
+
+#######################################
+# START
+#######################################
+fail=false
+
+# COMPOSER
+if [ -f composer.phar -a "$1" != "-f" ]
+then
+    echo -e "\n${GREEN}* [OK] ${BLUE}Composer is already installed"
+else
+    echo -ne "\n${CYAN}Installing Composer..."
+    curl -s http://getcomposer.org/installer | php
+    echo -e "${GREEN}[OK]"
+fi
+
+# INSTALL COMPOSER PACKAGES
+if [ -f composer.phar ]
+then
+    tmp=`pwd`
+    cd ../lib
+    php ../scripts/composer.phar update
+    cd $tmp
+fi
+
+# BEHAT
+if [ -f behat.phar -a "$1" != "-f" ]
+then
+    echo -e "\n${GREEN}* [OK] ${BLUE}Behat is already installed"
+else
+    echo -ne "\n${CYAN}Installing Behat..."
+    wget -qO - https://github.com/downloads/Behat/Behat/behat.phar > behat.phar
+    echo -e "${GREEN}[OK]"
+fi
+
+# HTMLPURIFIER STANDALONE
+if [ -f ../lib/vendor/htmlpurifier-4.4.0-standalone//HTMLPurifier.standalone.php -a "$1" != "-f" ]
+then
+    echo -e "\n${GREEN}* [OK] ${BLUE}HTMLPurifier is already installed"
+else
+    echo -ne "\n${CYAN}Installing Htmlpurifier..."
+    wget -q http://htmlpurifier.org/releases/htmlpurifier-4.4.0-standalone.tar.gz 
+    if [ -f  htmlpurifier-4.4.0-standalone.tar.gz ]
+    then
+        tar -xzvf htmlpurifier-4.4.0-standalone.tar.gz -C ../lib/vendor/ > /dev/null
+        rm htmlpurifier-4.4.0-standalone.tar.gz
+        echo -e "${GREEN}[OK]"
+    else
+        fail=true
+        echo -e "${RED}[FAIL]"
+    fi
+fi
+
+#Generate autoload files
+if ! command -v phpab &> /dev/null
+then
+    echo -e "\n${RED}[FAIL] Phpab command not found!"
+    fail=true
+else
+    echo -ne "\n${CYAN}Generating autoload.php files..."
+    sh generateAutoload.sh &> /dev/null
+    echo -e "${GREEN}[OK]"
+fi
+
+# Final message
+if [ "$fail" == "false" ]
+then
+    echo -e "\n${NC}Everything should be in place :D Have fun!"
+else
+    echo -e "\n${red}Something went wrong!"
+fi
