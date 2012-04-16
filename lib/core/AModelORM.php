@@ -18,9 +18,6 @@ abstract class AModelORM extends \pff\AModel {
 
     public function __construct() {
 
-
-
-
     }
 
 }

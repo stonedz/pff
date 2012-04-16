@@ -1,6 +1,8 @@
 {
     "require": {
-        "doctrine/orm": "2.2.*"
+        "doctrine/orm": "2.2.*",
+        "behat/mink": "dev-master",
+        "symfony/yaml": "dev-master"
     }
 }
 

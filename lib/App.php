@@ -5,11 +5,7 @@ namespace pff;
 /**
  * Main app
  *
- * Date: 3/2/12
- *
  * @author paolo.fagni<at>gmail.com
- * @category lib
- * @version 0.1
  */
 class App {
 
@@ -33,17 +29,32 @@ class App {
     private $_routes;
 
     /**
+     * @var \pff\Config
+     */
+    private $_config;
+
+    /**
+     * @var \pff\ModuleManager
+     */
+    private $_moduleManager;
+
+    /**
      * @param $url string The request URL
      */
-    public function __construct($url) {
+    public function __construct($url,
+                                \pff\Config $config,
+                                \pff\ModuleManager $moduleManager) {
         $this->setUrl($url);
+        $this->_config = $config;
+        $this->_moduleManager = $moduleManager;
+
     }
 
     /**
      * Sets error reporting
      */
     public function setErrorReporting() {
-        if (defined('DEVELOPMENT_ENVIRONMENT') && DEVELOPMENT_ENVIRONMENT == true) {
+        if( $this->_config->getConfig('development_environment') == true) {
             error_reporting(E_ALL);
             ini_set('display_errors','On');
         } else {
@@ -175,7 +186,7 @@ class App {
         //}
         reset($urlArray);
 
-        $action = DEFAULT_ACTION;
+        $action = $this->_config->getConfig('default_action');
 
         // If present take the first element as the controller
         $tmpController = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
@@ -184,12 +195,12 @@ class App {
         }
         elseif($this->applyRouting($tmpController)){
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
-            $controller = new $tmpController($tmpController, $action);
+            $controller = new $tmpController($tmpController, $this->_config, $action);
         }
         else{
             include (ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php');
             $controllerClassName = ucfirst($tmpController).'_Controller';
-            $controller = new $controllerClassName($tmpController, $action);
+            $controller = new $controllerClassName($tmpController, $this->_config,$action);
         }
 
         if(isset($controller)){
@@ -230,5 +241,12 @@ class App {
      */
     public function getStaticRoutes() {
         return $this->_staticRoutes;
+    }
+
+    /**
+     * @return \pff\Config
+     */
+    public function getConfig() {
+        return $this->_config;
     }
 }

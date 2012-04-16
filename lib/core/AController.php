@@ -28,6 +28,11 @@ abstract class AController {
     protected $_view;
 
     /**
+     * @var \pff\Config
+     */
+    protected $_config;
+
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     public $_em;
@@ -36,19 +41,31 @@ abstract class AController {
      * Creates a controller
      *
      * @param string $controllerName The controller's name (used to load correct model)
+     * @param \pff\Config $cfg App configuration
      * @param string $action Action to perform
      */
-    public function __construct($controllerName, $action = 'index') {
+    public function __construct($controllerName, \pff\Config $cfg, $action = 'index') {
         $this->_controllerName = $controllerName;
         $this->_action = $action;
+        $this->_config = $cfg;
 
-        if (DEVELOPMENT_ENVIRONMENT == 1) {
+        if($this->_config->getConfig('orm')) {
+            $this->initORM();
+        }
+    }
+
+    /**
+     * Initializes Doctrine entity manager
+     */
+    private function initORM() {
+
+        if ($this->_config->getConfig('development_environment') == true) {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         } else {
             $cache = new \Doctrine\Common\Cache\ApcCache;
         }
 
-        $config = new Configuration;
+        $config = new \Doctrine\ORM\Configuration();
         $config->setMetadataCacheImpl($cache);
         $driverImpl = $config->newDefaultAnnotationDriver(ROOT . DS . 'app' . DS . 'models');
         $config->setMetadataDriverImpl($driverImpl);
@@ -56,22 +73,15 @@ abstract class AController {
         $config->setProxyDir(ROOT . DS  .'app' . DS . 'proxies');
         $config->setProxyNamespace('pff\proxies');
 
-        if (DEVELOPMENT_ENVIRONMENT == 1) {
+        if ($this->_config->getConfig('development_environment') == true) {
             $config->setAutoGenerateProxyClasses(true);
         } else {
             $config->setAutoGenerateProxyClasses(false);
         }
 
-        $connectionOptions = array(
-            'dbname' => 'testDb',
-            'user' => 'root',
-            'password' => 'TYte2006',
-            'host' => 'localhost',
-            'driver' => 'pdo_mysql',
-        );
+        $connectionOptions = $this->_config->getConfig('databaseConfig');
 
         $this->_em = EntityManager::create($connectionOptions, $config);
-
     }
 
     /**

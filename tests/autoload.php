@@ -7,7 +7,8 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'apptest' => '/AppTest.php'
+                'apptest' => '/AppTest.php',
+                'configtest' => '/ConfigTest.php'
             );
         }
         $cn = strtolower($class);

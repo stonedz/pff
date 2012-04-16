@@ -4,15 +4,13 @@
 /**
  * General bootstrap operations for the framework.
  *
- * Date: 3/2/12
- *
  * @author paolo.fagni<at>gmail.com
- * @category lib
- * @version 0.1
  */
 
 // Create a new app with the current request
-$app = new \pff\App($url);
+$cfg = new \pff\Config();
+$mm = new \pff\ModuleManager($cfg);
+$app = new \pff\App($url,$cfg,$mm);
 $app->setErrorReporting();
 $app->removeMagicQuotes();
 $app->unregisterGlobals();
