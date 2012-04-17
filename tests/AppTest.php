@@ -17,7 +17,8 @@ class AppTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         $conf = new \pff\Config();
-        $this->object = new \pff\App('one/two/three', $conf);
+        $moduleManager = $this->getMock('\\pff\\ModuleManager', array(), array($conf));
+        $this->object = new \pff\App('one/two/three', $conf, $moduleManager);
     }
 
     /**

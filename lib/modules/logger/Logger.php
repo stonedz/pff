@@ -47,8 +47,10 @@ class Logger extends \pff\AModule{
     }
     
     public function __destruct() {
-        foreach ($this->_loggers as $logger){
-            unset($logger);
+        if (!empty($this->_loggers)){
+            foreach ($this->_loggers as $logger){
+                unset($logger);
+            }
         }
         $this->reset();
     }
