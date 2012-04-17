@@ -1,0 +1,5 @@
+moduleConf:
+  activeLoggers:
+    - id: LoggerFile
+      class: LoggerFile
+      descr: Logs on files

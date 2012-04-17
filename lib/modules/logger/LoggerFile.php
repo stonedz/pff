@@ -32,18 +32,35 @@ class LoggerFile extends \pff\modules\ALogger{
     public function __construct($debugActive = false) {
         parent::__construct($debugActive);
 
-        $this->LOG_DIR = ROOT . DS . 'tmp' . DS . 'logs';
-        $filename = $this->LOG_DIR . DS . date("Y-m-d");
-        $this->_fp = fopen($filename, 'a');
-        if($this->_fp === false){
-            throw new \pff\modules\LoggerException('Non ci sono i permessi per aprire il file: '.$filename);
-        }
+        $this->_fp = null;
     }
     
     public function __destruct() {
         if($this->_fp){
             fclose($this->_fp);
         }
+    }
+
+    /**
+     * Opens log file only if it's not already open
+     *
+     * @throws \pff\modules\LoggerException
+     * @return null|resource
+     */
+    private function getLogFile() {
+
+        if($this->_fp === null) {
+            $this->LOG_DIR = ROOT . DS . 'tmp' . DS . 'logs';
+            $filename = $this->LOG_DIR . DS . date("Y-m-d");
+            $this->_fp = fopen($filename, 'a');
+            if($this->_fp === false){
+                throw new \pff\modules\LoggerException('Non ci sono i permessi per aprire il file: '.$filename);
+            }
+            chmod($filename, 0774);
+        }
+
+        return $this->_fp;
+
     }
 
     /**
@@ -55,6 +72,7 @@ class LoggerFile extends \pff\modules\ALogger{
      * @throws \pff\modules\LoggerFileException
      */
     public function logMessage($message, $level = 0) {
+        $this->getLogFile();
         if(!flock($this->_fp, LOCK_EX)){
             throw new \pff\modules\LoggerFileException('Can\'t obtain file lock for: ' );
         }

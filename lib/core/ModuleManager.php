@@ -38,6 +38,8 @@ class ModuleManager {
     }
 
     /**
+     * Loads a module
+     *
      * @param string $moduleName
      * @throws \pff\ModuleException
      */
