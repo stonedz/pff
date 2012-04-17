@@ -84,10 +84,14 @@ else
     fi
 fi
 
+
 #Generate autoload files
 if ! command -v phpab &> /dev/null
 then
-    echo -e "\n${RED}[FAIL] Phpab command not found!"
+    echo -e "\n${RED}[FAIL] Phpab command not found! install with the following commands \n
+     pear channel-discover pear.netpirates.net \n
+     pear channel-discover components.ez.no \n
+     pear install theseer/Autoload"
     fail=true
 else
     echo -ne "\n${CYAN}Generating autoload.php files..."
