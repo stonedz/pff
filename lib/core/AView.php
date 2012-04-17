@@ -14,7 +14,7 @@ abstract class AView {
      */
     protected $_templateFile;
 
-    public function __construct($templateName){
+    public function __construct($templateName) {
         $this->_templateFile = $templateName;
     }
 

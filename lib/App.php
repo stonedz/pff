@@ -45,7 +45,7 @@ class App {
                                 \pff\Config $config,
                                 \pff\ModuleManager $moduleManager) {
         $this->setUrl($url);
-        $this->_config = $config;
+        $this->_config        = $config;
         $this->_moduleManager = $moduleManager;
 
     }
@@ -200,7 +200,7 @@ class App {
         else{
             include (ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php');
             $controllerClassName = ucfirst($tmpController).'_Controller';
-            $controller = new $controllerClassName($tmpController, $this->_config,$action);
+            $controller          = new $controllerClassName($tmpController, $this->_config,$action);
         }
 
         if(isset($controller)){

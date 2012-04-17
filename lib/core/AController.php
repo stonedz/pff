@@ -46,8 +46,8 @@ abstract class AController {
      */
     public function __construct($controllerName, \pff\Config $cfg, $action = 'index') {
         $this->_controllerName = $controllerName;
-        $this->_action = $action;
-        $this->_config = $cfg;
+        $this->_action         = $action;
+        $this->_config         = $cfg;
 
         if($this->_config->getConfig('orm')) {
             $this->initORM();

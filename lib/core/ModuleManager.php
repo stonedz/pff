@@ -42,12 +42,12 @@ class ModuleManager {
      * @throws \pff\ModuleException
      */
     public function loadModule($moduleName) {
-        $yamlParser = new \Symfony\Component\Yaml\Parser();
+        $yamlParser     = new \Symfony\Component\Yaml\Parser();
         $moduleFilePath = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName. DS .'module.yaml';
         if (file_exists($moduleFilePath)){
             try {
                 $moduleConf = $yamlParser->parse(file_get_contents($moduleFilePath));
-                $tmpModule = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
+                $tmpModule  = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
                 if ($tmpModule->isSubclassOf('\\pff\\AModule')) {
                     $this->_modules[$moduleConf['name']] = $tmpModule->newInstance();
                     $this->_modules[$moduleConf['name']]->setModuleName($moduleConf['name']);
