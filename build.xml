@@ -28,7 +28,7 @@
   <delete dir="${basedir}/tmp/build/pdepend"/>
  </target>
 
- <target name="prepare" depends="clean,init,phpab"
+ <target name="prepare" depends="clean,init"
          description="Prepare for build">
   <mkdir dir="${basedir}/tmp/build/api"/>
   <mkdir dir="${basedir}/tmp/build/code-browser"/>
@@ -155,7 +155,7 @@
     <arg value="--directory" />
     <arg path="${basedir}/lib" />
     <arg value="--ignore" />
-    <arg value="autoload.php,${basedir}/lib/vendor" />
+    <arg value="*vendor*,autoload.php" />
     <arg value="--target" />
     <arg path="${basedir}/tmp/build/api" />
     </exec>
