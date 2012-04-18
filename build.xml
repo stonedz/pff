@@ -62,6 +62,7 @@
    <arg value="-l" />
 
    <fileset dir="${basedir}/lib">
+    <exclude name="vendor/**/*.php" />
     <include name="**/*.php" />
     <modified />
    </fileset>
@@ -75,6 +76,8 @@
 
  <target name="phploc" description="Measure project size using PHPLOC">
   <exec executable="phploc">
+   <arg value="--exclude" />
+   <arg value="${basedir}/lib/vendor" />
    <arg value="--log-csv" />
    <arg value="${basedir}/tmp/build/logs/phploc.csv" />
    <arg path="${basedir}/lib" />
@@ -84,6 +87,7 @@
  <target name="pdepend"
          description="Calculate software metrics using PHP_Depend">
   <exec executable="pdepend">
+   <arg value="--ignore=${basedir}/lib/vendor" />
    <arg value="--jdepend-xml=${basedir}/tmp/build/logs/jdepend.xml" />
    <arg value="--jdepend-chart=${basedir}/tmp/build/pdepend/dependencies.svg" />
    <arg value="--overview-pyramid=${basedir}/tmp/build/pdepend/overview-pyramid.svg" />
@@ -94,6 +98,8 @@
  <target name="phpmd"
          description="Perform project mess detection using PHPMD">
   <exec executable="phpmd">
+   <arg value="--exclude" />
+   <arg value="${basedir}/lib/vendor" />
    <arg path="${basedir}/lib" />
    <arg value="text" />
    <arg value="${basedir}/tmp/build/phpmd.xml" />
@@ -103,6 +109,8 @@
  <target name="phpmd-ci"
          description="Perform project mess detection using PHPMD">
   <exec executable="phpmd">
+   <arg value="--exclude" />
+   <arg value="${basedir}/lib/vendor" />
    <arg path="${basedir}/lib" />
    <arg value="xml" />
    <arg value="${basedir}/tmp/build/phpmd.xml" />
@@ -115,7 +123,7 @@
          description="Find coding standard violations using PHP_CodeSniffer">
   <exec executable="phpcs">
    <arg value="--standard=${basedir}/tmp/build/phpcs.xml" />
-   <arg value="--ignore=autoload.php" />
+   <arg value="--ignore=autoload.php,${basedir}/lib/vendor" />
    <arg path="${basedir}/lib" />
   </exec>
  </target>
@@ -126,13 +134,15 @@
    <arg value="--report=checkstyle" />
    <arg value="--report-file=${basedir}/tmp/build/logs/checkstyle.xml" />
    <arg value="--standard=${basedir}/tmp/build/phpcs.xml" />
-   <arg value="--ignore=autoload.php" />
+   <arg value="--ignore=autoload.php,${basedir}/lib/vendor" />
    <arg path="${basedir}/lib" />
   </exec>
  </target>
 
  <target name="phpcpd" description="Find duplicate code using PHPCPD">
   <exec executable="phpcpd">
+   <arg value="--exclude" />
+   <arg value="${basedir}/lib/vendor" />
    <arg value="--log-pmd" />
    <arg value="${basedir}/tmp/build/logs/pmd-cpd.xml" />
    <arg path="${basedir}/lib" />
@@ -145,7 +155,7 @@
     <arg value="--directory" />
     <arg path="${basedir}/lib" />
     <arg value="--ignore" />
-    <arg value="autoload.php" />
+    <arg value="autoload.php,${basedir}/lib/vendor" />
     <arg value="--target" />
     <arg path="${basedir}/tmp/build/api" />
     </exec>
@@ -158,6 +168,7 @@
  <target name="phpcb"
          description="Aggregate tool output with PHP_CodeBrowser">
   <exec executable="phpcb">
+   <arg value="--ignore=${basedir}/lib/vendor" />
    <arg value="--log" />
    <arg path="${basedir}/tmp/build/logs" />
    <arg value="--source" />
