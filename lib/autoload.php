@@ -742,6 +742,7 @@ spl_autoload_register(
                 'pff\\config' => '/Config.php',
                 'pff\\configexception' => '/exceptions/ConfigException.php',
                 'pff\\fview' => '/core/FView.php',
+                'pff\\moduleexception' => '/exceptions/ModuleException.php',
                 'pff\\modulemanager' => '/core/ModuleManager.php',
                 'pff\\modules\\alogger' => '/modules/logger/ALogger.php',
                 'pff\\modules\\logger' => '/modules/logger/Logger.php',

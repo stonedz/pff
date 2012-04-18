@@ -28,13 +28,19 @@
   <delete dir="${basedir}/tmp/build/pdepend"/>
  </target>
 
- <target name="prepare" depends="clean,phpab"
+ <target name="prepare" depends="clean,init,phpab"
          description="Prepare for build">
   <mkdir dir="${basedir}/tmp/build/api"/>
   <mkdir dir="${basedir}/tmp/build/code-browser"/>
   <mkdir dir="${basedir}/tmp/build/coverage"/>
   <mkdir dir="${basedir}/tmp/build/logs"/>
   <mkdir dir="${basedir}/tmp/build/pdepend"/>
+ </target>
+
+ <target name="init" description="Initializing pff">
+     <exec executable="./init" dir="${basedir}/scripts">
+
+     </exec>
  </target>
 
   <target name="phpab" description="Generate autoloader scripts">
