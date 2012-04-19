@@ -2,8 +2,6 @@
 
 namespace pff;
 
-
-
 /**
  * Model that will use ORM to obtain object persistance
  *

@@ -31,6 +31,10 @@ class AppTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
     }
 
+    public function testGetUrl() {
+        $this->assertEquals('one/two/three', $this->object->getUrl());
+    }
+
     public function testSetErrorReportingProd() {
         $this->object->getConfig()->setConfig('development_environment', false);
         $this->object->setErrorReporting();
@@ -50,6 +54,7 @@ class AppTest extends PHPUnit_Framework_TestCase {
     /**
      * Tests the setting of a user defined route.
      *
+     * @covers \pff\App
      * @return void
      */
     public function testSetRoutes() {
@@ -60,6 +65,9 @@ class AppTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Test', $tmp['test']);
     }
 
+    /**
+     * @covers \pff\App
+     */
     public function testApplyRouting() {
         $this->object->addRoute('test', 'test');
         $tmpReq = 'test';
@@ -70,6 +78,8 @@ class AppTest extends PHPUnit_Framework_TestCase {
     /**
      * Fails the addition to a static route that points to a non existant file
      *
+     * @covers \pff\App
+     * @covers \pff\RoutingException
      * @return void
      */
     public function testSetRoutesFails() {
@@ -80,6 +90,8 @@ class AppTest extends PHPUnit_Framework_TestCase {
     /**
      * Tests the setting of a user defined route.
      *
+     * @covers \pff\App::addStaticRoute
+     * @covers \pff\App::getStaticRoutes
      * @return void
      */
     public function testSetStaticRoutes() {
@@ -90,6 +102,9 @@ class AppTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('testPage.php', $tmp['test']);
     }
 
+    /**
+     * @covers \pff\App::applyStaticRouting
+     */
     public function testApplyStaticRouting() {
         $this->object->addStaticRoute('test', 'testPage.php');
         $tmpReq = 'test';
@@ -105,6 +120,16 @@ class AppTest extends PHPUnit_Framework_TestCase {
     public function testSetStaticRoutesFails() {
         $this->setExpectedException('\\pff\\RoutingException');
         $this->object->addStaticRoute('test', 'testNOTPage.php');
+    }
+
+    public function testApplyStaticRoutesFailsWithInvalidRoute() {
+        $tmp = 'NO_I_DO_NOT_EXIST';
+        $this->assertFalse($this->object->applyStaticRouting($tmp));
+    }
+
+    public function testApplyRoutesFailsWithInvalidRoute() {
+        $tmp = 'NO_I_DO_NOT_EXIST';
+        $this->assertFalse($this->object->applyRouting($tmp));
     }
 
 }
