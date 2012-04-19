@@ -8,7 +8,7 @@ namespace pff\modules;
  * @author stonedz
  */
 class LoggerFile extends \pff\modules\ALogger{
-    
+
     /**
      * Logs directory
      * 
@@ -27,14 +27,13 @@ class LoggerFile extends \pff\modules\ALogger{
     /**
      * @param bool $debugActive True to activate debugmode
      * @throws \pff\modules\LoggerException
-     * @todo Debugmode is not active
      */
     public function __construct($debugActive = false) {
         parent::__construct($debugActive);
 
         $this->_fp = null;
     }
-    
+
     public function __destruct() {
         if($this->_fp){
             fclose($this->_fp);
@@ -51,8 +50,8 @@ class LoggerFile extends \pff\modules\ALogger{
 
         if($this->_fp === null) {
             $this->LOG_DIR = ROOT . DS . 'tmp' . DS . 'logs';
-            $filename = $this->LOG_DIR . DS . date("Y-m-d");
-            $this->_fp = fopen($filename, 'a');
+            $filename      = $this->LOG_DIR . DS . date("Y-m-d");
+            $this->_fp     = fopen($filename, 'a');
             if($this->_fp === false){
                 throw new \pff\modules\LoggerException('Non ci sono i permessi per aprire il file: '.$filename);
             }

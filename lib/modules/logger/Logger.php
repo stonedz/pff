@@ -29,7 +29,7 @@ class Logger extends \pff\AModule{
     private $_loggers;
 
     public function __construct() {
-        $yamlParser     = new \Symfony\Component\Yaml\Parser();
+        $yamlParser = new \Symfony\Component\Yaml\Parser();
         try{
             $conf = $yamlParser->parse(file_get_contents(CONF_FILE_NAME));
         }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
@@ -41,7 +41,7 @@ class Logger extends \pff\AModule{
 
         try{
             foreach ($conf['moduleConf']['activeLoggers'] as $logger){
-                $tmpClass= new \ReflectionClass('\\pff\\modules\\'. (string) $logger['class']);
+                $tmpClass         = new \ReflectionClass('\\pff\\modules\\'. (string)$logger['class']);
                 $this->_loggers[] = $tmpClass->newInstance();
             }
         }
@@ -65,8 +65,8 @@ class Logger extends \pff\AModule{
      */
     public static function getInstance() {
         if (!isset(self::$_instance)) {
-            $c = __CLASS__;
-            self::$_instance = new $c;
+            $className       = __CLASS__;
+            self::$_instance = new $className;
         }
         return self::$_instance;
     }
@@ -95,7 +95,7 @@ class Logger extends \pff\AModule{
      * @param string $message Message to log
      * @param int $level Log level, 0 = low 3 = high
      */
-    public function log($message, $level = 0){
+    public function log($message, $level = 0) {
         foreach ($this->_loggers as $logger){
             try{
                 $logger->logMessage($message, $level);

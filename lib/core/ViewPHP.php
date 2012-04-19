@@ -46,7 +46,7 @@ class ViewPHP extends \pff\AView {
         $config->set('HTML.TidyLevel', 'medium');
 
         $purifier = new \HTMLPurifier($config);
-        $output = $purifier->purify($output);
+        $output   = $purifier->purify($output);
 
         return $output;
     }
