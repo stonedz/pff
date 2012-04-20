@@ -8,5 +8,4 @@ namespace pff;
  * @author paolo.fagni<at>gmail.com
  */
 abstract class AModelDB extends \pff\AModel {
-
 }

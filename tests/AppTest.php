@@ -132,4 +132,9 @@ class AppTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($this->object->applyRouting($tmp));
     }
 
+    public function testRunFailsWithInvalidController() {
+        $this->setExpectedException('\\pff\\RoutingException');
+        $this->object->run();
+    }
+
 }

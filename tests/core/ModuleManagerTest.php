@@ -3,6 +3,7 @@
  * ModuleManager test suite
  *
  * @author paolo.fagni<at>gmail.com
+ * @covers \pff\ModuleManager
  */
 class ModuleManagerTest extends PHPUnit_Framework_TestCase {
 
@@ -30,8 +31,25 @@ class ModuleManagerTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
     }
 
-    public function testFail() {
-        $this->assertTrue(true);
+    /**
+     * @covers \pff\ModuleManager::loadModule
+     */
+    public function testLoadModuleFailsWithNonexistentModule() {
+        $this->setExpectedException('\\pff\\ModuleException');
+        $this->object->loadModule('No_i_do_not_exist');
+    }
+
+    /**
+     * Test with Logger module
+     */
+    public function testGetModule() {
+        $tmp = $this->object->getModule('Logger');
+        $this->assertInstanceOf('\\pff\\AModule', $tmp);
+    }
+
+    public function testGetModuleFailsWithNonexistentModuleRequest() {
+        $this->setExpectedException('\\pff\\ModuleException');
+        $this->object->getModule('I_AM_NOT_A_MODULE_AND_NEVER_WILL');
     }
 
 }

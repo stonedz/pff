@@ -2,7 +2,6 @@
 
 namespace pff\modules;
 
-define ('CONF_FILE_NAME', ROOT . DS . 'lib' . DS . 'modules' . DS . 'logger' . DS .'logger.conf.yaml');
 
 /**
  * pff logger module
@@ -28,16 +27,14 @@ class Logger extends \pff\AModule{
      */
     private $_loggers;
 
-    public function __construct() {
+    public function __construct($confFile = 'logger.conf.yaml') {
         $yamlParser = new \Symfony\Component\Yaml\Parser();
         try{
-            $conf = $yamlParser->parse(file_get_contents(CONF_FILE_NAME));
+            $conf = $yamlParser->parse(file_get_contents(ROOT . DS . 'lib' . DS . 'modules' . DS . 'logger' . DS . $confFile));
         }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
             throw new \pff\ModuleException("Unable to parse module configuration
-                                                    file for Logger module: ".$e->getMessage());
+                                            file for Logger module: ".$e->getMessage());
         }
-
-        //$conf = simplexml_load_file(CONF_FILE_NAME);
 
         try{
             foreach ($conf['moduleConf']['activeLoggers'] as $logger){

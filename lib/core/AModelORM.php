@@ -8,14 +8,4 @@ namespace pff;
  * @author paolo.fagni<at>gmail.com
  */
 abstract class AModelORM extends \pff\AModel {
-
-    /**
-     * @var \doctrine\ORM\EntityManager
-     */
-    protected $_em;
-
-    public function __construct() {
-
-    }
-
 }

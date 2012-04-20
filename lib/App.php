@@ -197,10 +197,13 @@ class App {
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
             $controller = new $tmpController($tmpController, $this->_config, $action);
         }
-        else{
+        elseif(file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php')){
             include (ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php');
             $controllerClassName = ucfirst($tmpController).'_Controller';
             $controller          = new $controllerClassName($tmpController, $this->_config,$action);
+        }
+        else{
+            throw new \pff\RoutingException('Cannot find a valid controller.');
         }
 
         if(isset($controller)){

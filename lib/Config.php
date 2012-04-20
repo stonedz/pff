@@ -72,6 +72,7 @@ class Config {
      *
      * @param string $data
      * @param mixed $value
+     * @throws \pff\ConfigException
      */
     public function setConfig($data, $value) {
         if (is_string($data)) {

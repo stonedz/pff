@@ -15,6 +15,11 @@ class ModuleManager {
     private $_config;
 
     /**
+     * @var \Symfony\Component\Yaml\Parser
+     */
+    private $_yamlParser;
+
+    /**
      * Contains loaded modules
      *
      * @var \pff\AModule[]
@@ -23,6 +28,7 @@ class ModuleManager {
 
     public function __construct(\pff\Config $cfg) {
         $this->_config = $cfg;
+        $this->_yamlParser = new \Symfony\Component\Yaml\Parser();
         $this->initModules();
     }
 
@@ -44,17 +50,18 @@ class ModuleManager {
      * @throws \pff\ModuleException
      */
     public function loadModule($moduleName) {
-        $yamlParser     = new \Symfony\Component\Yaml\Parser();
+        //$moduleName = strtolower($moduleName);
         $moduleFilePath = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName. DS .'module.yaml';
         if (file_exists($moduleFilePath)){
             try {
-                $moduleConf = $yamlParser->parse(file_get_contents($moduleFilePath));
+                $moduleConf = $this->_yamlParser->parse(file_get_contents($moduleFilePath));
                 $tmpModule  = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
                 if ($tmpModule->isSubclassOf('\\pff\\AModule')) {
-                    $this->_modules[$moduleConf['name']] = $tmpModule->newInstance();
-                    $this->_modules[$moduleConf['name']]->setModuleName($moduleConf['name']);
-                    $this->_modules[$moduleConf['name']]->setModuleVersion($moduleConf['version']);
-                    $this->_modules[$moduleConf['name']]->setModuleDescription($moduleConf['desc']);
+                    $moduleName = strtolower($moduleConf['name']);
+                    $this->_modules[$moduleName] = $tmpModule->newInstance();
+                    $this->_modules[$moduleName]->setModuleName($moduleConf['name']);
+                    $this->_modules[$moduleName]->setModuleVersion($moduleConf['version']);
+                    $this->_modules[$moduleName]->setModuleDescription($moduleConf['desc']);
                 }
                 else {
                     throw new \pff\ModuleException("Invalid module: ".$moduleConf['name']);
@@ -64,6 +71,12 @@ class ModuleManager {
                 throw new \pff\ModuleException("Unable to parse module configuration
                                                     file for $moduleName: ".$e->getMessage());
             }
+            catch( \ReflectionException $e) {
+                throw new \pff\ModuleException("Unable to create module instance: ". $e->getMessage());
+            }
+        }
+        else {
+            throw new \pff\ModuleException("Specified module \"".$moduleName."\" does not exist");
         }
     }
 
@@ -73,6 +86,7 @@ class ModuleManager {
      * @param string $moduleName
      */
     public function getModule($moduleName) {
+        $moduleName = strtolower($moduleName);
         if (isset($this->_modules[$moduleName])) {
             return $this->_modules[$moduleName];
         }
