@@ -9,6 +9,8 @@ spl_autoload_register(
             $classes = array(
                 'apptest' => '/AppTest.php',
                 'configtest' => '/ConfigTest.php',
+                'loggerfiletest' => '/modules/logger/custom_loggers/LoggerFileTest.php',
+                'loggertest' => '/modules/logger/LoggerTest.php',
                 'modulemanagertest' => '/core/ModuleManagerTest.php'
             );
         }

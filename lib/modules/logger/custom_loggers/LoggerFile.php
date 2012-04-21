@@ -34,6 +34,9 @@ class LoggerFile extends \pff\modules\ALogger{
         $this->_fp = null;
     }
 
+    /**
+     * Closes file resource when unsetting the logger
+     */
     public function __destruct() {
         if($this->_fp){
             fclose($this->_fp);
@@ -46,14 +49,14 @@ class LoggerFile extends \pff\modules\ALogger{
      * @throws \pff\modules\LoggerException
      * @return null|resource
      */
-    private function getLogFile() {
+    public function getLogFile() {
 
         if($this->_fp === null) {
             $this->LOG_DIR = ROOT . DS . 'tmp' . DS . 'logs';
             $filename      = $this->LOG_DIR . DS . date("Y-m-d");
             $this->_fp     = fopen($filename, 'a');
             if($this->_fp === false){
-                throw new \pff\modules\LoggerException('Non ci sono i permessi per aprire il file: '.$filename);
+                throw new \pff\modules\LoggerException('Cannot open log file: '.$filename);
             }
             chmod($filename, 0774);
         }
@@ -85,4 +88,14 @@ class LoggerFile extends \pff\modules\ALogger{
             throw new \pff\modules\LoggerFileException('Can\'t write to logfile!');
         }
     }
+
+    /**
+     * Returns file pointer
+     *
+     * @return resource
+     */
+    public function getFp() {
+        return $this->_fp;
+    }
+
 }

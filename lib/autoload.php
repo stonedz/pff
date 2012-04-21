@@ -748,7 +748,7 @@ spl_autoload_register(
                 'pff\\modules\\logger' => '/modules/logger/Logger.php',
                 'pff\\modules\\loggerconfigexception' => '/modules/logger/exceptions/LoggerConfigException.php',
                 'pff\\modules\\loggerexception' => '/modules/logger/exceptions/LoggerException.php',
-                'pff\\modules\\loggerfile' => '/modules/logger/LoggerFile.php',
+                'pff\\modules\\loggerfile' => '/modules/logger/custom_loggers/LoggerFile.php',
                 'pff\\modules\\loggerfileexception' => '/modules/logger/exceptions/LoggerFileException.php',
                 'pff\\pffexception' => '/exceptions/PffException.php',
                 'pff\\routingexception' => '/exceptions/RoutingException.php',

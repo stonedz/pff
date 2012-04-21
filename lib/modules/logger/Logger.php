@@ -29,30 +29,37 @@ class Logger extends \pff\AModule{
 
     public function __construct($confFile = 'logger.conf.yaml') {
         $yamlParser = new \Symfony\Component\Yaml\Parser();
-        try{
-            $conf = $yamlParser->parse(file_get_contents(ROOT . DS . 'lib' . DS . 'modules' . DS . 'logger' . DS . $confFile));
-        }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
-            throw new \pff\ModuleException("Unable to parse module configuration
+        $confPath = ROOT . DS . 'lib' . DS . 'modules' . DS . 'logger' . DS . $confFile;
+        if(file_exists($confPath)) {
+            try{
+                $conf = $yamlParser->parse(file_get_contents($confPath));
+            }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
+                throw new \pff\ModuleException("Unable to parse module configuration
                                             file for Logger module: ".$e->getMessage());
-        }
+            }
 
-        try{
-            foreach ($conf['moduleConf']['activeLoggers'] as $logger){
-                $tmpClass         = new \ReflectionClass('\\pff\\modules\\'. (string)$logger['class']);
-                $this->_loggers[] = $tmpClass->newInstance();
+            try{
+                foreach ($conf['moduleConf']['activeLoggers'] as $logger){
+                    $tmpClass         = new \ReflectionClass('\\pff\\modules\\'. (string)$logger['class']);
+                    $this->_loggers[] = $tmpClass->newInstance();
+                }
+            }
+            catch(\ReflectionException $e){
+                throw new \pff\modules\LoggerException('Logger creation failed: '.$e->getMessage());
             }
         }
-        catch(\ReflectionException $e){
-            throw new \Exception('Logger creation failed: '.$e->getMessage());
+        else {
+             throw new \pff\modules\LoggerConfigException ("Logger Module configuration file not found: " .$confFile);
         }
-
     }
 
     public function __destruct() {
-        foreach ($this->_loggers as $logger){
-            unset($logger);
+        if(isset($this->_loggers[0])){
+            foreach ($this->_loggers as $logger){
+                unset($logger);
+            }
+            $this->reset();
         }
-        $this->reset();
     }
 
     /**
@@ -60,10 +67,10 @@ class Logger extends \pff\AModule{
      *
      * @return Logger
      */
-    public static function getInstance() {
+    public static function getInstance($confFile = 'logger.conf.yaml') {
         if (!isset(self::$_instance)) {
             $className       = __CLASS__;
-            self::$_instance = new $className;
+            self::$_instance = new $className($confFile);
         }
         return self::$_instance;
     }
@@ -91,15 +98,21 @@ class Logger extends \pff\AModule{
      *
      * @param string $message Message to log
      * @param int $level Log level, 0 = low 3 = high
+     * @throws \pff\modules\LoggerException
      */
     public function log($message, $level = 0) {
         foreach ($this->_loggers as $logger){
             try{
                 $logger->logMessage($message, $level);
             }
-            catch(LoggerException $e){
+            catch(\pff\modules\LoggerException $e){
                 throw $e;
             }
         }
     }
+
+    public function getLoggers() {
+        return $this->_loggers;
+    }
 }
+
