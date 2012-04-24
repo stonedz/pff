@@ -1,0 +1,4 @@
+name: Session
+version: "0.1"
+desc: pff session manager
+class: Session
