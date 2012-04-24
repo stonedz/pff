@@ -39,14 +39,29 @@ class App {
     private $_moduleManager;
 
     /**
+     * @var \pff\HookManager
+     */
+    private $_hookManager;
+
+    /**
      * @param $url string The request URL
      */
     public function __construct($url,
                                 \pff\Config $config,
-                                \pff\ModuleManager $moduleManager) {
+                                \pff\ModuleManager $moduleManager,
+                                \pff\HookManager $hookManager) {
         $this->setUrl($url);
         $this->_config        = $config;
+
+        $this->_hookManager   = $hookManager;
         $this->_moduleManager = $moduleManager;
+
+        /*
+         * ModuleManager needs a HooklManager instance to initialize modules
+         * which provide hooks
+         */
+        $this->_moduleManager->setHookManager($this->_hookManager);
+        $this->_moduleManager->initModules(); //Loads modules specified in the configuration
 
     }
 
@@ -207,10 +222,14 @@ class App {
         }
 
         if(isset($controller)){
+            $this->_hookManager->runBefore(); // Runs before controller hooks
+
             if ((int)method_exists($controller, $action)) {
                 call_user_func_array(array($controller,"beforeAction"),$urlArray);
                 call_user_func_array(array($controller,$action),$urlArray);
                 call_user_func_array(array($controller,"afterAction"),$urlArray);
+
+            $this->_hookManager->runAfter(); // Runs after controller hooks
             } else {
                 throw new \pff\RoutingException('Not a valid action: '.$action);
             }

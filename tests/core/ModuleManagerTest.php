@@ -18,8 +18,11 @@ class ModuleManagerTest extends PHPUnit_Framework_TestCase {
      *
      */
     protected function setUp() {
-        $conf = new \pff\Config();
+        $conf         = new \pff\Config();
         $this->object = new \pff\ModuleManager($conf);
+        $hookManager  = $this->getMock('\\pff\\HookManager', array(), array($conf));
+        $this->object->setHookManager($hookManager);
+        $this->object->initModules();
     }
 
     /**
@@ -50,6 +53,10 @@ class ModuleManagerTest extends PHPUnit_Framework_TestCase {
     public function testGetModuleFailsWithNonexistentModuleRequest() {
         $this->setExpectedException('\\pff\\ModuleException');
         $this->object->getModule('I_AM_NOT_A_MODULE_AND_NEVER_WILL');
+    }
+
+    public function testGetHookManager() {
+        $this->assertInstanceOf('\\pff\\HookManager', $this->object->getHookManager());
     }
 
 }

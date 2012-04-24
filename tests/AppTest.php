@@ -17,9 +17,10 @@ class AppTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $conf = new \pff\Config();
+        $conf          = new \pff\Config();
         $moduleManager = $this->getMock('\\pff\\ModuleManager', array(), array($conf));
-        $this->object = new \pff\App('one/two/three', $conf, $moduleManager);
+        $hookManager   = $this->getMock('\\pff\\HookManager', array(), array($conf));
+        $this->object  = new \pff\App('one/two/three', $conf, $moduleManager, $hookManager);
     }
 
     /**

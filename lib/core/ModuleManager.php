@@ -15,6 +15,11 @@ class ModuleManager {
     private $_config;
 
     /**
+     * @var \pff\HookManager
+     */
+    private $_hookManager;
+
+    /**
      * @var \Symfony\Component\Yaml\Parser
      */
     private $_yamlParser;
@@ -29,7 +34,8 @@ class ModuleManager {
     public function __construct(\pff\Config $cfg) {
         $this->_config = $cfg;
         $this->_yamlParser = new \Symfony\Component\Yaml\Parser();
-        $this->initModules();
+        $this->_hookManager = null;
+        //$this->initModules();
     }
 
     /**
@@ -62,6 +68,10 @@ class ModuleManager {
                     $this->_modules[$moduleName]->setModuleName($moduleConf['name']);
                     $this->_modules[$moduleName]->setModuleVersion($moduleConf['version']);
                     $this->_modules[$moduleName]->setModuleDescription($moduleConf['desc']);
+
+                    if($tmpModule->isSubclassOf('\\pff\IHookProvider') && $this->_hookManager !== null){
+                        $this->_hookManager->registerHook($this->_modules[$moduleName]);
+                    }
                 }
                 else {
                     throw new \pff\ModuleException("Invalid module: ".$moduleConf['name']);
@@ -93,5 +103,19 @@ class ModuleManager {
         else {
             throw new \pff\ModuleException("Cannot find requested module: $moduleName");
         }
+    }
+
+    /**
+     * @param \pff\HookManager $hookManager
+     */
+    public function setHookManager($hookManager) {
+        $this->_hookManager = $hookManager;
+    }
+
+    /**
+     * @return \pff\HookManager
+     */
+    public function getHookManager() {
+        return $this->_hookManager;
     }
 }
