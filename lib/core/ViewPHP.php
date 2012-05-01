@@ -23,7 +23,10 @@ class ViewPHP extends \pff\AView {
         if(!file_exists($templatePath)){
             throw new \pff\ViewException('Template file '.$templatePath.' does not exist');
         }
-        extract($this->_data); // Extract set data to scope vars
+        if(is_array($this->_data)) {
+            extract($this->_data); // Extract set data to scope vars
+        }
+
         ob_start(array($this,'preView'));
         /*$locale = "it_IT.utf8";
         putenv("LC_ALL=$locale");

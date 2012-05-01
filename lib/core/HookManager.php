@@ -10,6 +10,13 @@ namespace pff;
 class HookManager {
 
     /**
+     * Array of hooks to be executed before system startup
+     *
+     * @var \pff\IBeforeSystemHook[]
+     */
+    private $_beforeSystem;
+
+    /**
      * Array of hooks to be executed before the controller
      *
      * @var \pff\IBeforeHook[]
@@ -46,13 +53,31 @@ class HookManager {
             $found                     = true;
         }
 
-        if(is_a($prov, '\\pff\IAfterHook')) {
+        if(is_a($prov, '\\pff\\IAfterHook')) {
             $this->_afterController[] = $prov;
             $found                    = true;
         }
 
+        if(is_a($prov, '\\pff\\IBeforeSystemHook')) {
+            $this->_beforeSystem[] = $prov;
+            $found                 = true;
+        }
+
         if(!$found) {
             throw new \pff\HookException("Cannot add given class as a hook provider: ". get_class($prov));
+        }
+    }
+
+    /**
+     * Executes the registered methods (before the system)
+     *
+     * @return void
+     */
+    public function runBeforeSystem() {
+        if($this->_beforeSystem !== null) {
+            foreach($this->_beforeSystem as $hookProvider) {
+                $hookProvider->doBeforeSystem();
+            }
         }
     }
 

@@ -28,8 +28,12 @@ class Logger extends \pff\AModule{
     private $_loggers;
 
     public function __construct($confFile = 'logger.conf.yaml') {
+        $this->loadConfig($confFile);
+    }
+
+    public function loadConfig($confFile) {
         $yamlParser = new \Symfony\Component\Yaml\Parser();
-        $confPath = ROOT . DS . 'lib' . DS . 'modules' . DS . 'logger' . DS . $confFile;
+        $confPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . 'logger' . DS . $confFile;
         if(file_exists($confPath)) {
             try{
                 $conf = $yamlParser->parse(file_get_contents($confPath));
@@ -49,7 +53,7 @@ class Logger extends \pff\AModule{
             }
         }
         else {
-             throw new \pff\modules\LoggerConfigException ("Logger Module configuration file not found: " .$confFile);
+            throw new \pff\modules\LoggerConfigException ("Logger Module configuration file not found: " .$confFile);
         }
     }
 

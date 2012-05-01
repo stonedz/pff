@@ -32,8 +32,9 @@ class ModuleManager {
     private $_modules;
 
     public function __construct(\pff\Config $cfg) {
-        $this->_config = $cfg;
-        $this->_yamlParser = new \Symfony\Component\Yaml\Parser();
+        $this->_config      = $cfg;
+        $this->_config->cancellami = 'sono modulomanager';
+        $this->_yamlParser  = new \Symfony\Component\Yaml\Parser();
         $this->_hookManager = null;
         //$this->initModules();
     }
@@ -53,6 +54,7 @@ class ModuleManager {
      * Loads a module
      *
      * @param string $moduleName
+     * @return bool
      * @throws \pff\ModuleException
      */
     public function loadModule($moduleName) {
@@ -64,6 +66,11 @@ class ModuleManager {
                 $tmpModule  = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
                 if ($tmpModule->isSubclassOf('\\pff\\AModule')) {
                     $moduleName = strtolower($moduleConf['name']);
+
+                    if(isset($this->_modules[$moduleName])) { //Module has already been loaded
+                        return true;
+                    }
+
                     $this->_modules[$moduleName] = $tmpModule->newInstance();
                     $this->_modules[$moduleName]->setModuleName($moduleConf['name']);
                     $this->_modules[$moduleName]->setModuleVersion($moduleConf['version']);
@@ -72,6 +79,14 @@ class ModuleManager {
                     if($tmpModule->isSubclassOf('\\pff\IHookProvider') && $this->_hookManager !== null){
                         $this->_hookManager->registerHook($this->_modules[$moduleName]);
                     }
+
+                    if(isset ($moduleConf['requires']) && is_array($moduleConf['requires'])){
+                        foreach ($moduleConf['requires'] as $requiredModuleName) {
+                            $this->loadModule($requiredModuleName);
+                            $this->_modules[$moduleName]->registerRequiredModule($this->_modules[$requiredModuleName]);
+                        }
+                    }
+
                 }
                 else {
                     throw new \pff\ModuleException("Invalid module: ".$moduleConf['name']);

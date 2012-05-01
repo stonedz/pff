@@ -17,6 +17,8 @@ class Config {
      */
     private $_config;
 
+    public $cancellami = 'standard';
+
     public function __construct() {
         $this->_config = array();
         $this->loadConfig(); // Load main config file

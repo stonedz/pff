@@ -52,7 +52,6 @@ class App {
                                 \pff\HookManager $hookManager) {
         $this->setUrl($url);
         $this->_config        = $config;
-
         $this->_hookManager   = $hookManager;
         $this->_moduleManager = $moduleManager;
 
@@ -189,6 +188,8 @@ class App {
      * Runs the application
      */
     public function run() {
+        $this->_hookManager->runBeforeSystem();
+
         $urlArray = explode('/', $this->_url);
         //Deletes last element if empty
         $lastElement = end($urlArray);
@@ -206,7 +207,9 @@ class App {
         // If present take the first element as the controller
         $tmpController = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
         if($this->applyStaticRouting($tmpController)){
+            $this->_hookManager->runBefore(); // Runs before controller hooks
             include(ROOT . DS . $tmpController);
+            $this->_hookManager->runAfter(); // Runs after controller hooks
         }
         elseif($this->applyRouting($tmpController)){
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
@@ -218,20 +221,18 @@ class App {
             $controller          = new $controllerClassName($tmpController, $this->_config,$action);
         }
         else{
-            throw new \pff\RoutingException('Cannot find a valid controller.');
+            throw new \pff\RoutingException('Cannot find a valid controller.', 404);
         }
 
         if(isset($controller)){
             $this->_hookManager->runBefore(); // Runs before controller hooks
-
             if ((int)method_exists($controller, $action)) {
                 call_user_func_array(array($controller,"beforeAction"),$urlArray);
                 call_user_func_array(array($controller,$action),$urlArray);
                 call_user_func_array(array($controller,"afterAction"),$urlArray);
-
             $this->_hookManager->runAfter(); // Runs after controller hooks
             } else {
-                throw new \pff\RoutingException('Not a valid action: '.$action);
+                throw new \pff\RoutingException('Not a valid action: '.$action, 400);
             }
         }
 
