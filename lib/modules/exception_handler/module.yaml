@@ -1,0 +1,7 @@
+name: Exception Handler
+version: "0.1"
+desc: Manages uncaught exceptions
+class: ExceptionHandler
+requires:
+  - logger
+  - session
