@@ -120,4 +120,11 @@ class HookManager {
     public function getBeforeController() {
         return $this->_beforeController;
     }
+
+    /**
+     * @return \pff\IBeforeSystemHook[]
+     */
+    public function getBeforeSystem() {
+        return $this->_beforeSystem;
+    }
 }

@@ -28,7 +28,7 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
                 break;
             default:
                 $view = \pff\FView::create('..' . DS . '..' . DS . 'lib' . DS .'modules' .
-                    DS . 'exception_handler' . DS . 'views' . DS . 'defaultError_View.php');
+                                    DS . 'exception_handler' . DS . 'views' . DS . 'defaultError_View.php');
                 $view->set('title', 'Error!');
                 $view->set('message', _('An Error Occurred!'));
                 break;
