@@ -34,6 +34,12 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
                 break;
 
         }
+
+        // If we're in dev mode,
+        if ($this->getConfig()->getConfig('development_environment')) {
+            $view->set('message_dev', $exception->getMessage());
+        }
+
         $view->render();
     }
 }

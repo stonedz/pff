@@ -33,7 +33,6 @@ class ModuleManager {
 
     public function __construct(\pff\Config $cfg) {
         $this->_config      = $cfg;
-        $this->_config->cancellami = 'sono modulomanager';
         $this->_yamlParser  = new \Symfony\Component\Yaml\Parser();
         $this->_hookManager = null;
         //$this->initModules();
@@ -75,12 +74,14 @@ class ModuleManager {
                     $this->_modules[$moduleName]->setModuleName($moduleConf['name']);
                     $this->_modules[$moduleName]->setModuleVersion($moduleConf['version']);
                     $this->_modules[$moduleName]->setModuleDescription($moduleConf['desc']);
+                    $this->_modules[$moduleName]->setConfig($this->_config);
 
                     if($tmpModule->isSubclassOf('\\pff\IHookProvider') && $this->_hookManager !== null){
                         $this->_hookManager->registerHook($this->_modules[$moduleName]);
                     }
 
                     if(isset ($moduleConf['requires']) && is_array($moduleConf['requires'])){
+                        $this->_modules[$moduleName]->setModuleRequirements($moduleConf['requires']);
                         foreach ($moduleConf['requires'] as $requiredModuleName) {
                             $this->loadModule($requiredModuleName);
                             $this->_modules[$moduleName]->registerRequiredModule($this->_modules[$requiredModuleName]);

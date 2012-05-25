@@ -23,7 +23,7 @@ abstract class AController {
     protected $_action;
 
     /**
-     * @var \pff\AView
+     * @var \pff\AView[]
      */
     protected $_view;
 
@@ -97,13 +97,34 @@ abstract class AController {
     }
 
     /**
+     * Adds a view
+     *
+     * @param \pff\AView $view
+     */
+    public function addView(\pff\AView $view) {
+        $this->_view[] = $view;
+    }
+
+    /**
      * Called before the controller is deleted.
      *
-     * The view's render method is called.
+     * The view's render method is called for each view registered.
+     *
+     * @throws \pff\ViewException
      */
     public function __destruct() {
         if (isset($this->_view)) {
-            $this->_view->render();
+            if(is_array($this->_view)) {
+                foreach($this->_view as $view) {
+                   $view->render();
+                }
+            }
+            elseif(is_a($this->_view, '\\pff\\AView')) {
+                $this->_view->render();
+            }
+            else {
+                throw new \pff\ViewException("The view specified is not valid.");
+            }
         }
     }
 

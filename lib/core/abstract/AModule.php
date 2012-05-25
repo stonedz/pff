@@ -45,6 +45,11 @@ abstract class AModule {
     private $_requiredModules;
 
     /**
+     * @var \pff\Config
+     */
+    private $_config;
+
+    /**
      * @param string $moduleName
      */
     public function setModuleName($moduleName) {
@@ -120,5 +125,19 @@ abstract class AModule {
      */
     public function getModuleRequirements() {
         return $this->_moduleRequirements;
+    }
+
+    /**
+     * @param \pff\Config $config
+     */
+    public function setConfig($config) {
+        $this->_config = $config;
+    }
+
+    /**
+     * @return \pff\Config
+     */
+    public function getConfig() {
+        return $this->_config;
     }
 }

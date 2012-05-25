@@ -230,7 +230,7 @@ class App {
                 call_user_func_array(array($controller,"beforeAction"),$urlArray);
                 call_user_func_array(array($controller,$action),$urlArray);
                 call_user_func_array(array($controller,"afterAction"),$urlArray);
-            $this->_hookManager->runAfter(); // Runs after controller hooks
+                $this->_hookManager->runAfter(); // Runs after controller hooks
             } else {
                 throw new \pff\RoutingException('Not a valid action: '.$action, 400);
             }

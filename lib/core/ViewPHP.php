@@ -33,6 +33,7 @@ class ViewPHP extends \pff\AView {
         setlocale(LC_ALL, $locale);
         bindtextdomain("messages", ROOT . DS. 'app' . DS . 'locale');
         textdomain("messages");*/
+
         include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile);
         ob_end_flush();
     }
@@ -44,12 +45,13 @@ class ViewPHP extends \pff\AView {
      * @return string
      */
     public function preView($output) {
-        $config = \HTMLPurifier_Config::createDefault();
-        $config->set('Core.Encoding', 'UTF-8');
-        $config->set('HTML.TidyLevel', 'medium');
+        $purifierConfig = \HTMLPurifier_Config::createDefault();
+        $purifierConfig->set('Core.Encoding', 'UTF-8');
+        $purifierConfig->set('HTML.TidyLevel', 'medium');
 
-        $purifier = new \HTMLPurifier($config);
+        $purifier = new \HTMLPurifier($purifierConfig);
         $output   = $purifier->purify($output);
+
 
         return $output;
     }

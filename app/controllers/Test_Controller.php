@@ -5,10 +5,17 @@ class Test_Controller extends \pff\AController {
 
     public function index(){
         //$tmp = new \pff\models\Test();
-        $tmp = $this->_em->find('\\pff\\models\\Test', 1);
-        $this->_view = \pff\FView::create('test_View.php', 'PHP');
-        $this->_view->set('titolo', 'Pagina di prova');
-        $this->_view->set('nome', $tmp->getName());
+        $tmp = $this->_em->find("\\pff\\models\\Test", 1);
+        //$this->_view = \pff\FView::create('test_View.php', 'PHP');
+        $one = \pff\FView::create('test_View.tpl', 'smarty');
+        $one->set('titolo', 'Pagina di prova');
+        $one->set('nome', $tmp->getName());
+        $this->addView($one);
+
+        $two = \pff\FView::create('test_View.php');
+        $two->set('titolo', 'Pagina di prova');
+        $two->set('nome', $tmp->getName());
+        $this->addView($two);
 
         //$this->_view->render();
         /*$tmp1 = new \pff\models\Test();

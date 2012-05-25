@@ -12,8 +12,9 @@
 </head>
 
 <body>
-<div><h2><?=$title?></h2></div>
-<div><?=$message?></div>
+    <div><h2><?=$title?></h2></div>
+    <div><?=$message?></div>
+    <div><?=$message_dev?></div>
 </body>
 </html>
 
