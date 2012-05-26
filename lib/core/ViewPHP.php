@@ -52,7 +52,6 @@ class ViewPHP extends \pff\AView {
         $purifier = new \HTMLPurifier($purifierConfig);
         $output   = $purifier->purify($output);
 
-
         return $output;
     }
 

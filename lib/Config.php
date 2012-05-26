@@ -39,7 +39,7 @@ class Config {
             throw new \pff\ConfigException("Specified config file does not exist: ".$completePath);
         }
 
-        include ($completePath);
+        include($completePath);
 
         if(isset($pffConfig) && is_array($pffConfig)) {
             $this->_config = array_merge($this->_config, $pffConfig);

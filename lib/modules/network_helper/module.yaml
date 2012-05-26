@@ -1,0 +1,6 @@
+name: Network Helper
+version: "0.1"
+desc: A Curl wrapper to send get and post requests
+class: NetworkHelper
+requires_php_extension:
+  - curl

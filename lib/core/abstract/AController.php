@@ -116,7 +116,7 @@ abstract class AController {
         if (isset($this->_view)) {
             if(is_array($this->_view)) {
                 foreach($this->_view as $view) {
-                   $view->render();
+                    $view->render();
                 }
             }
             elseif(is_a($this->_view, '\\pff\\AView')) {
