@@ -1,0 +1,4 @@
+name: Htmlpurifier
+version: "0.1"
+desc: Use htmlpurifier to sanitize
+class: HtmlPurifier

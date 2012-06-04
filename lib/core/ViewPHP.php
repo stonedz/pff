@@ -27,7 +27,7 @@ class ViewPHP extends \pff\AView {
             extract($this->_data); // Extract set data to scope vars
         }
 
-        ob_start(array($this,'preView'));
+        //ob_start(array($this,'preView'));
         /*$locale = "it_IT.utf8";
         putenv("LC_ALL=$locale");
         setlocale(LC_ALL, $locale);
@@ -35,7 +35,7 @@ class ViewPHP extends \pff\AView {
         textdomain("messages");*/
 
         include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile);
-        ob_end_flush();
+        //ob_end_flush();
     }
 
     /**

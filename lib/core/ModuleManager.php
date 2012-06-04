@@ -134,4 +134,13 @@ class ModuleManager {
     public function getHookManager() {
         return $this->_hookManager;
     }
+
+    /**
+     * Sets the Controller for each module
+     */
+    public function setController(\pff\AController $controller) {
+        foreach($this->_modules as $module) {
+            $module->setController($controller);
+        }
+    }
 }

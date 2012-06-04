@@ -33,6 +33,13 @@ abstract class AController {
     protected $_config;
 
     /**
+     * The app that is running
+     *
+     * @var \pff\App
+     */
+    protected $_app;
+
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     public $_em;
@@ -44,10 +51,11 @@ abstract class AController {
      * @param \pff\Config $cfg App configuration
      * @param string $action Action to perform
      */
-    public function __construct($controllerName, \pff\Config $cfg, $action = 'index') {
+    public function __construct($controllerName, \pff\App $app, $action = 'index') {
         $this->_controllerName = $controllerName;
         $this->_action         = $action;
-        $this->_config         = $cfg;
+        $this->_app            = $app;
+        $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
 
         if($this->_config->getConfig('orm')) {
             $this->initORM();
@@ -106,6 +114,15 @@ abstract class AController {
     }
 
     /**
+     * Adds a view at the top of the stack
+     *
+     * @param AView $view
+     */
+    public function addViewPre(\pff\AView $view) {
+        array_unshift($this->_view, $view);
+    }
+
+    /**
      * Called before the controller is deleted.
      *
      * The view's render method is called for each view registered.
@@ -113,17 +130,22 @@ abstract class AController {
      * @throws \pff\ViewException
      */
     public function __destruct() {
+
         if (isset($this->_view)) {
             if(is_array($this->_view)) {
+                $this->_app->getHookManager()->runBeforeView();
                 foreach($this->_view as $view) {
                     $view->render();
                 }
+                $this->_app->getHookManager()->runAfterView();
             }
             elseif(is_a($this->_view, '\\pff\\AView')) {
+                $this->_app->getHookManager()->runBeforeView();
                 $this->_view->render();
+                $this->_app->getHookManager()->runAfterView();
             }
             else {
-                throw new \pff\ViewException("The view specified is not valid.");
+                throw new \pff\ViewException("The specified View is not valid.");
             }
         }
     }
@@ -135,4 +157,18 @@ abstract class AController {
      * @return mixed
      */
     abstract public function index();
+
+    /**
+     * @return string
+     */
+    public function getControllerName() {
+        return $this->_controllerName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAction() {
+        return $this->_action;
+    }
 }

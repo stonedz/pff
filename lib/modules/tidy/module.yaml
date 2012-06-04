@@ -1,0 +1,6 @@
+name: Tidy
+version: "0.1"
+desc: Clean html output
+class: TidyCleaner
+requires_php_extension:
+  - tidy

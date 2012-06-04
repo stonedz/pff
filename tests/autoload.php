@@ -8,6 +8,7 @@ spl_autoload_register(
         if ($classes === null) {
             $classes = array(
                 'apptest' => '/AppTest.php',
+                'automaticheaderfootertest' => '/modules/automatic_header_footer/AutomaticHeaderFooterTest.php',
                 'configtest' => '/ConfigTest.php',
                 'hookmanagertest' => '/core/HookManagerTest.php',
                 'loggerfiletest' => '/modules/logger/custom_loggers/LoggerFileTest.php',

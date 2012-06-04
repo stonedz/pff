@@ -50,6 +50,11 @@ abstract class AModule {
     private $_config;
 
     /**
+     * @var \pff\AController
+     */
+    protected $_controller;
+
+    /**
      * @param string $moduleName
      */
     public function setModuleName($moduleName) {
@@ -139,5 +144,19 @@ abstract class AModule {
      */
     public function getConfig() {
         return $this->_config;
+    }
+
+    /**
+     * @param \pff\AController $controller
+     */
+    public function setController($controller) {
+        $this->_controller = $controller;
+    }
+
+    /**
+     * @return \pff\AController
+     */
+    public function getController() {
+        return $this->_controller;
     }
 }

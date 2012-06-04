@@ -32,4 +32,11 @@ class Test_Controller extends \pff\AController {
        // print_r($tmp);
     }
 
+    public function anAction() {
+        $two = \pff\FView::create('test_View.php');
+        $two->set('titolo', 'Pagina di prova');
+        $two->set('nome', 'Sono anAction');
+        $this->addView($two);
+
+    }
 }

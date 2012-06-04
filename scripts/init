@@ -21,7 +21,7 @@ while getopts ":f" opt; do
     case $opt in
         f)
             force=true
-            echo -e "${red}Force upload!" 
+            echo -e "${red}Force update!"
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2

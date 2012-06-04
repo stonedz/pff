@@ -31,6 +31,21 @@ class HookManager {
     private $_afterController;
 
     /**
+     * Array of hooks to be executed before the Views are rendered
+     *
+     * @var \pff\IBeforeViewHook[]
+     */
+    private $_beforeView;
+
+
+    /**
+     * Array of hooks to be executed after the Views are rendered
+     *
+     * @var \pff\IAfterViewHook[]
+     */
+    private $_afterView;
+
+    /**
      * @var \pff\Config
      */
     private $_config;
@@ -63,6 +78,16 @@ class HookManager {
             $found                 = true;
         }
 
+        if(is_a($prov, '\\pff\\IBeforeViewHook')) {
+            $this->_beforeView[] = $prov;
+            $found               = true;
+        }
+
+        if(is_a($prov, '\\pff\\IAfterViewHook')) {
+            $this->_afterView[] = $prov;
+            $found              = true;
+
+        }
         if(!$found) {
             throw new \pff\HookException("Cannot add given class as a hook provider: ". get_class($prov));
         }
@@ -108,6 +133,32 @@ class HookManager {
     }
 
     /**
+     * Executes the registered methods (before the View)
+     *
+     * @return void
+     */
+    public function runBeforeView() {
+        if($this->_beforeView !== null) {
+            foreach($this->_beforeView as $hookProvider) {
+                $hookProvider->doBeforeView();
+            }
+        }
+    }
+
+    /**
+     * Executes the registered methods (after the View)
+     *
+     * @return void
+     */
+    public function runAfterView() {
+        if($this->_afterView !== null) {
+            foreach($this->_afterView as $hookProvider) {
+                $hookProvider->doAfterView();
+            }
+        }
+    }
+
+    /**
      * @return \pff\IAfterHook[]
      */
     public function getAfterController() {
@@ -126,5 +177,19 @@ class HookManager {
      */
     public function getBeforeSystem() {
         return $this->_beforeSystem;
+    }
+
+    /**
+     * @return IAfterViewHook[]
+     */
+    public function getAfterView() {
+        return $this->_afterView;
+    }
+
+    /**
+     * @return IBeforeViewHook[]
+     */
+    public function getBeforeView() {
+        return $this->_beforeView;
     }
 }

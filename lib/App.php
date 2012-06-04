@@ -202,10 +202,12 @@ class App {
         //}
         reset($urlArray);
 
-        $action = $this->_config->getConfig('default_action');
 
         // If present take the first element as the controller
         $tmpController = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
+        // If present take the second element as the action
+        $action = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
+
         if($this->applyStaticRouting($tmpController)){
             $this->_hookManager->runBefore(); // Runs before controller hooks
             include(ROOT . DS . $tmpController);
@@ -213,18 +215,19 @@ class App {
         }
         elseif($this->applyRouting($tmpController)){
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
-            $controller = new $tmpController($tmpController, $this->_config, $action);
+            $controller = new $tmpController($tmpController, $this, $action);
         }
         elseif(file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php')){
             include (ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php');
             $controllerClassName = ucfirst($tmpController).'_Controller';
-            $controller          = new $controllerClassName($tmpController, $this->_config,$action);
+            $controller          = new $controllerClassName($tmpController, $this ,$action);
         }
         else{
             throw new \pff\RoutingException('Cannot find a valid controller.', 404);
         }
 
         if(isset($controller)){
+            $this->_moduleManager->setController($controller); // We have a controller, let the modules know about it
             $this->_hookManager->runBefore(); // Runs before controller hooks
             if ((int)method_exists($controller, $action)) {
                 call_user_func_array(array($controller,"beforeAction"),$urlArray);
@@ -271,5 +274,33 @@ class App {
      */
     public function getConfig() {
         return $this->_config;
+    }
+
+    /**
+     * @param \pff\HookManager $hookManager
+     */
+    public function setHookManager($hookManager) {
+        $this->_hookManager = $hookManager;
+    }
+
+    /**
+     * @return \pff\HookManager
+     */
+    public function getHookManager() {
+        return $this->_hookManager;
+    }
+
+    /**
+     * @param \pff\ModuleManager $moduleManager
+     */
+    public function setModuleManager($moduleManager) {
+        $this->_moduleManager = $moduleManager;
+    }
+
+    /**
+     * @return \pff\ModuleManager
+     */
+    public function getModuleManager() {
+        return $this->_moduleManager;
     }
 }
