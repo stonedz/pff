@@ -57,7 +57,7 @@ abstract class AController {
         $this->_app            = $app;
         $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
 
-        if($this->_config->getConfig('orm')) {
+        if($this->_config->getConfigData('orm')) {
             $this->initORM();
         }
     }
@@ -67,7 +67,7 @@ abstract class AController {
      */
     private function initORM() {
 
-        if ($this->_config->getConfig('development_environment') == true) {
+        if ($this->_config->getConfigData('development_environment') == true) {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         } else {
             $cache = new \Doctrine\Common\Cache\ApcCache;
@@ -81,13 +81,13 @@ abstract class AController {
         $config->setProxyDir(ROOT . DS  .'app' . DS . 'proxies');
         $config->setProxyNamespace('pff\proxies');
 
-        if ($this->_config->getConfig('development_environment') == true) {
+        if ($this->_config->getConfigData('development_environment') == true) {
             $config->setAutoGenerateProxyClasses(true);
         } else {
             $config->setAutoGenerateProxyClasses(false);
         }
 
-        $connectionOptions = $this->_config->getConfig('databaseConfig');
+        $connectionOptions = $this->_config->getConfigData('databaseConfig');
 
         $this->_em = EntityManager::create($connectionOptions, $config);
     }
@@ -170,5 +170,12 @@ abstract class AController {
      */
     public function getAction() {
         return $this->_action;
+    }
+
+    /**
+     * @return \pff\App
+     */
+    public function getApp() {
+        return $this->_app;
     }
 }

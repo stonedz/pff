@@ -22,13 +22,13 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
         switch ($exception->getCode()) {
             case  404:
                 $view = \pff\FView::create('..' . DS . '..' . DS . 'lib' . DS .'modules' .
-                                    DS . 'exception_handler' . DS . 'views' . DS . 'default404_View.php');
+                                    DS . 'exception_handler' . DS . 'views' . DS . 'default404_View.php', $this->getController()->getApp());
                 $view->set('title', 'Error 404');
                 $view->set('message', _('Page not found!'));
                 break;
             default:
                 $view = \pff\FView::create('..' . DS . '..' . DS . 'lib' . DS .'modules' .
-                                    DS . 'exception_handler' . DS . 'views' . DS . 'defaultError_View.php');
+                                    DS . 'exception_handler' . DS . 'views' . DS . 'defaultError_View.php', $this->getController()->getApp());
                 $view->set('title', 'Error!');
                 $view->set('message', _('An Error Occurred!'));
                 break;
@@ -36,7 +36,7 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
         }
 
         // If we're in dev mode,
-        if ($this->getConfig()->getConfig('development_environment')) {
+        if ($this->getConfig()->getConfigData('development_environment')) {
             $view->set('message_dev', $exception->getMessage());
         }
 

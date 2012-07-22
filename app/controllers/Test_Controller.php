@@ -7,12 +7,12 @@ class Test_Controller extends \pff\AController {
         //$tmp = new \pff\models\Test();
         $tmp = $this->_em->find("\\pff\\models\\Test", 1);
         //$this->_view = \pff\FView::create('test_View.php', 'PHP');
-        $one = \pff\FView::create('test_View.tpl', 'smarty');
+        $one = \pff\FView::create('test_View.tpl', $this->_app);
         $one->set('titolo', 'Pagina di prova');
         $one->set('nome', $tmp->getName());
         $this->addView($one);
 
-        $two = \pff\FView::create('test_View.php');
+        $two = \pff\FView::create('test_View.php', $this->_app);
         $two->set('titolo', 'Pagina di prova');
         $two->set('nome', $tmp->getName());
         $this->addView($two);
@@ -33,7 +33,7 @@ class Test_Controller extends \pff\AController {
     }
 
     public function anAction() {
-        $two = \pff\FView::create('test_View.php');
+        $two = \pff\FView::create('test_View.php', $this->_app);
         $two->set('titolo', 'Pagina di prova');
         $two->set('nome', 'Sono anAction');
         $this->addView($two);

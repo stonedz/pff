@@ -17,8 +17,6 @@ class Config {
      */
     private $_config;
 
-    public $cancellami = 'standard';
-
     public function __construct() {
         $this->_config = array();
         $this->loadConfig(); // Load main config file
@@ -57,7 +55,7 @@ class Config {
      * @throws ConfigException
      * @return array|mixed
      */
-    public function getConfig($data=null) {
+    public function getConfigData($data = null) {
         if($data !== null && isset($this->_config[$data])) {
             return $this->_config[$data];
         }
@@ -69,6 +67,19 @@ class Config {
         }
     }
 
+    /**
+     * Gets configuration, deprecated!!
+     *
+     * @param null|string $data Wanted config param
+     * @throws ConfigException
+     * @return array|mixed
+     *
+     * @deprecated Use getConfigData instead
+     * @see getConfigData
+     */
+    public function getConfig($data = null) {
+        return $this->getConfigData($data);
+    }
     /**
      * Sets a configuration,if the configuration already exists it OVERWRITES the old one.
      *

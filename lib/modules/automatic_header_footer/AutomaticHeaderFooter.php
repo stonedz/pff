@@ -9,7 +9,7 @@ namespace pff\modules;
  */
 class AutomaticHeaderFooter
     extends \pff\AModule
-    implements \pff\IBeforeViewHook, \pff\IAfterViewHook {
+    implements \pff\IBeforeViewHook, \pff\IAfterHook {
 
     /**
      * @var bool
@@ -74,8 +74,10 @@ class AutomaticHeaderFooter
         $this->_headerController = $parsedConfig['moduleConf']['automatic_controller_header'];
         $this->_headerGlobal = $parsedConfig['moduleConf']['automatic_global_header'];
     }
+
     /**
-     * Executes actions before the Views are rendered
+     * Adds the header as the first view to be rendered. The controller based-header has
+     * always the precedence on the global header
      *
      * @return mixed
      */
@@ -86,7 +88,13 @@ class AutomaticHeaderFooter
                 strtolower($this->_controller->getAction()).DS . 'header.php';
             if(file_exists($viewPath)){
                 $this->_controller->addViewPre(\pff\FView::create(strtolower($this->_controller->getControllerName()) .DS.
-                strtolower($this->_controller->getAction()).DS . 'header.php'));
+                strtolower($this->_controller->getAction()).DS . 'header.php',$this->getController()->getApp()));
+            }
+            elseif($this->_headerGlobal) {
+                $viewPath = ROOT . DS . 'app'.DS. 'views'. DS.'header.php';
+                if(file_exists($viewPath)){
+                    $this->_controller->addViewPre(\pff\FView::create('header.php', $this->getController()->getApp()));
+                }
             }
         }
     }
@@ -96,7 +104,22 @@ class AutomaticHeaderFooter
      *
      * @return mixed
      */
-    public function doAfterView() {
-        echo 'Sono AFTER view </body></html>';
+    public function doAfter() {
+        if($this->_footerController) {
+            $viewPath = ROOT . DS . 'app'.DS. 'views'. DS.
+                strtolower($this->_controller->getControllerName()) .DS.
+                strtolower($this->_controller->getAction()).DS . 'footer.php';
+            if(file_exists($viewPath)){
+                $this->_controller->addView(\pff\FView::create(strtolower($this->_controller->getControllerName()) .DS.
+                    strtolower($this->_controller->getAction()).DS . 'footer.php', $this->getController()->getApp()));
+            }
+            elseif($this->_footerGlobal) {
+                $viewPath = ROOT . DS . 'app'.DS. 'views'. DS.'footer.php';
+                if(file_exists($viewPath)){
+                    $this->_controller->addView(\pff\FView::create('footer.php', $this->getController()->getApp()));
+                }
+            }
+        }
     }
+
 }

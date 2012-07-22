@@ -17,7 +17,8 @@ class FView {
      * @param string $templateType Te type of the template
      * @return \pff\AView
      */
-    static public function create($templateName, $templateType = null) {
+    static public function create($templateName,\pff\App $app, $templateType = null) {
+
         if($templateType === null) {
             $templateType = end(explode('.',$templateName));
         }
@@ -27,14 +28,14 @@ class FView {
 
         switch($templateType) {
             case 'php':
-                return new \pff\ViewPHP($templateName);
+                return new \pff\ViewPHP($templateName, $app);
                 break;
             case 'tpl':
             case 'smarty':
-                return new \pff\ViewSmarty($templateName);
+                return new \pff\ViewSmarty($templateName, $app);
                 break;
             default:
-                return new \pff\ViewPHP($templateName);
+                return new \pff\ViewPHP($templateName, $app);
                 break;
 
         }

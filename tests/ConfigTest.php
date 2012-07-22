@@ -34,16 +34,16 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 
     public function testGetConfigFailsWithInvalid() {
         $this->setExpectedException('\\pff\\ConfigException');
-        $this->object->getConfig('NoIDoNotExistxxxxx');
+        $this->object->getConfigData('NoIDoNotExistxxxxx');
     }
 
     public function testGetAconfigurationValue() {
-        $this->assertTrue(is_bool($this->object->getConfig('development_environment')));
+        $this->assertTrue(is_bool($this->object->getConfigData('development_environment')));
     }
 
     public function testSetAConfigurationValue() {
         $this->object->setConfig('aTestValue', 12);
-        $this->assertEquals($this->object->getConfig('aTestValue'), 12);
+        $this->assertEquals($this->object->getConfigData('aTestValue'), 12);
     }
 
     public function testSetAConfigurationFailsWithoutAString() {
@@ -53,7 +53,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 
     public function testGetConfigReturnsArrayWithNoParamaters() {
         //$this->assertTrue(is_array($this->object->getConfig()));
-        $this->assertInternalType('array', $this->object->getConfig());
+        $this->assertInternalType('array', $this->object->getConfigData());
     }
 
     public function testLoadConfigFailsWithInexistantFile() {

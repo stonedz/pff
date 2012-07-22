@@ -68,7 +68,7 @@ class App {
      * Sets error reporting
      */
     public function setErrorReporting() {
-        if( $this->_config->getConfig('development_environment') == true) {
+        if( $this->_config->getConfigData('development_environment') == true) {
             error_reporting(E_ALL);
             ini_set('display_errors','On');
         } else {

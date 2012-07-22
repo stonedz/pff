@@ -5,6 +5,8 @@
  * @author paolo.fagni<at>gmail.com
  */
 
+$pffConfig['app_name'] = 'My new app';
+
 /**
  * Set to true if in DEBUG mode
  */
