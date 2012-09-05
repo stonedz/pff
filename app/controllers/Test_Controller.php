@@ -39,4 +39,5 @@ class Test_Controller extends \pff\AController {
         $this->addView($two);
 
     }
+
 }

@@ -54,6 +54,8 @@ class App {
         $this->_config        = $config;
         $this->_hookManager   = $hookManager;
         $this->_moduleManager = $moduleManager;
+        $this->_moduleManager->setApp($this);
+
 
         /*
          * ModuleManager needs a HooklManager instance to initialize modules

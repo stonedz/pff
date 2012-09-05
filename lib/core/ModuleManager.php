@@ -31,6 +31,13 @@ class ModuleManager {
      */
     private $_modules;
 
+    /**
+     * Reference to main app
+     *
+     * @var \pff\App
+     */
+    private $_app;
+
     public function __construct(\pff\Config $cfg) {
         $this->_config      = $cfg;
         $this->_yamlParser  = new \Symfony\Component\Yaml\Parser();
@@ -75,6 +82,7 @@ class ModuleManager {
                     $this->_modules[$moduleName]->setModuleVersion($moduleConf['version']);
                     $this->_modules[$moduleName]->setModuleDescription($moduleConf['desc']);
                     $this->_modules[$moduleName]->setConfig($this->_config);
+                    $this->_modules[$moduleName]->setApp($this->_app);
 
                     if($tmpModule->isSubclassOf('\\pff\IHookProvider') && $this->_hookManager !== null){
                         $this->_hookManager->registerHook($this->_modules[$moduleName]);
@@ -142,5 +150,19 @@ class ModuleManager {
         foreach($this->_modules as $module) {
             $module->setController($controller);
         }
+    }
+
+    /**
+     * @param \pff\App $app
+     */
+    public function setApp($app) {
+        $this->_app = $app;
+    }
+
+    /**
+     * @return \pff\App
+     */
+    public function getApp() {
+        return $this->_app;
     }
 }

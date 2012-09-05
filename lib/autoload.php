@@ -903,6 +903,7 @@ spl_autoload_register(
                 'symfony\\component\\yaml\\tests\\dumpertest' => '/vendor/symfony/yaml/Symfony/Component/Yaml/Tests/DumperTest.php',
                 'symfony\\component\\yaml\\tests\\inlinetest' => '/vendor/symfony/yaml/Symfony/Component/Yaml/Tests/InlineTest.php',
                 'symfony\\component\\yaml\\tests\\parsertest' => '/vendor/symfony/yaml/Symfony/Component/Yaml/Tests/ParserTest.php',
+                'symfony\\component\\yaml\\tests\\yamltest' => '/vendor/symfony/yaml/Symfony/Component/Yaml/Tests/YamlTest.php',
                 'symfony\\component\\yaml\\unescaper' => '/vendor/symfony/yaml/Symfony/Component/Yaml/Unescaper.php',
                 'symfony\\component\\yaml\\yaml' => '/vendor/symfony/yaml/Symfony/Component/Yaml/Yaml.php',
                 'test\\behat\\mink\\element\\documentelementtest' => '/vendor/behat/mink/tests/Behat/Mink/Element/DocumentElementTest.php',

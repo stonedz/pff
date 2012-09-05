@@ -55,6 +55,13 @@ abstract class AModule {
     protected $_controller;
 
     /**
+     * Reference to main app
+     *
+     * @var \pff\App
+     */
+    protected $_app;
+
+    /**
      * @param string $moduleName
      */
     public function setModuleName($moduleName) {
@@ -158,5 +165,19 @@ abstract class AModule {
      */
     public function getController() {
         return $this->_controller;
+    }
+
+    /**
+     * @param \pff\App $app
+     */
+    public function setApp($app) {
+        $this->_app = $app;
+    }
+
+    /**
+     * @return \pff\App
+     */
+    public function getApp() {
+        return $this->_app;
     }
 }

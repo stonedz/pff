@@ -9,6 +9,7 @@ spl_autoload_register(
             $classes = array(
                 'index_controller' => '/controllers/Index_Controller.php',
                 'pff\\models\\address' => '/models/Address.php',
+                'pff\\models\\cane' => '/models/Cane.php',
                 'pff\\models\\test' => '/models/Test.php',
                 'pff\\proxies\\__cg__\\pff\\models\\address' => '/proxies/__CG__pffmodelsAddress.php',
                 'test_controller' => '/controllers/Test_Controller.php'
