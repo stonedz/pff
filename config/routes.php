@@ -8,4 +8,4 @@
  */
 
 //$app->addRoute('admin', 'test');
-//$app->addStaticroute('test','testPage.php');
+$app->addStaticroute('tests','testPage.php');

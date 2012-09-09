@@ -18,10 +18,12 @@ class Test_Controller extends \pff\AController {
         $this->addView($two);
 
         //$this->_view->render();
+
         /*$tmp1 = new \pff\models\Test();
-        $tmp1->setName("Piolo secondo");
+        $tmp1->setName("Piolo terzo");
+        $tmp1->setColor("giallo");
         $addr = new \pff\models\Address();
-        $addr->setStreet("via del Vico");
+        $addr->setStreet("via del Vicodsds");
         $this->_em->persist($addr);
         $tmp1->setAddress($addr);
         $this->_em->persist($tmp1);
@@ -37,6 +39,12 @@ class Test_Controller extends \pff\AController {
         $two->set('titolo', 'Pagina di prova');
         $two->set('nome', 'Sono anAction');
         $this->addView($two);
+
+    }
+
+    public function testUno() {
+        $utente = $this->_em->find("\\pff\\models\\Test", 1);
+
 
     }
 

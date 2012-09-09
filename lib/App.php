@@ -44,7 +44,10 @@ class App {
     private $_hookManager;
 
     /**
-     * @param $url string The request URL
+     * @param string $url The request URL
+     * @param Config $config
+     * @param ModuleManager $moduleManager
+     * @param HookManager $hookManager
      */
     public function __construct($url,
                                 \pff\Config $config,
