@@ -1,0 +1,17 @@
+{
+    "name": "stonedz/pff",
+        "type": "library",
+        "description": "A simple PHP MVC framework",
+        "keywords": ["framework"],
+        "homepage": "https://github.com/stonedz/pff",
+        "license": "LGPL-3.0+",
+        "authors": [
+        {
+            "name": "Paolo Fagni",
+            "email": "paolo.fagni@gmail.com"
+        }
+    ],
+        "require": {
+            "php": ">=5.2.0"
+        }
+}
