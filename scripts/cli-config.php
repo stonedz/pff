@@ -15,7 +15,7 @@ defined('APPLICATION_ENV')
 */
 
 // configuration (2)
- $config = new \Doctrine\ORM\Configuration();
+ $config = new Doctrine\ORM\Configuration();
 
 // Proxies (3)
  $config->setProxyDir('../app/proxies');

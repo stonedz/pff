@@ -3,6 +3,7 @@
         "doctrine/orm": "2.2.*",
         "behat/mink": "dev-master",
         "symfony/yaml": "dev-master",
+        "symfony/console": "dev-master",
         "smarty/smarty": "dev-master"
     }
 }
