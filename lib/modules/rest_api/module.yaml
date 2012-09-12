@@ -1,4 +1,0 @@
-name: RestApi
-version: "0.1"
-desc: Helps building REST APIs
-class: RestApi
