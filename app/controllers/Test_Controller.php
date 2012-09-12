@@ -37,7 +37,7 @@ class Test_Controller extends \pff\AController {
     public function anAction() {
         $two = \pff\FView::create('test_View.php', $this->_app);
         $two->set('titolo', 'Pagina di prova');
-        $two->set('nome', 'Sono anAction');
+        $two->set('nome', $this->_params[0]);
         $this->addView($two);
 
     }

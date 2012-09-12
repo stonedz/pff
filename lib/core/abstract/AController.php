@@ -45,17 +45,27 @@ abstract class AController {
     public $_em;
 
     /**
+     * Array of parameters passed to the specified action
+     *
+     * @var array
+     */
+    protected $_params;
+
+    /**
      * Creates a controller
      *
      * @param string $controllerName The controller's name (used to load correct model)
-     * @param \pff\Config $cfg App configuration
+     * @param \pff\App $app
      * @param string $action Action to perform
+     * @param array $params An array with parameters passed to the action
+     * @internal param \pff\Config $cfg App configuration
      */
-    public function __construct($controllerName, \pff\App $app, $action = 'index') {
+    public function __construct($controllerName, \pff\App $app, $action = 'index', $params=array()) {
         $this->_controllerName = $controllerName;
         $this->_action         = $action;
         $this->_app            = $app;
         $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
+        $this->_params         = $params;
 
         if($this->_config->getConfigData('orm')) {
             $this->initORM();
@@ -83,11 +93,12 @@ abstract class AController {
 
         if ($this->_config->getConfigData('development_environment') == true) {
             $config->setAutoGenerateProxyClasses(true);
+            $connectionOptions = $this->_config->getConfigData('databaseConfigDev');
         } else {
             $config->setAutoGenerateProxyClasses(false);
+            $connectionOptions = $this->_config->getConfigData('databaseConfig');
         }
 
-        $connectionOptions = $this->_config->getConfigData('databaseConfig');
 
         $this->_em = EntityManager::create($connectionOptions, $config);
     }

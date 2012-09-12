@@ -220,12 +220,12 @@ class App {
         }
         elseif($this->applyRouting($tmpController)){
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
-            $controller = new $tmpController($tmpController, $this, $action);
+            $controller = new $tmpController($tmpController, $this, $action, $urlArray);
         }
         elseif(file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php')){
             include (ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php');
             $controllerClassName = ucfirst($tmpController).'_Controller';
-            $controller          = new $controllerClassName($tmpController, $this ,$action);
+            $controller          = new $controllerClassName($tmpController, $this ,$action, $urlArray);
         }
         else{
             throw new \pff\RoutingException('Cannot find a valid controller.', 404);
