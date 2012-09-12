@@ -118,6 +118,8 @@ class ModuleManager {
      * Get the istance of desired module
      *
      * @param string $moduleName
+     * @throws ModuleException
+     * @return \pff\AModule The requested module
      */
     public function getModule($moduleName) {
         $moduleName = strtolower($moduleName);
