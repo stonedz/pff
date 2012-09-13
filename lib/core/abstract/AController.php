@@ -75,6 +75,7 @@ abstract class AController {
         $this->_app            = $app;
         $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
         $this->_params         = $params;
+        $this->_moduleManager  = $this->_app->getModuleManager();
 
         if($this->_config->getConfigData('orm')) {
             $this->initORM();
