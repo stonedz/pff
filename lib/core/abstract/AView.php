@@ -65,4 +65,60 @@ abstract class AView {
     public function getApp() {
         return $this->_app;
     }
+
+    /**
+     * @param string $cssFolder
+     */
+    public function setCssFolder($cssFolder) {
+        $this->_cssFolder = $cssFolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCssFolder() {
+        return $this->_cssFolder;
+    }
+
+    /**
+     * @param string $imgFolder
+     */
+    public function setImgFolder($imgFolder) {
+        $this->_imgFolder = $imgFolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImgFolder() {
+        return $this->_imgFolder;
+    }
+
+    /**
+     * @param string $jsFolder
+     */
+    public function setJsFolder($jsFolder) {
+        $this->_jsFolder = $jsFolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsFolder() {
+        return $this->_jsFolder;
+    }
+
+    /**
+     * @param string $publicFolder
+     */
+    public function setPublicFolder($publicFolder) {
+        $this->_publicFolder = $publicFolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicFolder() {
+        return $this->_publicFolder;
+    }
 }
