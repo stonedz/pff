@@ -42,10 +42,10 @@ abstract class AView {
     public function __construct($templateName, \pff\App $app) {
         $this->_app          = $app;
         $this->_templateFile = $templateName;
-        $this->_publicFolder = ROOT.DS.'public'.DS;
-        $this->_cssFolder    = ROOT.DS.'public'.DS.'css'.DS;
-        $this->_imgFolder    = ROOT.DS.'public'.DS.'img'.DS;
-        $this->_jsFolder     = ROOT.DS.'public'.DS.'js'.DS;
+        $this->_publicFolder = 'public'.DS;
+        $this->_cssFolder    = 'public'.DS.'css'.DS;
+        $this->_imgFolder    = 'public'.DS.'img'.DS;
+        $this->_jsFolder     = 'public'.DS.'js'.DS;
     }
 
     abstract public function set($name, $value);
