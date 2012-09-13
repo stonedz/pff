@@ -51,8 +51,11 @@ class ModuleManager {
      *  @return void
      */
     public function initModules() {
-        foreach ($this->_config->getConfigData('modules') as $moduleName) {
-            $this->loadModule($moduleName);
+        $moduleList = $this->_config->getConfigData('modules');
+        if(count($moduleList) > 0) {
+            foreach ($this->_config->getConfigData('modules') as $moduleName) {
+                $this->loadModule($moduleName);
+            }
         }
     }
 
