@@ -57,7 +57,7 @@ class ModuleManager {
     }
 
     /**
-     * Loads a module
+     * Loads a module and its dependencies
      *
      * @param string $moduleName
      * @return bool
@@ -84,7 +84,7 @@ class ModuleManager {
                     $this->_modules[$moduleName]->setConfig($this->_config);
                     $this->_modules[$moduleName]->setApp($this->_app);
 
-                    if($tmpModule->isSubclassOf('\\pff\IHookProvider') && $this->_hookManager !== null){
+                    if($tmpModule->isSubclassOf('\\pff\\IHookProvider') && $this->_hookManager !== null){
                         $this->_hookManager->registerHook($this->_modules[$moduleName]);
                     }
 

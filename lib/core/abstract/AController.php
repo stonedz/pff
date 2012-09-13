@@ -52,6 +52,15 @@ abstract class AController {
     protected $_params;
 
     /**
+     * Reference to app's module manager
+     *
+     * Used to access loaded modules or load new modules
+     *
+     * @var \pff\ModuleManager
+     */
+    protected $_moduleManager;
+
+    /**
      * Creates a controller
      *
      * @param string $controllerName The controller's name (used to load correct model)
