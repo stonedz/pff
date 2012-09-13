@@ -152,8 +152,10 @@ class ModuleManager {
      * Sets the Controller for each module
      */
     public function setController(\pff\AController $controller) {
-        foreach($this->_modules as $module) {
-            $module->setController($controller);
+        if(count($this->modules) > 0) {
+            foreach($this->_modules as $module) {
+                $module->setController($controller);
+            }
         }
     }
 
