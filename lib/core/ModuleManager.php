@@ -60,6 +60,20 @@ class ModuleManager {
     }
 
     /**
+     * Checks for php extensions for pff modules
+     *
+     * @var $phpExtensions array An array of php extesions names
+     * @throws \pff\ModuleException
+     */
+    private function checkPhpExtensions ($phpExtensions) {
+        foreach($phpExtensions as $extension) {
+            if(!extension_loaded($extension)){
+                throw new \pff\ModuleException("Module loagin failed! A module needs the following php extension in order to load: ".$extension);
+            }
+        }
+    }
+
+    /**
      * Loads a module and its dependencies
      *
      * @param string $moduleName
@@ -67,11 +81,15 @@ class ModuleManager {
      * @throws \pff\ModuleException
      */
     public function loadModule($moduleName) {
-        //$moduleName = strtolower($moduleName);
         $moduleFilePath = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName. DS .'module.yaml';
         if (file_exists($moduleFilePath)){
             try {
                 $moduleConf = $this->_yamlParser->parse(file_get_contents($moduleFilePath));
+
+                if(isset($moduleConf['requires_php_extension'])){
+                    $this->checkPhpExtensions($moduleConf['requires_php_extension']);
+                }
+
                 $tmpModule  = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
                 if ($tmpModule->isSubclassOf('\\pff\\AModule')) {
                     $moduleName = strtolower($moduleConf['name']);
@@ -87,7 +105,7 @@ class ModuleManager {
                     $this->_modules[$moduleName]->setConfig($this->_config);
                     $this->_modules[$moduleName]->setApp($this->_app);
 
-                    if($tmpModule->isSubclassOf('\\pff\\IHookProvider') && $this->_hookManager !== null){
+                    if($tmpModule->isSubclassOf('\pff\IHookProvider') && $this->_hookManager !== null){
                         $this->_hookManager->registerHook($this->_modules[$moduleName]);
                     }
 
