@@ -41,8 +41,8 @@ class AutomaticHeaderFooter
      * Reads the configuration file ad returns a configuration array
      *
      * @param string $configFile The module filename
-     * @throws LoggerConfigException
      * @throws \pff\ModuleException
+     * @throws \pff\modules\AutomaticHeaderFooterException
      * @return array
      */
     public function readConfig($configFile='module.conf.yaml'){
