@@ -180,4 +180,30 @@ abstract class AModule {
     public function getApp() {
         return $this->_app;
     }
+
+    /**
+     * Reads the configuration file ad returns a configuration array
+     *
+     * @param string $configFile The module filename
+     * @throws \pff\ModuleException
+     * @throws \pff\ModuleException
+     * @return array
+     */
+    public function readConfig($configFile){
+        $yamlParser = new \Symfony\Component\Yaml\Parser();
+        $confPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . $configFile;
+        if(file_exists($confPath)) {
+            try{
+                $conf = $yamlParser->parse(file_get_contents($confPath));
+            }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
+                throw new \pff\ModuleException("Unable to parse module configuration
+                                            file for AutomaticHeaderFooter module: ".$e->getMessage());
+            }
+            return $conf;
+        }
+        else {
+            throw new \pff\ModuleException ("Module configuration file not found: " .$confPath);
+        }
+
+    }
 }

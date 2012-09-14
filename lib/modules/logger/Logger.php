@@ -27,34 +27,28 @@ class Logger extends \pff\AModule{
      */
     private $_loggers;
 
-    public function __construct($confFile = 'logger.conf.yaml') {
+    public function __construct($confFile = 'logger/logger.conf.yaml') {
         $this->loadConfig($confFile);
     }
 
+    /**
+     * Loads the configuration
+     *
+     * @param string $confFile Path relative to modules/ of the configuration file
+     * @throws \pff\modules\LoggerException
+     */
     public function loadConfig($confFile) {
-        $yamlParser = new \Symfony\Component\Yaml\Parser();
-        $confPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . 'logger' . DS . $confFile;
-        if(file_exists($confPath)) {
-            try{
-                $conf = $yamlParser->parse(file_get_contents($confPath));
-            }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
-                throw new \pff\ModuleException("Unable to parse module configuration
-                                            file for Logger module: ".$e->getMessage());
+        $conf = $this->readConfig($confFile);
+        try{
+            foreach ($conf['moduleConf']['activeLoggers'] as $logger){
+                $tmpClass         = new \ReflectionClass('\\pff\\modules\\'. (string)$logger['class']);
+                $this->_loggers[] = $tmpClass->newInstance();
             }
+        }
+        catch(\ReflectionException $e){
+            throw new \pff\modules\LoggerException('Logger creation failed: '.$e->getMessage());
+        }
 
-            try{
-                foreach ($conf['moduleConf']['activeLoggers'] as $logger){
-                    $tmpClass         = new \ReflectionClass('\\pff\\modules\\'. (string)$logger['class']);
-                    $this->_loggers[] = $tmpClass->newInstance();
-                }
-            }
-            catch(\ReflectionException $e){
-                throw new \pff\modules\LoggerException('Logger creation failed: '.$e->getMessage());
-            }
-        }
-        else {
-            throw new \pff\modules\LoggerConfigException ("Logger Module configuration file not found: " .$confFile);
-        }
     }
 
     public function __destruct() {

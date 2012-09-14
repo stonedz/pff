@@ -32,35 +32,9 @@ class AutomaticHeaderFooter
     private $_headerGlobal;
 
 
-    public function __construct() {
-        $moduleconfig = $this->readConfig();
+    public function __construct($confFile='automatic_header_footer/module.conf.yaml') {
+        $moduleconfig = $this->readConfig($confFile);
         $this->loadConfig($moduleconfig);
-    }
-
-    /**
-     * Reads the configuration file ad returns a configuration array
-     *
-     * @param string $configFile The module filename
-     * @throws \pff\ModuleException
-     * @throws \pff\modules\AutomaticHeaderFooterException
-     * @return array
-     */
-    public function readConfig($configFile='module.conf.yaml'){
-        $yamlParser = new \Symfony\Component\Yaml\Parser();
-        $confPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . 'automatic_header_footer' . DS . $configFile;
-        if(file_exists($confPath)) {
-            try{
-                $conf = $yamlParser->parse(file_get_contents($confPath));
-            }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
-                throw new \pff\ModuleException("Unable to parse module configuration
-                                            file for AutomaticHeaderFooter module: ".$e->getMessage());
-            }
-            return $conf;
-        }
-        else {
-            throw new \pff\modules\AutomaticHeaderFooterException ("AutomaticHeaderFooter Module configuration file not found: " .$configFile);
-        }
-
     }
 
     /**
