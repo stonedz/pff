@@ -86,7 +86,7 @@ class ModuleManager {
             try {
                 $moduleConf = $this->_yamlParser->parse(file_get_contents($moduleFilePath));
 
-                if(isset($moduleConf['requires_php_extension'])){
+                if(isset($moduleConf['requires_php_extension']) && is_array($moduleConf['requires_php_extension'])){
                     $this->checkPhpExtensions($moduleConf['requires_php_extension']);
                 }
 
