@@ -10,7 +10,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', __DIR__. DS . '..');
 $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "off") ? "https" : "http";
-$ext_root =  $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$ext_root =  $protocol . "://" . $_SERVER['HTTP_HOST'].'/';
 
 define('EXT_ROOT', $ext_root);
 

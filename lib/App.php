@@ -247,6 +247,21 @@ class App {
     }
 
     /**
+     * Returns the external path of the application. For example http://www.xxx.com/base_path
+     *
+     * @return string
+     */
+    public function getExternalPath() {
+    if($this->_config->getConfigData('development_environment') == true) {
+        $extPath = EXT_ROOT.$this->_config->getConfigData('base_path_dev');
+    }
+    else {
+        $extPath = EXT_ROOT.$this->_config->getConfigData('base_path');
+    }
+        return $extPath;
+    }
+
+    /**
      * @param string $url
      */
     public function setUrl($url) {
