@@ -46,6 +46,12 @@ abstract class AView {
         $this->_cssFolder    = $this->_app->getExternalPath().'public'.DS.'css'.DS;
         $this->_imgFolder    = $this->_app->getExternalPath().'public'.DS.'img'.DS;
         $this->_jsFolder     = $this->_app->getExternalPath().'public'.DS.'js'.DS;
+
+        $this->set('pff_path_public',$this->_publicFolder);
+        $this->set('pff_path_css',$this->_cssFolder);
+        $this->set('pff_path_img',$this->_imgFolder);
+        $this->set('pff_path_js',$this->_jsFolder);
+        $this->set('pff_root_ext',$this->_app->getExternalPath());
     }
 
     abstract public function set($name, $value);

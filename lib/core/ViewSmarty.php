@@ -15,8 +15,8 @@ class ViewSmarty extends \pff\AView {
     private $_smarty;
 
     public function __construct($templateName, \pff\App $app) {
+        $this->_smarty               = new \Smarty(); // The smarty instance should be accessible before
         parent::__construct($templateName, $app);
-        $this->_smarty               = new \Smarty();
         $this->_smarty->template_dir = ROOT.DS.'app'.DS.'views'.DS.'smarty'.DS.'templates'.DS ;
         $this->_smarty->compile_dir  = ROOT.DS.'app'.DS.'views'.DS.'smarty'.DS.'compiled_templates'.DS ;
         $this->_smarty->config_dir   = ROOT.DS.'app'.DS.'views'.DS.'smarty'.DS.'configs'.DS ;
