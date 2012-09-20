@@ -3,6 +3,6 @@
 </head>
 <body>
     Sono uno smarty!
-    <div>{$titolo}</div>
+  <div>{$titolo}</div>
 </body>
 </html>

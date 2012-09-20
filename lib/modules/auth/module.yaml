@@ -1,0 +1,6 @@
+name: Auth
+version: "0.1"
+desc: User authentification module
+class: Auth
+requires:
+  - session

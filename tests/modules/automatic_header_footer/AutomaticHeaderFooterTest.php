@@ -28,13 +28,13 @@ class AutomaticHeaderFooterTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testReadConfigFile(){
-        $conf = $this->object->readConfig();
+        $conf = $this->object->readConfig('automatic_header_footer/module.conf.yaml');
         $this->assertArrayHasKey('moduleConf',$conf);
     }
 
     public function testReadConfigFailsWithInvalidFile() {
-        $this->setExpectedException('\\pff\\modules\\AutomaticHeaderFooterException');
-        $this->object->readConfig('i_do_not_exist_and_never_will.conf.jdjd');
+        $this->setExpectedException('\\pff\\ModuleException');
+        $this->object->readConfig('automatic_header_footer/i_do_not_exist_and_never_will.conf.jdjd');
     }
 
 }

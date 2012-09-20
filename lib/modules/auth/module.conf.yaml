@@ -1,0 +1,15 @@
+moduleConf:
+  # Class name of the model for the User
+  userModelClass: Test
+
+  # Attribute name used as username
+  usernameAttribute: username
+
+  # Method of the class to get the encrypted password
+  userGetPassword: getPassword
+
+  # Password encryption algorithm
+  passwordType: md5
+
+  # name of the session's var
+  sessionVarName: pff_looged

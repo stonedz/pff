@@ -35,7 +35,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testX() {
-        $this->setExpectedException('\\pff\\modules\\LoggerConfigException');
+        $this->setExpectedException('\\pff\\ModuleException');
         $this->object->reset();
         $this->object = \pff\modules\Logger::getInstance('nonononon.yaml');
     }

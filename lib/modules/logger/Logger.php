@@ -11,7 +11,7 @@ namespace pff\modules;
  * @author paolo.fagni<at>gmail.com
  */
 
-class Logger extends \pff\AModule{
+class Logger extends \pff\AModule implements \pff\IConfigurableModule {
 
     /**
      * Private Logger instance (Singleton)
@@ -65,7 +65,7 @@ class Logger extends \pff\AModule{
      *
      * @return Logger
      */
-    public static function getInstance($confFile = 'logger.conf.yaml') {
+    public static function getInstance($confFile = 'logger/logger.conf.yaml') {
         if (!isset(self::$_instance)) {
             $className       = __CLASS__;
             self::$_instance = new $className($confFile);

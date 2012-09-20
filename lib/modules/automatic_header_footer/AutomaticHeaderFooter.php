@@ -9,7 +9,7 @@ namespace pff\modules;
  */
 class AutomaticHeaderFooter
     extends \pff\AModule
-    implements \pff\IBeforeViewHook, \pff\IAfterHook {
+    implements \pff\IBeforeViewHook, \pff\IAfterHook, \pff\IConfigurableModule {
 
     /**
      * @var bool
@@ -44,9 +44,9 @@ class AutomaticHeaderFooter
      */
     public function loadConfig($parsedConfig) {
         $this->_footerController = $parsedConfig['moduleConf']['automatic_controller_footer'];
-        $this->_footerGlobal = $parsedConfig['moduleConf']['automatic_global_footer'];
+        $this->_footerGlobal     = $parsedConfig['moduleConf']['automatic_global_footer'];
         $this->_headerController = $parsedConfig['moduleConf']['automatic_controller_header'];
-        $this->_headerGlobal = $parsedConfig['moduleConf']['automatic_global_header'];
+        $this->_headerGlobal     = $parsedConfig['moduleConf']['automatic_global_header'];
     }
 
     /**

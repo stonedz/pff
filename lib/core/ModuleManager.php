@@ -148,7 +148,12 @@ class ModuleManager {
             return $this->_modules[$moduleName];
         }
         else {
-            throw new \pff\ModuleException("Cannot find requested module: $moduleName");
+            try{
+               $this->loadModule($moduleName);
+            }
+            catch(\Exception $e) {
+                throw new \pff\ModuleException("Cannot find requested module: $moduleName");
+            }
         }
     }
 
