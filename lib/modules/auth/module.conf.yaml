@@ -12,4 +12,4 @@ moduleConf:
   passwordType: md5
 
   # name of the session's var
-  sessionVarName: pff_looged
+  sessionVarName: pff_logged
