@@ -150,8 +150,9 @@ class App {
      * @throws \pff\RoutingException
      */
     public function addRoute($request, $destinationController) {
-        if(file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($destinationController).'_Controller.php')){
-            $this->_routes[$request] = ucfirst($destinationController);
+        $explodedDestination = explode('/', $destinationController);
+        if(file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($explodedDestination[0]).'_Controller.php')){
+            $this->_routes[$request] = $destinationController;
         }
         else{
             throw new \pff\RoutingException('Non existant MVC route specified: '.$destinationController);
@@ -178,11 +179,16 @@ class App {
      * Apply user-defined MVC routes.
      *
      * @param string $request
+     * @param null|string $action If the route has an action specified (ex. admin/show will be filled wiith "show")
      * @return bool True if a match is found
      */
-    public function applyRouting(&$request) {
+    public function applyRouting(&$request, &$action = null) {
         if(isset($this->_routes[$request])){
-            $request = $this->_routes[$request];
+            $explodedTarget = explode('/',$this->_routes[$request]);
+            if(isset($explodedTarget[1])) { // we have an action for this route!
+                $action = $explodedTarget[1];
+            }
+            $request = $explodedTarget[0];
             $request = ucfirst($request).'_Controller';
             return true;
         }
@@ -211,18 +217,21 @@ class App {
         // If present take the first element as the controller
         $tmpController = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
         // If present take the second element as the action
-        $action = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
+        //$action = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
+        $action = null;
 
         if($this->applyStaticRouting($tmpController)){
             $this->_hookManager->runBefore(); // Runs before controller hooks
             include(ROOT . DS . $tmpController);
             $this->_hookManager->runAfter(); // Runs after controller hooks
         }
-        elseif($this->applyRouting($tmpController)){
+        elseif($this->applyRouting($tmpController, $action)){
+            ($action === null)? $action = 'index':$action;
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
             $controller = new $tmpController($tmpController, $this, $action, $urlArray);
         }
         elseif(file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php')){
+            $action = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
             include (ROOT . DS . 'app' . DS . 'controllers' . DS .  ucfirst($tmpController).'_Controller.php');
             $controllerClassName = ucfirst($tmpController).'_Controller';
             $controller          = new $controllerClassName($tmpController, $this ,$action, $urlArray);

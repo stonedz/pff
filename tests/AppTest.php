@@ -63,7 +63,7 @@ class AppTest extends PHPUnit_Framework_TestCase {
         $this->object->addRoute('test', 'test');
         $tmp = $this->object->getRoutes();
         $this->assertArrayHasKey('test', $tmp);
-        $this->assertEquals('Test', $tmp['test']);
+        $this->assertEquals('test', $tmp['test']);
     }
 
     /**
