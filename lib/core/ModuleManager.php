@@ -74,10 +74,10 @@ class ModuleManager {
     }
 
     /**
-     * Loads a module and its dependencies
+     * Loads a module and its dependencies and then returns the module reference
      *
      * @param string $moduleName
-     * @return bool
+     * @return bool|\pff\AModule
      * @throws \pff\ModuleException
      */
     public function loadModule($moduleName) {
@@ -95,7 +95,8 @@ class ModuleManager {
                     $moduleName = strtolower($moduleConf['name']);
 
                     if(isset($this->_modules[$moduleName])) { //Module has already been loaded
-                        return true;
+                        return $this->_modules[$moduleName];
+                        //return true;
                     }
 
                     $this->_modules[$moduleName] = $tmpModule->newInstance();
@@ -116,6 +117,7 @@ class ModuleManager {
                             $this->_modules[$moduleName]->registerRequiredModule($this->_modules[$requiredModuleName]);
                         }
                     }
+                    return $this->_modules[$moduleName];
 
                 }
                 else {
