@@ -1,0 +1,5 @@
+moduleConf:
+  # The cypher used (ex "blowfish", "rijndael-128")
+  cypher: blowfish
+  # CHANGE THIS! UST CHANGE IT! This is the key used to encrypt/decrypt data
+  key: pleaseChangeThis

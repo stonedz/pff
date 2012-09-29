@@ -760,6 +760,7 @@ spl_autoload_register(
                 'pff\\modules\\authexception' => '/modules/auth/exceptions/AuthException.php',
                 'pff\\modules\\automaticheaderfooter' => '/modules/automatic_header_footer/AutomaticHeaderFooter.php',
                 'pff\\modules\\automaticheaderfooterexception' => '/modules/automatic_header_footer/exceptions/AutomaticHeaderFooterException.php',
+                'pff\\modules\\encryption' => '/modules/encryption/Encryption.php',
                 'pff\\modules\\exceptionhandler' => '/modules/exception_handler/ExceptionHandler.php',
                 'pff\\modules\\htmlpurifier' => '/modules/htmlpurifier/HtmlPurifier.php',
                 'pff\\modules\\logger' => '/modules/logger/Logger.php',

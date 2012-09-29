@@ -11,6 +11,7 @@ spl_autoload_register(
                 'apptest' => '/AppTest.php',
                 'automaticheaderfootertest' => '/modules/automatic_header_footer/AutomaticHeaderFooterTest.php',
                 'configtest' => '/ConfigTest.php',
+                'encryptiontest' => '/modules/encryption/EncryptionTest.php',
                 'hookmanagertest' => '/core/HookManagerTest.php',
                 'loggerfiletest' => '/modules/logger/custom_loggers/LoggerFileTest.php',
                 'loggertest' => '/modules/logger/LoggerTest.php',
