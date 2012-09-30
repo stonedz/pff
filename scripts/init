@@ -32,10 +32,24 @@ while getopts ":f" opt; do
     esac
 done
 
+
+# command line dependecies"
+CMDS="curlo phpab"
+
 #######################################
 # START
 #######################################
 fail=false
+
+# CHECK FOR DEPANDANCIES
+ 
+echo -ne "${CYAN}Checking dependencies..."
+for i in $CMDS
+do
+    # command -v will return >0 when the $i is not found
+    command -v $i >/dev/null && continue || { echo -e "${RED} $i command not found, please install it!."; exit 1; }
+done
+echo -e "${GREEN}[OK]"
 
 # COMPOSER
 if [ -f composer.phar -a "$1" != "-f" ]
