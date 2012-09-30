@@ -1,0 +1,6 @@
+name: Cookies
+version: "0.1"
+desc: Manages cookies
+class: Cookies
+requires:
+  - encryption

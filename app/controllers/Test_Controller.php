@@ -7,8 +7,15 @@ class Test_Controller extends \pff\AController
     public function index()
     {
         //$tmp = new \pff\models\Test();
-
-        $auth = new \pff\modules\Auth();
+        /**
+         * @var \pff\modules\Cookies
+         */
+        $cookieM = $this->_moduleManager->loadModule('cookies');
+        //$cookieM->setCookie('prova', 'unonono',1);
+        if ($p = $cookieM->getCookie('prova')) {
+            echo $p;
+            $cookieM->deleteCookie('prova');
+        }
 
         /**
          * @var \pff\AModel
