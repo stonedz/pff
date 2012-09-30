@@ -17,6 +17,20 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
     private $_selectedLanguage;
 
     /**
+     * If true saves the preferred language on cookies!
+     *
+     * @var bool
+     */
+    private $_saveOnCookies;
+
+    /**
+     * The name of the cookie to save
+     *
+     * @var string
+     */
+    private $_cookieName;
+
+    /**
      * Contains the specified default language, this could be overrider by $pffConfig['default_language']
      *
      * @var string
@@ -35,6 +49,8 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
     private function _loadConfig($parsedConfig)
     {
         $this->_defaultLang = $parsedConfig['moduleConf']['default_language'];
+        $this->_saveOnCookies = $parsedConfig['moduleConf']['save_on_cookies'];
+        $this->_cookieName = $parsedConfig['moduleConf']['cookie_name'];
     }
 
     /**
@@ -46,10 +62,19 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
     {
         $url = $this->_app->getUrl();
         $url = $this->processUrl($url);
+        if (is_null($this->_selectedLanguage)) { // No language code has been foud in URL request
+            $this->chooseLanguage();
+        }
         $this->_app->setUrl($url);
 
     }
 
+    /**
+     * Processes the url to find a language
+     *
+     * @param $url
+     * @return string
+     */
     public function processUrl($url)
     {
         $splittedUrl = explode('/', $url);
@@ -57,21 +82,46 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
 
         if (isset($langCodes[$splittedUrl[0]])) {
             $this->_selectedLanguage = array_shift($splittedUrl);
+            $this->saveLanguage();
+
             $processedUrl = implode('/', $splittedUrl);
         } else {
-            if (isset($this->_app)) {
-                try {
-                    $this->_selectedLanguage = $this->_app->getConfig()->getConfigData('default_language');
-                } catch (\pff\ConfigException $e) {
-                    $this->_selectedLanguage = $this->_defaultLang;
-                }
-            } else {
-                $this->_selectedLanguage = $this->_defaultLang;
-            }
-
             $processedUrl = $url;
         }
         return $processedUrl;
+    }
+
+    /**
+     * Saves the choosen language preference
+     */
+    private function saveLanguage()
+    {
+        if ($this->_saveOnCookies) {
+            $this->getRequiredModules('cookies')->setCookie($this->_cookieName, $this->_selectedLanguage, 30 * 24);
+        }
+    }
+
+    /**
+     * Chooses a default language. First check for cookies, then user configuration, then module configuration
+     *
+     * @TODO refactor this...
+     */
+    public function chooseLanguage()
+    {
+        if ($this->_saveOnCookies &&
+            $tmpLng = $this->getRequiredModules('cookies')->getCookie($this->_cookieName)
+        ) {
+
+            $this->_selectedLanguage = $tmpLng;
+        } elseif (isset($this->_app)) {
+            try {
+                $this->_selectedLanguage = $this->_app->getConfig()->getConfigData('default_language');
+            } catch (\pff\ConfigException $e) {
+                $this->_selectedLanguage = $this->_defaultLang;
+            }
+        } else {
+            $this->_selectedLanguage = $this->_defaultLang;
+        }
     }
 
     /**

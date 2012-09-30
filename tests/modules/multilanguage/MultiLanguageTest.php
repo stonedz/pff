@@ -31,5 +31,10 @@ class MultiLanguageTest extends PHPUnit_Framework_TestCase
     {
         $tmpUrl = $this->object->processUrl('controller/action/param1');
         $this->assertEquals('controller/action/param1', $tmpUrl);
+        $this->assertNull($this->object->getSelectedLanguage());
     }
+
+//    public function testDefaultLanguage() {
+//       $this->object->chooseLanguage();
+//    }
 }

@@ -2,3 +2,5 @@ name: MultiLanguage
 version: "0.1"
 desc: Manage multi language app
 class: MultiLanguage
+requires:
+  - cookies

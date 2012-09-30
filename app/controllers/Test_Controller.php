@@ -10,13 +10,15 @@ class Test_Controller extends \pff\AController
         /**
          * @var \pff\modules\Cookies
          */
-        $cookieM = $this->_moduleManager->loadModule('cookies');
+//        $cookieM = $this->_moduleManager->loadModule('cookies');
         //$cookieM->setCookie('prova', 'unonono',1);
-        if ($p = $cookieM->getCookie('prova')) {
-            echo $p;
-            $cookieM->deleteCookie('prova');
-        }
+//        if ($p = $cookieM->getCookie('prova')) {
+//            echo $p;
+//            $cookieM->deleteCookie('prova');
+//        }
 
+        $m = $this->_moduleManager->getModule('multilanguage');
+        echo 'iii '.$m->getSelectedLanguage();
         /**
          * @var \pff\AModel
          */
