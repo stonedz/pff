@@ -1,16 +1,16 @@
 <?php
 /**
- * Main configuration file, please define your
+ * App configuration file
  *
  * @author paolo.fagni<at>gmail.com
  */
 
-/**
+/*
  * The application name
  */
 $pffConfig['app_name'] = 'My new app';
 
-/**
+/*
  * Application base path.
  *
  * If your application is installed in a subdirectory and not in your site root
@@ -20,12 +20,12 @@ $pffConfig['app_name'] = 'My new app';
 $pffConfig['base_path'] = '';
 $pffConfig['base_path_dev'] = '';
 
-/**
+/*
  * Set to true if in DEBUG mode
  */
 $pffConfig['development_environment'] = true;
 
-/**
+/*
  * Dafault controller action
  */
 $pffConfig['default_action'] = 'index';
@@ -35,12 +35,12 @@ $pffConfig['default_action'] = 'index';
 // Database
 ///////////////////////////////////////
 
-/**
+/*
  * Set to false if you DON'T WANT Doctrine ORM module to be loaded.
  */
 $pffConfig['orm'] = true;
 
-/**
+/*
  * Db connection data.
  */
 $pffConfig['databaseConfig'] = array(
@@ -51,7 +51,7 @@ $pffConfig['databaseConfig'] = array(
     'driver' => '',
 );
 
-/**
+/*
  * Db connection data if DEVELOPMENT_ENVIRONMENT is true
  */
 $pffConfig['databaseConfigDev'] = array(
@@ -66,13 +66,9 @@ $pffConfig['databaseConfigDev'] = array(
 // Modules
 ///////////////////////////////////////
 
-/**
+/*
  * Modules to be loaded
  */
 $pffConfig['modules'] = array(
     'logger'
 );
-
-if (file_exists(ROOT . DS . 'app' . DS . 'config' . DS . 'config.user.php')) {
-    include (ROOT . DS . 'app' . DS . 'config' . DS . 'config.user.php');
-}

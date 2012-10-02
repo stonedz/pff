@@ -1,0 +1,3 @@
+moduleConf:
+  # If true encrypts the cookies
+  useEncryption: false

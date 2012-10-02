@@ -1,0 +1,8 @@
+moduleConf:
+  #The priority is controller > global
+  #Automaticcaly load the header|footer View in app/view/<controllerName>/<action>/header.[php|tpl]
+  automatic_controller_header:  true
+  automatic_controller_footer:  true
+  #Automaticcaly load the header|footer View in app/view/header.[php|tpl]
+  automatic_global_header:      true
+  automatic_global_footer:      true

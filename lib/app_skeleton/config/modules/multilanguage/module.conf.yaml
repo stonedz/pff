@@ -1,0 +1,5 @@
+moduleConf:
+  default_language: en
+  # If set to true saves the language
+  save_on_cookies: true
+  cookie_name: pff_language

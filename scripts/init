@@ -34,15 +34,14 @@ done
 
 
 # command line dependecies"
-CMDS="curlo phpab"
+CMDS="curl phpab"
 
 #######################################
 # START
 #######################################
 fail=false
 
-# CHECK FOR DEPANDANCIES
- 
+# CHECK FOR DEPENDENCIES
 echo -ne "${CYAN}Checking dependencies..."
 for i in $CMDS
 do
@@ -98,6 +97,18 @@ else
     fi
 fi
 
+# GENERATE app FOLDER
+echo -ne "\n${CYAN}Initializing app..."
+tmp=`pwd`
+cd ..
+if [ ! -d "app" ]
+then
+    cp -r lib/app_skeleton app/
+    echo -e "${GREEN}[OK]"
+else
+    echo -e "${GREEN}[OK]${NC} (app/ folder already present)"
+fi
+cd $tmp
 
 #Generate autoload files
 if ! command -v phpab &> /dev/null
@@ -112,6 +123,8 @@ else
     sh generateAutoload.sh &> /dev/null
     echo -e "${GREEN}[OK]"
 fi
+
+
 
 # Final message
 if [ "$fail" == "false" ]

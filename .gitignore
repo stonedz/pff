@@ -2,4 +2,4 @@
 cache.properties
 *.swp
 .netbeans
-app
+app/*
