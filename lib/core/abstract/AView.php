@@ -42,10 +42,10 @@ abstract class AView {
     public function __construct($templateName, \pff\App $app) {
         $this->_app          = $app;
         $this->_templateFile = $templateName;
-        $this->_publicFolder = $this->_app->getExternalPath().'public'.DS;
-        $this->_cssFolder    = $this->_app->getExternalPath().'public'.DS.'css'.DS;
-        $this->_imgFolder    = $this->_app->getExternalPath().'public'.DS.'img'.DS;
-        $this->_jsFolder     = $this->_app->getExternalPath().'public'.DS.'js'.DS;
+        $this->_publicFolder = $this->_app->getExternalPath().'app'.DS.'public'.DS;
+        $this->_cssFolder    = $this->_app->getExternalPath().'app'.DS.'public'.DS.'css'.DS;
+        $this->_imgFolder    = $this->_app->getExternalPath().'app'.DS.'public'.DS.'img'.DS;
+        $this->_jsFolder     = $this->_app->getExternalPath().'app'.DS.'public'.DS.'js'.DS;
 
         $this->set('pff_path_public',$this->_publicFolder);
         $this->set('pff_path_css',$this->_cssFolder);

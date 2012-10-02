@@ -191,19 +191,25 @@ abstract class AModule {
      */
     public function readConfig($configFile){
         $yamlParser = new \Symfony\Component\Yaml\Parser();
-        $confPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . $configFile;
-        if(file_exists($confPath)) {
-            try{
-                $conf = $yamlParser->parse(file_get_contents($confPath));
-            }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
-                throw new \pff\ModuleException("Unable to parse module configuration
-                                            file for AutomaticHeaderFooter module: ".$e->getMessage());
-            }
-            return $conf;
+        $userConfPath = ROOT . DS . 'app' . DS . 'config' . DS . 'modules' . DS . $configFile;
+        $libConfPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . $configFile;
+        if(file_exists($userConfPath)) {
+            $confPath = $userConfPath;
+        }
+        elseif(file_exists($libConfPath)) {
+            $confPath = $libConfPath;
         }
         else {
-            throw new \pff\ModuleException ("Module configuration file not found: " .$confPath);
+            throw new \pff\ModuleException ("Module configuration file not found!");
         }
+
+        try{
+            $conf = $yamlParser->parse(file_get_contents($confPath));
+        }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
+            throw new \pff\ModuleException("Unable to parse module configuration
+                                            file for AutomaticHeaderFooter module: ".$e->getMessage());
+        }
+        return $conf;
 
     }
 }

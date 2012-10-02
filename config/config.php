@@ -73,6 +73,6 @@ $pffConfig['modules'] = array(
     'logger'
 );
 
-if(file_exists(ROOT .DS .'config' . DS . 'config.user.php')) {
-    include (ROOT .DS .'config' . DS . 'config.user.php');
+if(file_exists(ROOT .DS .'app' . DS .'config' .DS. 'config.user.php')) {
+    include (ROOT .DS .'app' . DS . 'config' .DS.'config.user.php');
 }

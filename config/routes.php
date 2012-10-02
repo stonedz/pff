@@ -5,5 +5,8 @@
  * @author paolo.fagni<at>gmail.com
  */
 
-$app->addRoute('admin', 'test/anaction');
-$app->addStaticroute('tests','testPage.php');
+
+if(file_exists(ROOT .DS .'app' . DS .'config' .DS. 'routes.user.php')) {
+    include (ROOT .DS .'app' . DS . 'config' .DS.'routes.user.php');
+}
+
