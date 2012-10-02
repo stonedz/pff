@@ -104,6 +104,7 @@ cd ..
 if [ ! -d "app" ]
 then
     cp -r lib/app_skeleton app/
+    git init app/ &> /dev/null
     echo -e "${GREEN}[OK]"
 else
     echo -e "${GREEN}[OK]${NC} (app/ folder already present)"
