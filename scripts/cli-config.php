@@ -15,42 +15,42 @@ defined('APPLICATION_ENV')
 */
 
 // configuration (2)
- $config = new Doctrine\ORM\Configuration();
+$config = new Doctrine\ORM\Configuration();
 
 // Proxies (3)
- $config->setProxyDir('../app/proxies');
- $config->setProxyNamespace('pff\proxies');
+$config->setProxyDir('../app/proxies');
+$config->setProxyNamespace('pff\proxies');
 
- $config->setAutoGenerateProxyClasses((APPLICATION_ENV == "development"));
+$config->setAutoGenerateProxyClasses((APPLICATION_ENV == "development"));
 
 // Driver (4)
- $driverImpl = $config->newDefaultAnnotationDriver(array('../app/models'));
- $config->setMetadataDriverImpl($driverImpl);
+$driverImpl = $config->newDefaultAnnotationDriver(array('../app/models'));
+$config->setMetadataDriverImpl($driverImpl);
 
 // Caching Configuration (5)
- if (APPLICATION_ENV == "development") {
+if (APPLICATION_ENV == "development") {
 
-     $cache = new \Doctrine\Common\Cache\ArrayCache();
+    $cache = new \Doctrine\Common\Cache\ArrayCache();
 
- } else {
+} else {
 
-     $cache = new \Doctrine\Common\Cache\ApcCache();
- }
+    $cache = new \Doctrine\Common\Cache\ApcCache();
+}
 
- $config->setMetadataCacheImpl($cache);
- $config->setQueryCacheImpl($cache);
+$config->setMetadataCacheImpl($cache);
+$config->setQueryCacheImpl($cache);
 
- $connectionOptions = array(
-     'dbname' => 'testDb',
-     'user' => 'root',
-     'password' => 'TYte2006',
-     'host' => 'localhost',
-     'driver' => 'pdo_mysql'
-     );
+$connectionOptions = array(
+    'dbname' => 'testDb',
+    'user' => 'root',
+    'password' => '',
+    'host' => 'localhost',
+    'driver' => 'pdo_mysql'
+);
 
- $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
+$em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
 
- $helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
-     'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($em->getConnection()),
-     'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em)
- ));
+$helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
+    'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($em->getConnection()),
+    'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em)
+));
