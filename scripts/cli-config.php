@@ -4,7 +4,7 @@
  * @author paolo.fagni<at>gmail.com
  */
 require '../lib/autoload.php';
-
+require '../app/config/config.user.php';
 
 // Define application environment
 define('APPLICATION_ENV', "development");
@@ -40,13 +40,12 @@ if (APPLICATION_ENV == "development") {
 $config->setMetadataCacheImpl($cache);
 $config->setQueryCacheImpl($cache);
 
-$connectionOptions = array(
-    'dbname' => 'testDb',
-    'user' => 'root',
-    'password' => '',
-    'host' => 'localhost',
-    'driver' => 'pdo_mysql'
-);
+if ($pffConfig['development_environment'] == true) {
+    $connectionOptions = $pffConfig['databaseConfigDev'];
+} else {
+    $connectionOptions = $pffConfig['databaseConfig'];
+}
+
 
 $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
 
