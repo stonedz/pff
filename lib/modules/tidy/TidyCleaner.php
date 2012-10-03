@@ -35,7 +35,7 @@ class TidyCleaner extends \pff\AModule implements \pff\IBeforeViewHook, \pff\IAf
         $config = array(
             'show-body-only' => false,
             'clean' => true,
-            'char-encoding' => 'utf8',
+            'char-encoding' => 'UTF8',
             'add-xml-decl' => true,
             'add-xml-space' => true,
             'output-html' => false,
@@ -78,8 +78,9 @@ class TidyCleaner extends \pff\AModule implements \pff\IBeforeViewHook, \pff\IAf
             'repeated-attributes' => 'keep-last',
             'break-before-br' => true,
         );
+        header('Content-type: text/html; charset=utf-8');
         $tidy = new \tidy();
-        $tidy->parseString($output, $config, 'utf8');
+        $tidy->parseString($output, $config, 'UTF8');
         $tidy->cleanRepair();
         return $tidy;
         // Output
