@@ -7,26 +7,28 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class FView {
+class FView
+{
 
     /**
      * Gets an AView object
      *
      * @static
      * @param string $templateName The name of the template
+     * @param App $app
      * @param string $templateType Te type of the template
      * @return \pff\AView
      */
-    static public function create($templateName,\pff\App $app, $templateType = null) {
+    static public function create($templateName, \pff\App $app, $templateType = null)
+    {
 
-        if($templateType === null) {
-            $templateType = end(explode('.',$templateName));
-        }
-        else {
+        if ($templateType === null) {
+            $templateType = end(explode('.', $templateName));
+        } else {
             $templateType = strtolower($templateType);
         }
 
-        switch($templateType) {
+        switch ($templateType) {
             case 'php':
                 return new \pff\ViewPHP($templateName, $app);
                 break;
