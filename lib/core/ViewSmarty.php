@@ -13,7 +13,7 @@ class ViewSmarty extends \pff\AView
     /**
      * @var \Smarty
      */
-    private $_smarty;
+    protected $_smarty;
 
     public function __construct($templateName, \pff\App $app)
     {

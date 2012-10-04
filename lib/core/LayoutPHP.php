@@ -3,14 +3,15 @@
 namespace pff;
 
 /**
- * Layout system
+ * Layout system with PHP templates
  *
  * A layout is a specific type of View: it represents a common layout with most
  * of its elements fixed and a few placeholders to render custom views.
  *
  * @author paolo.fagni<at>gmail.com
  */
-class LayoutPHP extends \pff\ViewPHP {
+class LayoutPHP extends \pff\ViewPHP
+{
 
     /**
      * @var \pff\AView[]
@@ -22,7 +23,8 @@ class LayoutPHP extends \pff\ViewPHP {
      *
      * @param \pff\AView $view
      */
-    public function addContent(\pff\AView $view) {
+    public function addContent(\pff\AView $view)
+    {
         $this->_contentView[] = $view;
     }
 
@@ -34,7 +36,8 @@ class LayoutPHP extends \pff\ViewPHP {
      *
      * @param int $index
      */
-    public function content($index = 0) {
+    public function content($index = 0)
+    {
         $this->_contentView[$index]->render();
     }
 }
