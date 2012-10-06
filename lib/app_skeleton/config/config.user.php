@@ -49,6 +49,9 @@ $pffConfig['databaseConfig'] = array(
     'password' => '',
     'host' => '',
     'driver' => '',
+    'driverOptions' => array(
+        1002 => 'SET NAMES utf8'
+    )
 );
 
 /*
@@ -60,6 +63,9 @@ $pffConfig['databaseConfigDev'] = array(
     'password' => '',
     'host' => '',
     'driver' => '',
+    'driverOptions' => array(
+        1002 => 'SET NAMES utf8'
+    )
 );
 
 ///////////////////////////////////////
