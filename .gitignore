@@ -4,3 +4,5 @@ cache.properties
 .netbeans
 app
 nbproject
+lib/autoload.php
+tests/autoload.php
