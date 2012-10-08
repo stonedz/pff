@@ -8,12 +8,11 @@
 ?>
 <html>
 <head>
-    <title>Ooops!</title>
+    <title>404 - Not Found</title>
 </head>
 
 <body>
-    <div><h2><?=$title?></h2></div>
-    <div><?=$message?></div>
-    <div><?=$message_dev?></div>
+<div><h2><?php echo 'Page not found';?></h2></div>
+<div><?=$message?></div>
 </body>
 </html>

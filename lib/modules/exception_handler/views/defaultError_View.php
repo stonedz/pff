@@ -12,11 +12,8 @@
 </head>
 
 <body>
-<div><h2><?=$title?></h2></div>
+<div><h2><?php echo 'Error!'; ?></h2></div>
 <div><?=$message?></div>
-<strong>Tou are in dev mode! Error message below!</strong>
-
-<div><?=$message_dev?></div>
 </body>
 </html>
 
