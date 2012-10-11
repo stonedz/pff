@@ -4,6 +4,7 @@
         "behat/mink": "dev-master",
         "symfony/yaml": "dev-master",
         "symfony/console": "dev-master",
-        "smarty/smarty": "dev-master"
+        "smarty/smarty": "dev-master",
+        "swiftmailer/swiftmailer": "4.2.1"
     }
 }
