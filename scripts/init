@@ -127,7 +127,7 @@ else
 
 cd scripts
 ./update
-cd.." > post-merge
+cd .." > post-merge
     chmod +x post-merge
     echo -e "${GREEN}[OK]"
 fi
