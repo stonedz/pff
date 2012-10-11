@@ -1,0 +1,35 @@
+#!/bin/bash
+
+green='\e[0;32m'
+GREEN='\e[1;32m'
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Color
+
+echo -e "${GREEN}========== \n${BLUE} pf${RED}f ${BLUE}update \n${GREEN}=========="
+
+
+echo -e "${CYAN}Checking for updated modules configuration..."
+cd ..
+
+for module in `ls lib/app_skeleton/config/modules/`; do
+    if [ ! -d 'app/config/modules/'${module} ]; then
+        echo -ne "${CYAN}New module configuration for "${module}"..."
+        cp -r 'lib/app_skeleton/config/modules/'${module} 'app/config/modules/'
+        echo -e "${GREEN}[COPIED]"
+    else
+        diff 'lib/app_skeleton/config/modules/'${module}'/module.conf.yaml' \
+            'app/config/modules/'${module}'/module.conf.yaml' &> /dev/null
+
+        if [ $? -ne 0 ] ; then
+           echo -e ${red}"- "${module}" configuration in app/config/modules/${module} differs, chek it!"
+        fi
+
+    fi
+done
+
+echo -e ${NC}
