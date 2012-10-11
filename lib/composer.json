@@ -5,6 +5,6 @@
         "symfony/yaml": "dev-master",
         "symfony/console": "dev-master",
         "smarty/smarty": "dev-master",
-        "codegun/phpmailer-lite": "dev-master"
+        "swiftmailer/swiftmailer": "4.2.1"
     }
 }

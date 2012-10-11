@@ -1,6 +1,4 @@
-name: Cookies
+name: Mail
 version: "0.1"
-desc: Manages cookies
-class: Cookies
-requires:
-  - encryption
+desc: Manages mails
+class: Mail
