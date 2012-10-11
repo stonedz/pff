@@ -34,7 +34,7 @@ done
 
 
 # command line dependecies"
-CMDS="curl phpab"
+CMDS="curl"
 
 #######################################
 # START
@@ -56,7 +56,7 @@ then
     echo -e "\n${GREEN}* [OK] ${BLUE}Composer is already installed"
 else
     echo -ne "\n${CYAN}Installing Composer..."
-    curl -s http://getcomposer.org/installer | php
+    curl -s http://getcomposer.org/installer | php &> /dev/null
     echo -e "${GREEN}[OK]"
 fi
 
@@ -111,6 +111,28 @@ else
 fi
 cd $tmp
 
+#GIT Hooks
+echo -ne "\n${CYAN}Installing git post-merge hook..."
+tmp=`pwd`
+cd ../.git/hooks
+if [ -x post-merge ];
+then
+    echo -e "${red}[WARNING] ${NC}post-merge hook seems to be already installed, please add the following lines to .git/hooks/post-merge if needed:\n
+    cd scripts
+    ./update
+    cd .."
+else
+    touch post-merge
+    echo "#!/bin/bash
+
+cd scripts
+./update
+cd.." > post-merge
+    chmod +x post-merge
+    echo -e "${GREEN}[OK]"
+fi
+cd ${tmp}
+
 #Generate autoload files
 if ! command -v phpab &> /dev/null
 then
@@ -132,5 +154,5 @@ if [ "$fail" == "false" ]
 then
     echo -e "\n${NC}Everything should be in place :D Have fun!"
 else
-    echo -e "\n${red}Something went wrong!"
+    echo -e "\n${red}Something went wrong!${NC}"
 fi
