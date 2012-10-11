@@ -81,60 +81,65 @@ class ModuleManager {
      * @throws \pff\ModuleException
      */
     public function loadModule($moduleName) {
-        $moduleFilePath = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName. DS .'module.yaml';
-        if (file_exists($moduleFilePath)){
-            try {
-                $moduleConf = $this->_yamlParser->parse(file_get_contents($moduleFilePath));
+        $moduleFilePathUser = ROOT . DS . 'app' . DS . 'modules' . DS . $moduleName . DS .'module.yaml';
+        $moduleFilePathPff = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName. DS .'module.yaml';
 
-                if(isset($moduleConf['requires_php_extension']) && is_array($moduleConf['requires_php_extension'])){
-                    $this->checkPhpExtensions($moduleConf['requires_php_extension']);
-                }
-
-                $tmpModule  = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
-                if ($tmpModule->isSubclassOf('\\pff\\AModule')) {
-                    $moduleName = strtolower($moduleConf['name']);
-
-                    if(isset($this->_modules[$moduleName])) { //Module has already been loaded
-                        return $this->_modules[$moduleName];
-                        //return true;
-                    }
-
-                    $this->_modules[$moduleName] = $tmpModule->newInstance();
-                    $this->_modules[$moduleName]->setModuleName($moduleConf['name']);
-                    $this->_modules[$moduleName]->setModuleVersion($moduleConf['version']);
-                    $this->_modules[$moduleName]->setModuleDescription($moduleConf['desc']);
-                    $this->_modules[$moduleName]->setConfig($this->_config);
-                    $this->_modules[$moduleName]->setApp($this->_app);
-
-                    if($tmpModule->isSubclassOf('\pff\IHookProvider') && $this->_hookManager !== null){
-                        $this->_hookManager->registerHook($this->_modules[$moduleName]);
-                    }
-
-                    if(isset ($moduleConf['requires']) && is_array($moduleConf['requires'])){
-                        $this->_modules[$moduleName]->setModuleRequirements($moduleConf['requires']);
-                        foreach ($moduleConf['requires'] as $requiredModuleName) {
-                            $this->loadModule($requiredModuleName);
-                            $this->_modules[$moduleName]->registerRequiredModule($this->_modules[$requiredModuleName]);
-                        }
-                    }
-                    return $this->_modules[$moduleName];
-
-                }
-                else {
-                    throw new \pff\ModuleException("Invalid module: ".$moduleConf['name']);
-                }
-            }
-            catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
-                throw new \pff\ModuleException("Unable to parse module configuration
-                                                    file for $moduleName: ".$e->getMessage());
-            }
-            catch( \ReflectionException $e) {
-                throw new \pff\ModuleException("Unable to create module instance: ". $e->getMessage());
-            }
-        }
-        else {
+        if(file_exists($moduleFilePathUser)){
+            $moduleFilePath = $moduleFilePathUser;
+        }elseif(file_exists($moduleFilePathPff)){
+            $moduleFilePath = $moduleFilePathPff;
+        }else{
             throw new \pff\ModuleException("Specified module \"".$moduleName."\" does not exist");
         }
+        try {
+            $moduleConf = $this->_yamlParser->parse(file_get_contents($moduleFilePath));
+
+            if(isset($moduleConf['requires_php_extension']) && is_array($moduleConf['requires_php_extension'])){
+                $this->checkPhpExtensions($moduleConf['requires_php_extension']);
+            }
+
+            $tmpModule  = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
+            if ($tmpModule->isSubclassOf('\\pff\\AModule')) {
+                $moduleName = strtolower($moduleConf['name']);
+
+                if(isset($this->_modules[$moduleName])) { //Module has already been loaded
+                    return $this->_modules[$moduleName];
+                    //return true;
+                }
+
+                $this->_modules[$moduleName] = $tmpModule->newInstance();
+                $this->_modules[$moduleName]->setModuleName($moduleConf['name']);
+                $this->_modules[$moduleName]->setModuleVersion($moduleConf['version']);
+                $this->_modules[$moduleName]->setModuleDescription($moduleConf['desc']);
+                $this->_modules[$moduleName]->setConfig($this->_config);
+                $this->_modules[$moduleName]->setApp($this->_app);
+
+                if($tmpModule->isSubclassOf('\pff\IHookProvider') && $this->_hookManager !== null){
+                    $this->_hookManager->registerHook($this->_modules[$moduleName]);
+                }
+
+                if(isset ($moduleConf['requires']) && is_array($moduleConf['requires'])){
+                    $this->_modules[$moduleName]->setModuleRequirements($moduleConf['requires']);
+                    foreach ($moduleConf['requires'] as $requiredModuleName) {
+                        $this->loadModule($requiredModuleName);
+                        $this->_modules[$moduleName]->registerRequiredModule($this->_modules[$requiredModuleName]);
+                    }
+                }
+                return $this->_modules[$moduleName];
+
+            }
+            else {
+                throw new \pff\ModuleException("Invalid module: ".$moduleConf['name']);
+            }
+        }
+        catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
+            throw new \pff\ModuleException("Unable to parse module configuration
+                                                file for $moduleName: ".$e->getMessage());
+        }
+        catch( \ReflectionException $e) {
+            throw new \pff\ModuleException("Unable to create module instance: ". $e->getMessage());
+        }
+
     }
 
     /**
