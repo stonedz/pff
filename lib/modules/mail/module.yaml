@@ -1,0 +1,4 @@
+name: Mail
+version: "0.1"
+desc: Manages mails
+class: Mail
