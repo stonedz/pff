@@ -34,7 +34,7 @@ class Mail extends \pff\AModule
     private function loadConfig($parsedConfig)
     {
         if(isset($parsedConfig['moduleConf']['Type']) && $parsedConfig['moduleConf']['Type'] == "smtp"){
-
+            
             $this->transport = \Swift_SmtpTransport::newInstance();
 
             if(isset($parsedConfig['moduleConf']['Host']) && $parsedConfig['moduleConf']['Host'] != ""){
@@ -77,7 +77,9 @@ class Mail extends \pff\AModule
         $this->message->setFrom(array($from => $fromName));
         $this->message->setSubject($subject);
         $this->message->setBody($body);
-        $this->message->attach($attachment);
+        $this->message->setCharset("UTF-8");
+        $this->message->setContentType("text/html");
+        //$this->message->attach($attachment);
         return $this->mailer->send($this->message);
     }
 }

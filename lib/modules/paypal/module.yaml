@@ -1,0 +1,6 @@
+name: Paypal
+version: "0.1"
+desc: A Curl wrapper to send get and post requests
+class: Paypal
+requires_php_extension:
+  - curl  

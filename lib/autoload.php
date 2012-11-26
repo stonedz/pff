@@ -776,6 +776,8 @@ spl_autoload_register(
                 'pff\\modules\\md5passwordchecker' => '/modules/auth/password_checkers/md5PasswordChecker.php',
                 'pff\\modules\\multilanguage' => '/modules/multilanguage/MultiLanguage.php',
                 'pff\\modules\\networkhelper' => '/modules/network_helper/NetworkHelper.php',
+                'pff\\modules\\paypal' => '/modules/paypal/Paypal.php',
+                'pff\\modules\\paypalexception' => '/modules/paypal/exceptions/PaypalException.php',
                 'pff\\modules\\session' => '/modules/session/Session.php',
                 'pff\\modules\\test' => '/modules/test/Test.php',
                 'pff\\modules\\tidycleaner' => '/modules/tidy/TidyCleaner.php',
