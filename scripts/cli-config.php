@@ -4,6 +4,7 @@
  * @author paolo.fagni<at>gmail.com
  */
 require '../lib/autoload.php';
+require '../app/autoload.php';
 require '../app/config/config.user.php';
 
 // Define application environment
