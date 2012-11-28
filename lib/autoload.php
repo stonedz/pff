@@ -779,6 +779,7 @@ spl_autoload_register(
                 'pff\\modules\\session' => '/modules/session/Session.php',
                 'pff\\modules\\test' => '/modules/test/Test.php',
                 'pff\\modules\\tidycleaner' => '/modules/tidy/TidyCleaner.php',
+                'pff\\modules\\url' => '/modules/url/Url.php',
                 'pff\\pffexception' => '/exceptions/PffException.php',
                 'pff\\routingexception' => '/exceptions/RoutingException.php',
                 'pff\\viewexception' => '/exceptions/ViewException.php',
