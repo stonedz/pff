@@ -1,0 +1,4 @@
+name: Url
+version: "0.1"
+desc: Gestore di url
+class: Url
