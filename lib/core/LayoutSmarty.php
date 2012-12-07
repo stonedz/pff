@@ -41,7 +41,9 @@ class LayoutSmarty extends \pff\ViewSmarty
             $params['index'] = 0;
         }
 
-        $this->_contentView[$params['index']]->render();
+        if (is_a($this->_contentView[$params['index']], '\\pff\\AView')) {
+            $this->_contentView[$params['index']]->render();
+        }
     }
 
 

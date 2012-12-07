@@ -97,5 +97,4 @@ class LoggerFile extends \pff\modules\ALogger{
     public function getFp() {
         return $this->_fp;
     }
-
 }
