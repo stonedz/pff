@@ -23,7 +23,8 @@ class FView
     {
 
         if ($templateType === null) {
-            $templateType = end(explode('.', $templateName));
+            $tmp = explode('.', $templateName);
+            $templateType = $tmp[count($tmp)-1];
         } else {
             $templateType = strtolower($templateType);
         }
