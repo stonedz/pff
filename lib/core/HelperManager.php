@@ -20,6 +20,7 @@ class HelperManager
     {
         $helperFilePathUser = ROOT . DS . 'app' . DS . 'helpers' . DS . $helperName . '.php';
         $helperFilePathPff = ROOT . DS . 'lib' . DS . 'helpers' . DS . $helperName . '.php';
+
         $found = false;
 
         if (file_exists($helperFilePathUser)) {

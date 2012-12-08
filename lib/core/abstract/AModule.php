@@ -7,7 +7,8 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-abstract class AModule {
+abstract class AModule
+{
 
     /**
      * The module name
@@ -64,42 +65,48 @@ abstract class AModule {
     /**
      * @param string $moduleName
      */
-    public function setModuleName($moduleName) {
+    public function setModuleName($moduleName)
+    {
         $this->_moduleName = $moduleName;
     }
 
     /**
      * @return string
      */
-    public function getModuleName() {
+    public function getModuleName()
+    {
         return $this->_moduleName;
     }
 
     /**
      * @param string $moduleVersion
      */
-    public function setModuleVersion($moduleVersion) {
+    public function setModuleVersion($moduleVersion)
+    {
         $this->_moduleVersion = $moduleVersion;
     }
 
     /**
      * @return string
      */
-    public function getModuleVersion() {
+    public function getModuleVersion()
+    {
         return $this->_moduleVersion;
     }
 
     /**
      * @return string
      */
-    public function getModuleDescription() {
+    public function getModuleDescription()
+    {
         return $this->_moduleDescription;
     }
 
     /**
      * @param string $moduleDescription
      */
-    public function setModuleDescription($moduleDescription) {
+    public function setModuleDescription($moduleDescription)
+    {
         $this->_moduleDescription = $moduleDescription;
     }
 
@@ -108,7 +115,8 @@ abstract class AModule {
      *
      * @param \pff\AModule $module
      */
-    public function registerRequiredModule(\pff\AModule $module) {
+    public function registerRequiredModule(\pff\AModule $module)
+    {
         $this->_requiredModules[strtolower($module->getModuleName())] = $module;
     }
 
@@ -118,9 +126,10 @@ abstract class AModule {
      * @param string $moduleName
      * @return \pff\AModule
      */
-    public function getRequiredModules($moduleName) {
+    public function getRequiredModules($moduleName)
+    {
         $moduleName = strtolower($moduleName);
-        if(isset($this->_requiredModules[$moduleName])) {
+        if (isset($this->_requiredModules[$moduleName])) {
             return $this->_requiredModules[$moduleName];
         }
     }
@@ -128,56 +137,64 @@ abstract class AModule {
     /**
      * @param array $moduleRequirements
      */
-    public function setModuleRequirements($moduleRequirements) {
+    public function setModuleRequirements($moduleRequirements)
+    {
         $this->_moduleRequirements = $moduleRequirements;
     }
 
     /**
      * @return array
      */
-    public function getModuleRequirements() {
+    public function getModuleRequirements()
+    {
         return $this->_moduleRequirements;
     }
 
     /**
      * @param \pff\Config $config
      */
-    public function setConfig($config) {
+    public function setConfig($config)
+    {
         $this->_config = $config;
     }
 
     /**
      * @return \pff\Config
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return $this->_config;
     }
 
     /**
      * @param \pff\AController $controller
      */
-    public function setController($controller) {
+    public function setController($controller)
+    {
         $this->_controller = $controller;
     }
 
     /**
      * @return \pff\AController
      */
-    public function getController() {
+    public function getController()
+    {
         return $this->_controller;
     }
 
     /**
      * @param \pff\App $app
      */
-    public function setApp($app) {
+    public function setApp($app)
+    {
         $this->_app = $app;
     }
 
     /**
      * @return \pff\App
      */
-    public function getApp() {
+    public function getApp()
+    {
         return $this->_app;
     }
 
@@ -189,25 +206,24 @@ abstract class AModule {
      * @throws \pff\ModuleException
      * @return array
      */
-    public function readConfig($configFile){
+    public function readConfig($configFile)
+    {
         $yamlParser = new \Symfony\Component\Yaml\Parser();
         $userConfPath = ROOT . DS . 'app' . DS . 'config' . DS . 'modules' . DS . $configFile;
-        $libConfPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . $configFile;
-        if(file_exists($userConfPath)) {
+        $libConfPath = ROOT . DS . 'lib' . DS . 'modules' . DS . $configFile;
+        if (file_exists($userConfPath)) {
             $confPath = $userConfPath;
-        }
-        elseif(file_exists($libConfPath)) {
+        } elseif (file_exists($libConfPath)) {
             $confPath = $libConfPath;
-        }
-        else {
+        } else {
             throw new \pff\ModuleException ("Module configuration file not found!");
         }
 
-        try{
+        try {
             $conf = $yamlParser->parse(file_get_contents($confPath));
-        }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
+        } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
             throw new \pff\ModuleException("Unable to parse module configuration
-                                            file for AutomaticHeaderFooter module: ".$e->getMessage());
+                                            file for AutomaticHeaderFooter module: " . $e->getMessage());
         }
         return $conf;
 

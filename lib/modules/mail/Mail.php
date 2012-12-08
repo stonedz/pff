@@ -33,36 +33,36 @@ class Mail extends \pff\AModule
      */
     private function loadConfig($parsedConfig)
     {
-        if(isset($parsedConfig['moduleConf']['Type']) && $parsedConfig['moduleConf']['Type'] == "smtp"){
+
+        if (isset($parsedConfig['moduleConf']['Type']) && $parsedConfig['moduleConf']['Type'] == "smtp") {
 
             $this->transport = \Swift_SmtpTransport::newInstance();
 
-            if(isset($parsedConfig['moduleConf']['Host']) && $parsedConfig['moduleConf']['Host'] != ""){
+            if (isset($parsedConfig['moduleConf']['Host']) && $parsedConfig['moduleConf']['Host'] != "") {
                 $this->transport->setHost($parsedConfig['moduleConf']['Host']);
             }
 
-            if(isset($parsedConfig['moduleConf']['Port']) && $parsedConfig['moduleConf']['Port'] != ""){
+            if (isset($parsedConfig['moduleConf']['Port']) && $parsedConfig['moduleConf']['Port'] != "") {
                 $this->transport->setPort($parsedConfig['moduleConf']['Port']);
             }
 
-            if(isset($parsedConfig['moduleConf']['Username']) && $parsedConfig['moduleConf']['Username'] != ""){
+            if (isset($parsedConfig['moduleConf']['Username']) && $parsedConfig['moduleConf']['Username'] != "") {
                 $this->transport->setUsername($parsedConfig['moduleConf']['Username']);
             }
 
-            if(isset($parsedConfig['moduleConf']['Password']) && $parsedConfig['moduleConf']['Password'] != ""){
+            if (isset($parsedConfig['moduleConf']['Password']) && $parsedConfig['moduleConf']['Password'] != "") {
                 $this->transport->setPassword($parsedConfig['moduleConf']['Password']);
             }
 
-            if(isset($parsedConfig['moduleConf']['Encryption']) && $parsedConfig['moduleConf']['Encryption'] != ""){
+            if (isset($parsedConfig['moduleConf']['Encryption']) && $parsedConfig['moduleConf']['Encryption'] != "") {
                 $this->transport->setEncryption($parsedConfig['moduleConf']['Encryption']);
             }
 
-        }
-        elseif(isset($parsedConfig['moduleConf']['Type']) && $parsedConfig['moduleConf']['Type'] == "sendmail"){
+        } elseif (isset($parsedConfig['moduleConf']['Type']) && $parsedConfig['moduleConf']['Type'] == "sendmail") {
 
             $this->transport = \Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
 
-        }else{
+        } else {
 
             $this->transport = \Swift_MailTransport::newInstance();
 

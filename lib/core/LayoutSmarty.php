@@ -45,6 +45,4 @@ class LayoutSmarty extends \pff\ViewSmarty
             $this->_contentView[$params['index']]->render();
         }
     }
-
-
 }

@@ -7,10 +7,12 @@ namespace pff\modules;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class NetworkHelper extends \pff\Amodule {
+class NetworkHelper extends \pff\Amodule
+{
 
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
@@ -21,8 +23,9 @@ class NetworkHelper extends \pff\Amodule {
      * @param array|null $headers Optional headers to be passed to the request
      * @return array Request response
      */
-    public function doGet($url, $port=80, $headers=NULL) {
-        $retarr = array();  // Return value
+    public function doGet($url, $port = 80, $headers = NULL)
+    {
+        $retarr = array(); // Return value
 
         $curl_opts = array(CURLOPT_URL => $url,
             CURLOPT_PORT => $port,
@@ -53,8 +56,9 @@ class NetworkHelper extends \pff\Amodule {
      * @param array|null $headers Optional headers to be passed to the request
      * @return array Request response
      */
-    public function doPost($url, $postbody, $port=80, $headers=NULL) {
-        $retarr = array();  // Return value
+    public function doPost($url, $postbody, $port = 80, $headers = NULL)
+    {
+        $retarr = array(); // Return value
 
         $curl_opts = array(CURLOPT_URL => $url,
             CURLOPT_PORT => $port,
@@ -83,8 +87,9 @@ class NetworkHelper extends \pff\Amodule {
      * @param array $curl_opts Curl options array
      * @return array Curl request response
      */
-    public function doCurl($curl_opts) {
-        $retarr = array();  // Return value
+    public function doCurl($curl_opts)
+    {
+        $retarr = array(); // Return value
 
         if (!$curl_opts) {
             return $retarr;

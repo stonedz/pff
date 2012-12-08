@@ -78,10 +78,10 @@ class Auth extends \pff\AModule implements \pff\IConfigurableModule
         switch ($this->_encryptionMethod) {
             case 'md5':
             case 'MD5':
-                $this->_encryptionStrategy = new \pff\modules\md5PasswordChecker();
+                $this->_encryptionStrategy = new Md5PasswordChecker();
                 break;
             default : // If no encrytion is selected choose md5
-                $this->_encryptionStrategy = new \pff\modules\md5PasswordChecker();
+                $this->_encryptionStrategy = new Md5PasswordChecker();
                 break;
         }
     }
@@ -146,5 +146,4 @@ class Auth extends \pff\AModule implements \pff\IConfigurableModule
     {
         $_SESSION[$this->_sessionVarName] = 1;
     }
-
 }

@@ -78,5 +78,4 @@ class Encryption extends \pff\AModule
         }
         return trim($plaintext);
     }
-
 }

@@ -56,16 +56,15 @@ class App
      * @param HookManager $hookManager
      */
     public function __construct($url,
-                                \pff\Config $config,
-                                \pff\ModuleManager $moduleManager,
-                                \pff\HookManager $hookManager)
+                                Config $config,
+                                ModuleManager $moduleManager,
+                                HookManager $hookManager)
     {
         $this->setUrl($url);
         $this->_config = $config;
         $this->_hookManager = $hookManager;
         $this->_moduleManager = $moduleManager;
         $this->_moduleManager->setApp($this);
-
 
         /*
          * ModuleManager needs a HooklManager instance to initialize modules
@@ -149,7 +148,7 @@ class App
         if (file_exists(ROOT . DS . 'app' . DS . 'pages' . DS . $destinationPage)) {
             $this->_staticRoutes[$request] = $destinationPage;
         } else {
-            throw new \pff\RoutingException('Non existant static route specified: ' . $destinationPage);
+            throw new RoutingException('Non existant static route specified: ' . $destinationPage);
         }
     }
 
@@ -166,7 +165,7 @@ class App
         if (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($explodedDestination[0]) . '_Controller.php')) {
             $this->_routes[$request] = $destinationController;
         } else {
-            throw new \pff\RoutingException('Non existant MVC route specified: ' . $destinationController);
+            throw new RoutingException('Non existant MVC route specified: ' . $destinationController);
         }
 
     }
@@ -248,7 +247,7 @@ class App
             $controllerClassName = ucfirst($tmpController) . '_Controller';
             $controller = new $controllerClassName($tmpController, $this, $action, $urlArray);
         } else {
-            throw new \pff\RoutingException('Cannot find a valid controller.', 404);
+            throw new RoutingException('Cannot find a valid controller.', 404);
         }
 
         if (isset($controller)) {
@@ -260,7 +259,7 @@ class App
                 call_user_func_array(array($controller, "afterAction"), $urlArray);
                 $this->_hookManager->runAfter(); // Runs after controller hooks
             } else {
-                throw new \pff\RoutingException('Not a valid action: ' . $action, 400);
+                throw new RoutingException('Not a valid action: ' . $action, 400);
             }
         }
 

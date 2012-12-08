@@ -3,7 +3,7 @@
 namespace pff;
 
 use \Doctrine\ORM\EntityManager,
-\Doctrine\ORM\Configuration;
+    \Doctrine\ORM\Configuration;
 
 /**
  * Every controller must implement this abstract class
@@ -183,8 +183,7 @@ abstract class AController
                 $this->_app->getHookManager()->runBeforeView();
                 $this->_view->render();
                 $this->_app->getHookManager()->runAfterView();
-            }
-            else {
+            } else {
                 throw new \pff\ViewException("The specified View is not valid.");
             }
         }
