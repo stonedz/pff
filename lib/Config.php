@@ -98,5 +98,4 @@ class Config
             throw new ConfigException("Error while setting a config value: " . $data);
         }
     }
-
 }
