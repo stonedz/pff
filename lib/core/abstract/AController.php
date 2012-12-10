@@ -10,8 +10,7 @@ use \Doctrine\ORM\EntityManager,
  *
  * @author paolo.fagni<at>gmail.com
  */
-abstract class AController
-{
+abstract class AController {
 
     /**
      * @var string
@@ -70,14 +69,13 @@ abstract class AController
      * @param array $params An array with parameters passed to the action
      * @internal param \pff\Config $cfg App configuration
      */
-    public function __construct($controllerName, \pff\App $app, $action = 'index', $params = array())
-    {
+    public function __construct($controllerName, \pff\App $app, $action = 'index', $params = array()) {
         $this->_controllerName = $controllerName;
-        $this->_action = $action;
-        $this->_app = $app;
-        $this->_config = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
-        $this->_params = $params;
-        $this->_moduleManager = $this->_app->getModuleManager();
+        $this->_action         = $action;
+        $this->_app            = $app;
+        $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
+        $this->_params         = $params;
+        $this->_moduleManager  = $this->_app->getModuleManager();
 
         if ($this->_config->getConfigData('orm')) {
             $this->initORM();
@@ -91,16 +89,14 @@ abstract class AController
      *
      * @return bool
      */
-    public function initController()
-    {
+    public function initController() {
         return true;
     }
 
     /**
      * Initializes Doctrine entity manager
      */
-    private function initORM()
-    {
+    private function initORM() {
 
         if ($this->_config->getConfigData('development_environment') == true) {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
@@ -131,15 +127,13 @@ abstract class AController
     /**
      * Method executed before the action
      */
-    public function beforeAction()
-    {
+    public function beforeAction() {
     }
 
     /**
      * Method executed after the action
      */
-    public function afterAction()
-    {
+    public function afterAction() {
     }
 
     /**
@@ -147,8 +141,7 @@ abstract class AController
      *
      * @param \pff\AView $view
      */
-    public function addView(\pff\AView $view)
-    {
+    public function addView(\pff\AView $view) {
         $this->_view[] = $view;
     }
 
@@ -157,8 +150,7 @@ abstract class AController
      *
      * @param AView $view
      */
-    public function addViewPre(\pff\AView $view)
-    {
+    public function addViewPre(\pff\AView $view) {
         array_unshift($this->_view, $view);
     }
 
@@ -169,8 +161,7 @@ abstract class AController
      *
      * @throws \pff\ViewException
      */
-    public function __destruct()
-    {
+    public function __destruct() {
 
         if (isset($this->_view)) {
             if (is_array($this->_view)) {
@@ -200,24 +191,21 @@ abstract class AController
     /**
      * @return string
      */
-    public function getControllerName()
-    {
+    public function getControllerName() {
         return $this->_controllerName;
     }
 
     /**
      * @return string
      */
-    public function getAction()
-    {
+    public function getAction() {
         return $this->_action;
     }
 
     /**
      * @return \pff\App
      */
-    public function getApp()
-    {
+    public function getApp() {
         return $this->_app;
     }
 }

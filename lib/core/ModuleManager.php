@@ -7,8 +7,7 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class ModuleManager
-{
+class ModuleManager {
 
     /**
      * @var \pff\Config
@@ -39,10 +38,9 @@ class ModuleManager
      */
     private $_app;
 
-    public function __construct(\pff\Config $cfg)
-    {
-        $this->_config = $cfg;
-        $this->_yamlParser = new \Symfony\Component\Yaml\Parser();
+    public function __construct(\pff\Config $cfg) {
+        $this->_config      = $cfg;
+        $this->_yamlParser  = new \Symfony\Component\Yaml\Parser();
         $this->_hookManager = null;
         //$this->initModules();
     }
@@ -52,8 +50,7 @@ class ModuleManager
      *
      * @return void
      */
-    public function initModules()
-    {
+    public function initModules() {
         $moduleList = $this->_config->getConfigData('modules');
         if (count($moduleList) > 0) {
             foreach ($this->_config->getConfigData('modules') as $moduleName) {
@@ -68,8 +65,7 @@ class ModuleManager
      * @var $phpExtensions array An array of php extesions names
      * @throws \pff\ModuleException
      */
-    private function checkPhpExtensions($phpExtensions)
-    {
+    private function checkPhpExtensions($phpExtensions) {
         foreach ($phpExtensions as $extension) {
             if (!extension_loaded($extension)) {
                 throw new \pff\ModuleException("Module loagin failed! A module needs the following php extension in order to load: " . $extension);
@@ -84,10 +80,9 @@ class ModuleManager
      * @return bool|\pff\AModule
      * @throws \pff\ModuleException
      */
-    public function loadModule($moduleName)
-    {
+    public function loadModule($moduleName) {
         $moduleFilePathUser = ROOT . DS . 'app' . DS . 'modules' . DS . $moduleName . DS . 'module.yaml';
-        $moduleFilePathPff = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName . DS . 'module.yaml';
+        $moduleFilePathPff  = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName . DS . 'module.yaml';
 
         if (file_exists($moduleFilePathUser)) {
             $moduleFilePath = $moduleFilePathUser;
@@ -152,15 +147,15 @@ class ModuleManager
      * @throws ModuleException
      * @return \pff\AModule The requested module
      */
-    public function getModule($moduleName)
-    {
+    public function getModule($moduleName) {
         $moduleName = strtolower($moduleName);
         if (isset($this->_modules[$moduleName])) {
             return $this->_modules[$moduleName];
         } else {
             try {
                 $this->loadModule($moduleName);
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 throw new \pff\ModuleException("Cannot find requested module: $moduleName");
             }
         }
@@ -169,24 +164,21 @@ class ModuleManager
     /**
      * @param \pff\HookManager $hookManager
      */
-    public function setHookManager($hookManager)
-    {
+    public function setHookManager($hookManager) {
         $this->_hookManager = $hookManager;
     }
 
     /**
      * @return \pff\HookManager
      */
-    public function getHookManager()
-    {
+    public function getHookManager() {
         return $this->_hookManager;
     }
 
     /**
      * Sets the Controller for each module
      */
-    public function setController(\pff\AController $controller)
-    {
+    public function setController(\pff\AController $controller) {
         if (count($this->_modules) > 0) {
             foreach ($this->_modules as $module) {
                 $module->setController($controller);
@@ -197,16 +189,14 @@ class ModuleManager
     /**
      * @param \pff\App $app
      */
-    public function setApp($app)
-    {
+    public function setApp($app) {
         $this->_app = $app;
     }
 
     /**
      * @return \pff\App
      */
-    public function getApp()
-    {
+    public function getApp() {
         return $this->_app;
     }
 }

@@ -6,8 +6,7 @@ namespace pff\modules;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
-{
+class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook {
 
     /**
      * Contains the user selected language if specified in URL or the default specified in the configuration
@@ -37,8 +36,7 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
      */
     private $_defaultLang;
 
-    public function __construct($confFile = 'multilanguage/module.conf.yaml')
-    {
+    public function __construct($confFile = 'multilanguage/module.conf.yaml') {
         $moduleconfig = $this->readConfig($confFile);
         $this->_loadConfig($moduleconfig);
     }
@@ -46,11 +44,10 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
     /**
      * Loads the configuration file
      */
-    private function _loadConfig($parsedConfig)
-    {
-        $this->_defaultLang = $parsedConfig['moduleConf']['default_language'];
+    private function _loadConfig($parsedConfig) {
+        $this->_defaultLang   = $parsedConfig['moduleConf']['default_language'];
         $this->_saveOnCookies = $parsedConfig['moduleConf']['save_on_cookies'];
-        $this->_cookieName = $parsedConfig['moduleConf']['cookie_name'];
+        $this->_cookieName    = $parsedConfig['moduleConf']['cookie_name'];
     }
 
     /**
@@ -58,8 +55,7 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
      *
      * @return mixed
      */
-    public function doBeforeSystem()
-    {
+    public function doBeforeSystem() {
         $url = $this->_app->getUrl();
         $url = $this->processUrl($url);
         if (is_null($this->_selectedLanguage)) { // No language code has been foud in URL request
@@ -75,8 +71,7 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
      * @param $url
      * @return string
      */
-    public function processUrl($url)
-    {
+    public function processUrl($url) {
         $splittedUrl = explode('/', $url);
         $langCodes = $this->getCodes();
 
@@ -94,8 +89,7 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
     /**
      * Saves the choosen language preference
      */
-    private function saveLanguage()
-    {
+    private function saveLanguage() {
         if ($this->_saveOnCookies) {
             $this->getRequiredModules('cookies')->setCookie($this->_cookieName, $this->_selectedLanguage, 30 * 24);
         }
@@ -106,8 +100,7 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
      *
      * @TODO refactor this...
      */
-    public function chooseLanguage()
-    {
+    public function chooseLanguage() {
         if ($this->_saveOnCookies &&
             $tmpLng = $this->getRequiredModules('cookies')->getCookie($this->_cookieName)
         ) {
@@ -129,8 +122,7 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
      *
      * @return array
      */
-    private function getCodes()
-    {
+    private function getCodes() {
         $languageCodes = array(
             "aa" => "Afar",
             "ab" => "Abkhazian",
@@ -323,8 +315,7 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook
     /**
      * @return string
      */
-    public function getSelectedLanguage()
-    {
+    public function getSelectedLanguage() {
         return $this->_selectedLanguage;
     }
 }

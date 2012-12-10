@@ -28,8 +28,7 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
      */
     private $_loggers;
 
-    public function __construct($confFile = 'logger/logger.conf.yaml')
-    {
+    public function __construct($confFile = 'logger/logger.conf.yaml') {
         $this->loadConfig($confFile);
     }
 
@@ -40,12 +39,11 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
      * @return mixed|void
      * @throws \pff\modules\LoggerException
      */
-    public function loadConfig($confFile)
-    {
+    public function loadConfig($confFile) {
         $conf = $this->readConfig($confFile);
         try {
             foreach ($conf['moduleConf']['activeLoggers'] as $logger) {
-                $tmpClass = new \ReflectionClass('\\pff\\modules\\' . (string)$logger['class']);
+                $tmpClass         = new \ReflectionClass('\\pff\\modules\\' . (string)$logger['class']);
                 $this->_loggers[] = $tmpClass->newInstance();
             }
         } catch (\ReflectionException $e) {
@@ -54,8 +52,7 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
 
     }
 
-    public function __destruct()
-    {
+    public function __destruct() {
         if (isset($this->_loggers[0])) {
             foreach ($this->_loggers as $logger) {
                 unset($logger);
@@ -70,10 +67,9 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
      * @param string $confFile
      * @return Logger
      */
-    public static function getInstance($confFile = 'logger/logger.conf.yaml')
-    {
+    public static function getInstance($confFile = 'logger/logger.conf.yaml') {
         if (!isset(self::$_instance)) {
-            $className = __CLASS__;
+            $className       = __CLASS__;
             self::$_instance = new $className($confFile);
         }
         return self::$_instance;
@@ -84,8 +80,7 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
      *
      * @return void
      */
-    public static function reset()
-    {
+    public static function reset() {
         self::$_instance = NULL;
     }
 
@@ -94,8 +89,7 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
      *
      * @return void
      */
-    public function __clone()
-    {
+    public function __clone() {
         return;
     }
 
@@ -107,8 +101,7 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
      * @throws \Exception|LoggerException
      * @return void
      */
-    public function log($message, $level = 0)
-    {
+    public function log($message, $level = 0) {
         foreach ($this->_loggers as $logger) {
             try {
                 $logger->logMessage($message, $level);
@@ -118,9 +111,7 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule
         }
     }
 
-    public function getLoggers()
-    {
+    public function getLoggers() {
         return $this->_loggers;
     }
 }
-

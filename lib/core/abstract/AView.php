@@ -7,8 +7,7 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-abstract class AView
-{
+abstract class AView {
 
     /**
      * @var \pff\App

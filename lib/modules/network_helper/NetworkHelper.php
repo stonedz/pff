@@ -7,12 +7,10 @@ namespace pff\modules;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class NetworkHelper extends \pff\Amodule
-{
+class NetworkHelper extends \pff\Amodule {
 
 
-    public function __construct()
-    {
+    public function __construct() {
     }
 
     /**
@@ -23,8 +21,7 @@ class NetworkHelper extends \pff\Amodule
      * @param array|null $headers Optional headers to be passed to the request
      * @return array Request response
      */
-    public function doGet($url, $port = 80, $headers = NULL)
-    {
+    public function doGet($url, $port = 80, $headers = NULL) {
         $retarr = array(); // Return value
 
         $curl_opts = array(CURLOPT_URL => $url,
@@ -56,8 +53,7 @@ class NetworkHelper extends \pff\Amodule
      * @param array|null $headers Optional headers to be passed to the request
      * @return array Request response
      */
-    public function doPost($url, $postbody, $port = 80, $headers = NULL)
-    {
+    public function doPost($url, $postbody, $port = 80, $headers = NULL) {
         $retarr = array(); // Return value
 
         $curl_opts = array(CURLOPT_URL => $url,
@@ -87,8 +83,7 @@ class NetworkHelper extends \pff\Amodule
      * @param array $curl_opts Curl options array
      * @return array Curl request response
      */
-    public function doCurl($curl_opts)
-    {
+    public function doCurl($curl_opts) {
         $retarr = array(); // Return value
 
         if (!$curl_opts) {
@@ -109,13 +104,13 @@ class NetworkHelper extends \pff\Amodule
 
         // Send the request and get the response
         ob_start();
-        $response = curl_exec($ch);
+        $response  = curl_exec($ch);
         $curl_spew = ob_get_contents();
         ob_end_clean();
 
         // Check for errors
         if (curl_errno($ch)) {
-            $errno = curl_errno($ch);
+            $errno  = curl_errno($ch);
             $errmsg = curl_error($ch);
 
             curl_close($ch);
@@ -127,8 +122,8 @@ class NetworkHelper extends \pff\Amodule
 
         // Parse out header and body
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $header = substr($response, 0, $header_size);
-        $body = substr($response, $header_size);
+        $header      = substr($response, 0, $header_size);
+        $body        = substr($response, $header_size);
 
         // Close curl session
         curl_close($ch);

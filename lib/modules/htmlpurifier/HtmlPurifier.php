@@ -15,8 +15,7 @@ class HtmlPurifier extends \pff\AModule
      * @param string $output
      * @return string
      */
-    public function purify($output)
-    {
+    public function purify($output) {
         /** @var $purifierConfig \HTMLPurifier_Config */
         $purifierConfig = \HTMLPurifier_Config::createDefault();
         $purifierConfig->set('Core.Encoding', 'UTF-8');
@@ -24,7 +23,7 @@ class HtmlPurifier extends \pff\AModule
         //$config->set('Attr.IDPrefix', 'user_');
         $purifierConfig->set('HTML.TidyLevel', 'medium');
         $purifier = new \HTMLPurifier($purifierConfig);
-        $output = $purifier->purify($output);
+        $output   = $purifier->purify($output);
 
         return $output;
     }

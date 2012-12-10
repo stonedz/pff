@@ -7,21 +7,18 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class ViewPHP extends \pff\AView
-{
+class ViewPHP extends \pff\AView {
 
     /**
      * @var array Contains the data to be used in the template file
      */
     private $_data;
 
-    public function set($name, $value)
-    {
+    public function set($name, $value) {
         $this->_data[$name] = $value;
     }
 
-    public function render()
-    {
+    public function render() {
         $templatePath = ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile;
         if (!file_exists($templatePath)) {
             throw new \pff\ViewException('Template file ' . $templatePath . ' does not exist');
@@ -47,8 +44,7 @@ class ViewPHP extends \pff\AView
      * @param string $output HTML output string
      * @return string
      */
-    public function preView($output)
-    {
+    public function preView($output) {
         /** @var $purifierConfig \HTMLPurifier_Config */
         $purifierConfig = \HTMLPurifier_Config::createDefault();
         $purifierConfig->set('Core.Encoding', 'UTF-8');
@@ -56,7 +52,7 @@ class ViewPHP extends \pff\AView
 
         /** @var \HTMLPurifier_Config $purifierConfig */
         $purifier = new \HTMLPurifier($purifierConfig);
-        $output = $purifier->purify($output);
+        $output   = $purifier->purify($output);
 
         return $output;
     }

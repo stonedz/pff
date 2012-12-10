@@ -9,8 +9,7 @@ namespace pff\modules;
  */
 class AutomaticHeaderFooter
     extends \pff\AModule
-    implements \pff\IBeforeViewHook, \pff\IAfterHook, \pff\IConfigurableModule
-{
+    implements \pff\IBeforeViewHook, \pff\IAfterHook, \pff\IConfigurableModule {
 
     /**
      * @var bool
@@ -33,8 +32,7 @@ class AutomaticHeaderFooter
     private $_headerGlobal;
 
 
-    public function __construct($confFile = 'automatic_header_footer/module.conf.yaml')
-    {
+    public function __construct($confFile = 'automatic_header_footer/module.conf.yaml') {
         $moduleconfig = $this->readConfig($confFile);
         $this->loadConfig($moduleconfig);
     }
@@ -45,12 +43,11 @@ class AutomaticHeaderFooter
      * @param array $parsedConfig A parsed config in the form of an array
      * @return mixed|void
      */
-    public function loadConfig($parsedConfig)
-    {
+    public function loadConfig($parsedConfig) {
         $this->_footerController = $parsedConfig['moduleConf']['automatic_controller_footer'];
-        $this->_footerGlobal = $parsedConfig['moduleConf']['automatic_global_footer'];
+        $this->_footerGlobal     = $parsedConfig['moduleConf']['automatic_global_footer'];
         $this->_headerController = $parsedConfig['moduleConf']['automatic_controller_header'];
-        $this->_headerGlobal = $parsedConfig['moduleConf']['automatic_global_header'];
+        $this->_headerGlobal     = $parsedConfig['moduleConf']['automatic_global_header'];
     }
 
     /**
@@ -59,8 +56,7 @@ class AutomaticHeaderFooter
      *
      * @return mixed
      */
-    public function doBeforeView()
-    {
+    public function doBeforeView() {
         if ($this->_headerController) {
             $viewPath = ROOT . DS . 'app' . DS . 'views' . DS .
                 strtolower($this->_controller->getControllerName()) . DS .
@@ -82,8 +78,7 @@ class AutomaticHeaderFooter
      *
      * @return mixed
      */
-    public function doAfter()
-    {
+    public function doAfter() {
         if ($this->_footerController) {
             $viewPath = ROOT . DS . 'app' . DS . 'views' . DS .
                 strtolower($this->_controller->getControllerName()) . DS .
@@ -99,5 +94,4 @@ class AutomaticHeaderFooter
             }
         }
     }
-
 }

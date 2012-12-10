@@ -7,8 +7,7 @@ namespace pff\modules;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class Encryption extends \pff\AModule
-{
+class Encryption extends \pff\AModule {
 
     const MODE = MCRYPT_MODE_CBC;
 
@@ -26,8 +25,7 @@ class Encryption extends \pff\AModule
      */
     private $_key;
 
-    public function __construct($confFile = 'encryption/module.conf.yaml')
-    {
+    public function __construct($confFile = 'encryption/module.conf.yaml') {
         $this->loadConfig($this->readConfig($confFile));
     }
 
@@ -36,10 +34,9 @@ class Encryption extends \pff\AModule
      *
      * @param array $parsedConfig
      */
-    private function loadConfig($parsedConfig)
-    {
+    private function loadConfig($parsedConfig) {
         $this->_cypher = $parsedConfig['moduleConf']['cypher'];
-        $this->_key = md5($parsedConfig['moduleConf']['key']);
+        $this->_key    = md5($parsedConfig['moduleConf']['key']);
     }
 
     /**
@@ -48,8 +45,7 @@ class Encryption extends \pff\AModule
      * @param string $plaintext the text to encrypt
      * @return string
      */
-    public function encrypt($plaintext)
-    {
+    public function encrypt($plaintext) {
         $td = mcrypt_module_open($this->_cypher, '', self::MODE, '');
         $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
         mcrypt_generic_init($td, $this->_key, $iv);
@@ -64,13 +60,12 @@ class Encryption extends \pff\AModule
      * @param string $crypttext
      * @return string
      */
-    public function decrypt($crypttext)
-    {
+    public function decrypt($crypttext) {
         $crypttext = base64_decode($crypttext);
         $plaintext = '';
-        $td = mcrypt_module_open($this->_cypher, '', self::MODE, '');
-        $ivsize = mcrypt_enc_get_iv_size($td);
-        $iv = substr($crypttext, 0, $ivsize);
+        $td        = mcrypt_module_open($this->_cypher, '', self::MODE, '');
+        $ivsize    = mcrypt_enc_get_iv_size($td);
+        $iv        = substr($crypttext, 0, $ivsize);
         $crypttext = substr($crypttext, $ivsize);
         if ($iv) {
             mcrypt_generic_init($td, $this->_key, $iv);

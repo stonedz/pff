@@ -8,8 +8,7 @@ use pff\models;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class Auth extends \pff\AModule implements \pff\IConfigurableModule
-{
+class Auth extends \pff\AModule implements \pff\IConfigurableModule {
 
     /*
      * The model class name
@@ -62,18 +61,16 @@ class Auth extends \pff\AModule implements \pff\IConfigurableModule
     /**
      * @param string $confFile Path to configuration file
      */
-    public function __construct($confFile = 'auth/module.conf.yaml')
-    {
+    public function __construct($confFile = 'auth/module.conf.yaml') {
         $this->loadConfig($this->readConfig($confFile));
     }
 
-    public function loadConfig($parsedConfig)
-    {
-        $this->_modelName = $parsedConfig['moduleConf']['userModelClass'];
+    public function loadConfig($parsedConfig) {
+        $this->_modelName         = $parsedConfig['moduleConf']['userModelClass'];
         $this->_usernameAttribute = $parsedConfig['moduleConf']['usernameAttribute'];
         $this->_methodGetPassword = $parsedConfig['moduleConf']['userGetPassword'];
-        $this->_encryptionMethod = $parsedConfig['moduleConf']['passwordType'];
-        $this->_sessionVarName = $parsedConfig['moduleConf']['sessionVarName'];
+        $this->_encryptionMethod  = $parsedConfig['moduleConf']['passwordType'];
+        $this->_sessionVarName    = $parsedConfig['moduleConf']['sessionVarName'];
 
         switch ($this->_encryptionMethod) {
             case 'md5':
@@ -91,8 +88,7 @@ class Auth extends \pff\AModule implements \pff\IConfigurableModule
      *
      * @return bool
      */
-    public function checkAuth()
-    {
+    public function checkAuth() {
         if (isset($_SESSION[$this->_sessionVarName]) &&
             $_SESSION[$this->_sessionVarName] == 1
         ) {
@@ -110,8 +106,7 @@ class Auth extends \pff\AModule implements \pff\IConfigurableModule
      * @param \Doctrine\ORM\EntityManager $entityManager
      * @return bool
      */
-    public function login($username, $password, $entityManager)
-    {
+    public function login($username, $password, $entityManager) {
         $tmp = $entityManager
             ->getRepository('pff\models\\' . $this->_modelName)
             ->findOneBy(array($this->_usernameAttribute => $username));
@@ -134,16 +129,14 @@ class Auth extends \pff\AModule implements \pff\IConfigurableModule
      *
      * @return bool
      */
-    public function logout()
-    {
+    public function logout() {
         if (isset($_SESSION[$this->_sessionVarName])) {
             unset($_SESSION[$this->_sessionVarName]);
         }
         return true;
     }
 
-    private function _logUser()
-    {
+    private function _logUser() {
         $_SESSION[$this->_sessionVarName] = 1;
     }
 }

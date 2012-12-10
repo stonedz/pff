@@ -8,9 +8,9 @@
  */
 
 // Create a new app with the current request
-$cfg = new \pff\Config();
-$hm = new \pff\HookManager($cfg);
-$mm = new \pff\ModuleManager($cfg);
+$cfg         = new \pff\Config();
+$hm          = new \pff\HookManager($cfg);
+$mm          = new \pff\ModuleManager($cfg);
 $helpManager = new \pff\HelperManager();
 
 $app = new \pff\App($url, $cfg, $mm, $hm);

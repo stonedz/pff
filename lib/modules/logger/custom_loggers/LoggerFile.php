@@ -7,8 +7,7 @@ namespace pff\modules;
  *
  * @author stonedz
  */
-class LoggerFile extends \pff\modules\ALogger
-{
+class LoggerFile extends \pff\modules\ALogger {
 
     /**
      * Logs directory
@@ -29,8 +28,7 @@ class LoggerFile extends \pff\modules\ALogger
      * @param bool $debugActive True to activate debugmode
      * @throws \pff\modules\LoggerException
      */
-    public function __construct($debugActive = false)
-    {
+    public function __construct($debugActive = false) {
         parent::__construct($debugActive);
 
         $this->_fp = null;
@@ -39,8 +37,7 @@ class LoggerFile extends \pff\modules\ALogger
     /**
      * Closes file resource when unsetting the logger
      */
-    public function __destruct()
-    {
+    public function __destruct() {
         if ($this->_fp) {
             fclose($this->_fp);
         }
@@ -52,13 +49,12 @@ class LoggerFile extends \pff\modules\ALogger
      * @throws \pff\modules\LoggerException
      * @return null|resource
      */
-    public function getLogFile()
-    {
+    public function getLogFile() {
 
         if ($this->_fp === null) {
             $this->LOG_DIR = ROOT . DS . 'tmp' . DS . 'logs';
-            $filename = $this->LOG_DIR . DS . date("Y-m-d");
-            $this->_fp = fopen($filename, 'a');
+            $filename      = $this->LOG_DIR . DS . date("Y-m-d");
+            $this->_fp     = fopen($filename, 'a');
             if ($this->_fp === false) {
                 throw new \pff\modules\LoggerException('Cannot open log file: ' . $filename);
             }
@@ -77,8 +73,7 @@ class LoggerFile extends \pff\modules\ALogger
      * @return bool
      * @throws \pff\modules\LoggerFileException
      */
-    public function logMessage($message, $level = 0)
-    {
+    public function logMessage($message, $level = 0) {
         $this->getLogFile();
         if (!flock($this->_fp, LOCK_EX)) {
             throw new \pff\modules\LoggerFileException('Can\'t obtain file lock for: ');
@@ -98,8 +93,7 @@ class LoggerFile extends \pff\modules\ALogger
      *
      * @return resource
      */
-    public function getFp()
-    {
+    public function getFp() {
         return $this->_fp;
     }
 }

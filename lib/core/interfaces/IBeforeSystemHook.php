@@ -16,5 +16,4 @@ interface IBeforeSystemHook extends \pff\IHookProvider {
      * @return mixed
      */
     public function doBeforeSystem();
-
 }
