@@ -73,7 +73,7 @@ class Mail extends \pff\AModule {
         $this->message->setFrom(array($from => $fromName));
         $this->message->setSubject($subject);
         $this->message->setBody($body);
-        $this->message->attach($attachment);
+        //$this->message->attach($attachment);
         return $this->mailer->send($this->message);
     }
 }
