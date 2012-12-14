@@ -1,0 +1,4 @@
+name: Default Controller
+version: "0.1"
+desc: Uses an user specified controller if the request does not contains a valid controller
+class: DefaultController
