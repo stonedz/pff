@@ -186,8 +186,8 @@ class App {
      * @return bool True if a match is found
      */
     public function applyRouting(&$request, &$action = null) {
-        if (isset($this->_routes[$request])) {
-            $explodedTarget = explode('/', $this->_routes[$request]);
+        if (isset($this->_routes[strtolower($request)])) {
+            $explodedTarget = explode('/', $this->_routes[strtolower($request)]);
             if (isset($explodedTarget[1])) { // we have an action for this route!
                 $action = $explodedTarget[1];
             }
