@@ -35,9 +35,6 @@ class DefaultController extends \pff\AModule implements \pff\IConfigurableModule
      */
     public function doBeforeSystem() {
         $tmpUrl = $this->_app->getUrl();
-        if($tmpUrl == '') { // empty request, don't process and let the App manage the routing
-            return;
-        }
         $tmpUrl = explode('/', $tmpUrl);
         if (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($tmpUrl[0]) . '_Controller.php')) {
             return;
