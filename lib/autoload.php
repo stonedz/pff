@@ -508,6 +508,7 @@ spl_autoload_register(
                 'foo1command' => '/vendor/symfony/console/Symfony/Component/Console/Tests/Fixtures/Foo1Command.php',
                 'foo2command' => '/vendor/symfony/console/Symfony/Component/Console/Tests/Fixtures/Foo2Command.php',
                 'foo3command' => '/vendor/symfony/console/Symfony/Component/Console/Tests/Fixtures/Foo3Command.php',
+                'foo4command' => '/vendor/symfony/console/Symfony/Component/Console/Tests/Fixtures/Foo4Command.php',
                 'foocommand' => '/vendor/symfony/console/Symfony/Component/Console/Tests/Fixtures/FooCommand.php',
                 'html5' => '/vendor/htmlpurifier-4.4.0-standalone/standalone/HTMLPurifier/Lexer/PH5P.php',
                 'html5treeconstructer' => '/vendor/htmlpurifier-4.4.0-standalone/standalone/HTMLPurifier/Lexer/PH5P.php',
