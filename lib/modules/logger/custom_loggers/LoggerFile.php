@@ -7,18 +7,18 @@ namespace pff\modules;
  *
  * @author stonedz
  */
-class LoggerFile extends \pff\modules\ALogger{
+class LoggerFile extends \pff\modules\ALogger {
 
     /**
      * Logs directory
-     * 
-     * @var string 
+     *
+     * @var string
      */
     private $LOG_DIR;
 
     /**
      * File resource
-     * 
+     *
      * @var resource
      */
     private $_fp;
@@ -38,7 +38,7 @@ class LoggerFile extends \pff\modules\ALogger{
      * Closes file resource when unsetting the logger
      */
     public function __destruct() {
-        if($this->_fp){
+        if ($this->_fp) {
             fclose($this->_fp);
         }
     }
@@ -51,12 +51,12 @@ class LoggerFile extends \pff\modules\ALogger{
      */
     public function getLogFile() {
 
-        if($this->_fp === null) {
+        if ($this->_fp === null) {
             $this->LOG_DIR = ROOT . DS . 'tmp' . DS . 'logs';
             $filename      = $this->LOG_DIR . DS . date("Y-m-d");
             $this->_fp     = fopen($filename, 'a');
-            if($this->_fp === false){
-                throw new \pff\modules\LoggerException('Cannot open log file: '.$filename);
+            if ($this->_fp === false) {
+                throw new \pff\modules\LoggerException('Cannot open log file: ' . $filename);
             }
             chmod($filename, 0774);
         }
@@ -75,15 +75,14 @@ class LoggerFile extends \pff\modules\ALogger{
      */
     public function logMessage($message, $level = 0) {
         $this->getLogFile();
-        if(!flock($this->_fp, LOCK_EX)){
-            throw new \pff\modules\LoggerFileException('Can\'t obtain file lock for: ' );
+        if (!flock($this->_fp, LOCK_EX)) {
+            throw new \pff\modules\LoggerFileException('Can\'t obtain file lock for: ');
         }
-        $text = '['.date("H:i:s").']'.$this->_levelNames[$level]." " . $message . "\n"; // Log message
-        if(fwrite($this->_fp, $text)){
+        $text = '[' . date("H:i:s") . ']' . $this->_levelNames[$level] . " " . $message . "\n"; // Log message
+        if (fwrite($this->_fp, $text)) {
             flock($this->_fp, LOCK_UN);
             return true;
-        }
-        else{
+        } else {
             flock($this->_fp, LOCK_UN);
             throw new \pff\modules\LoggerFileException('Can\'t write to logfile!');
         }

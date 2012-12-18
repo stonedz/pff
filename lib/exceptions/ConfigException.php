@@ -7,5 +7,5 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class ConfigException extends \pff\PffException {
+class ConfigException extends PffException {
 }

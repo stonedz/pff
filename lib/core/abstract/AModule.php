@@ -116,12 +116,15 @@ abstract class AModule {
      * Gets a module
      *
      * @param string $moduleName
-     * @return \pff\AModule
+     * @return \pff\AModule|null
      */
     public function getRequiredModules($moduleName) {
         $moduleName = strtolower($moduleName);
-        if(isset($this->_requiredModules[$moduleName])) {
+        if (isset($this->_requiredModules[$moduleName])) {
             return $this->_requiredModules[$moduleName];
+        }
+        else {
+            return null;
         }
     }
 
@@ -189,27 +192,24 @@ abstract class AModule {
      * @throws \pff\ModuleException
      * @return array
      */
-    public function readConfig($configFile){
-        $yamlParser = new \Symfony\Component\Yaml\Parser();
+    public function readConfig($configFile) {
+        $yamlParser   = new \Symfony\Component\Yaml\Parser();
         $userConfPath = ROOT . DS . 'app' . DS . 'config' . DS . 'modules' . DS . $configFile;
-        $libConfPath   = ROOT . DS . 'lib' . DS . 'modules' . DS . $configFile;
-        if(file_exists($userConfPath)) {
+        $libConfPath  = ROOT . DS . 'lib' . DS . 'modules' . DS . $configFile;
+        if (file_exists($userConfPath)) {
             $confPath = $userConfPath;
-        }
-        elseif(file_exists($libConfPath)) {
+        } elseif (file_exists($libConfPath)) {
             $confPath = $libConfPath;
-        }
-        else {
+        } else {
             throw new \pff\ModuleException ("Module configuration file not found!");
         }
 
-        try{
+        try {
             $conf = $yamlParser->parse(file_get_contents($confPath));
-        }catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
+        } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
             throw new \pff\ModuleException("Unable to parse module configuration
-                                            file for AutomaticHeaderFooter module: ".$e->getMessage());
+                                            file for AutomaticHeaderFooter module: " . $e->getMessage());
         }
         return $conf;
-
     }
 }

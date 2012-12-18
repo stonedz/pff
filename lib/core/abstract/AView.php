@@ -42,16 +42,16 @@ abstract class AView {
     public function __construct($templateName, \pff\App $app) {
         $this->_app          = $app;
         $this->_templateFile = $templateName;
-        $this->_publicFolder = $this->_app->getExternalPath().'app'.DS.'public'.DS;
-        $this->_cssFolder    = $this->_app->getExternalPath().'app'.DS.'public'.DS.'css'.DS;
-        $this->_imgFolder    = $this->_app->getExternalPath().'app'.DS.'public'.DS.'img'.DS;
-        $this->_jsFolder     = $this->_app->getExternalPath().'app'.DS.'public'.DS.'js'.DS;
+        $this->_publicFolder = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS;
+        $this->_cssFolder    = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'css' . DS;
+        $this->_imgFolder    = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'img' . DS;
+        $this->_jsFolder     = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'js' . DS;
 
-        $this->set('pff_path_public',$this->_publicFolder);
-        $this->set('pff_path_css',$this->_cssFolder);
-        $this->set('pff_path_img',$this->_imgFolder);
-        $this->set('pff_path_js',$this->_jsFolder);
-        $this->set('pff_root_ext',$this->_app->getExternalPath());
+        $this->set('pff_path_public', $this->_publicFolder);
+        $this->set('pff_path_css', $this->_cssFolder);
+        $this->set('pff_path_img', $this->_imgFolder);
+        $this->set('pff_path_js', $this->_jsFolder);
+        $this->set('pff_root_ext', $this->_app->getExternalPath());
     }
 
     abstract public function set($name, $value);
@@ -67,8 +67,8 @@ abstract class AView {
      * @TODO Error check
      */
     public function renderAction($controller, $action = 'index', $params = array()) {
-        $controllerClass = ucfirst($controller).'_Controller';
-        $tmpController = new $controllerClass($controller, $this->_app, $action, $params);
+        $controllerClass = ucfirst($controller) . '_Controller';
+        $tmpController   = new $controllerClass($controller, $this->_app, $action, $params);
         $tmpController->$action();
     }
 

@@ -16,7 +16,7 @@ class PffException extends \Exception {
      */
     public $backtrace;
 
-    public function __construct($message="", $code=0, $previous=NULL) {
+    public function __construct($message = "", $code = 0, $previous = null) {
         parent::__construct($message, $code, $previous);
 
         $this->backtrace = debug_backtrace();

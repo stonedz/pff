@@ -27,24 +27,23 @@ class Config {
      *
      * @param string $configFile Name of the file
      * @param string $configPath Path of the config file
-     * @throws \pff\ConfigException
+     * @throws ConfigException
      * @return void
      */
     public function loadConfig($configFile = 'config.php', $configPath = 'config') {
         $completePath = ROOT . DS . $configPath . DS . $configFile;
 
-        if(!file_exists($completePath)) {
-            throw new \pff\ConfigException("Specified config file does not exist: ".$completePath);
+        if (!file_exists($completePath)) {
+            throw new ConfigException("Specified config file does not exist: " . $completePath);
         }
 
         include($completePath);
 
-        if(isset($pffConfig) && is_array($pffConfig)) {
+        if (isset($pffConfig) && is_array($pffConfig)) {
             $this->_config = array_merge($this->_config, $pffConfig);
-        }
-        else {
-            throw new \pff\ConfigException("Failed to load configuration file!
-                                            The file seems to be corrupted: ".$completePath);
+        } else {
+            throw new ConfigException("Failed to load configuration file!
+                                            The file seems to be corrupted: " . $completePath);
         }
     }
 
@@ -56,14 +55,12 @@ class Config {
      * @return array|mixed
      */
     public function getConfigData($data = null) {
-        if($data !== null && isset($this->_config[$data])) {
+        if ($data !== null && isset($this->_config[$data])) {
             return $this->_config[$data];
-        }
-        elseif($data === null){
+        } elseif ($data === null) {
             return $this->_config;
-        }
-        else {
-            throw new \pff\ConfigException("Error while requesting config value: ".$data);
+        } else {
+            throw new ConfigException("Error while requesting config value: " . $data);
         }
     }
 
@@ -80,20 +77,19 @@ class Config {
     public function getConfig($data = null) {
         return $this->getConfigData($data);
     }
+
     /**
      * Sets a configuration,if the configuration already exists it OVERWRITES the old one.
      *
      * @param string $data
      * @param mixed $value
-     * @throws \pff\ConfigException
+     * @throws ConfigException
      */
     public function setConfig($data, $value) {
         if (is_string($data)) {
             $this->_config[$data] = $value;
-        }
-        else {
-            throw new \pff\ConfigException("Error while setting a config value: ".$data);
+        } else {
+            throw new ConfigException("Error while setting a config value: " . $data);
         }
     }
-
 }

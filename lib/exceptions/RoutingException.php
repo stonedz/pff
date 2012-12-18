@@ -7,5 +7,5 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class RoutingException extends \pff\PffException {
+class RoutingException extends PffException {
 }

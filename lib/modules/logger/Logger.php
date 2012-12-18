@@ -11,7 +11,8 @@ namespace pff\modules;
  * @author paolo.fagni<at>gmail.com
  */
 
-class Logger extends \pff\AModule implements \pff\IConfigurableModule {
+class Logger extends \pff\AModule implements \pff\IConfigurableModule
+{
 
     /**
      * Private Logger instance (Singleton)
@@ -35,25 +36,25 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule {
      * Loads the configuration
      *
      * @param string $confFile Path relative to modules/ of the configuration file
+     * @return mixed|void
      * @throws \pff\modules\LoggerException
      */
     public function loadConfig($confFile) {
         $conf = $this->readConfig($confFile);
-        try{
-            foreach ($conf['moduleConf']['activeLoggers'] as $logger){
-                $tmpClass         = new \ReflectionClass('\\pff\\modules\\'. (string)$logger['class']);
+        try {
+            foreach ($conf['moduleConf']['activeLoggers'] as $logger) {
+                $tmpClass         = new \ReflectionClass('\\pff\\modules\\' . (string)$logger['class']);
                 $this->_loggers[] = $tmpClass->newInstance();
             }
-        }
-        catch(\ReflectionException $e){
-            throw new \pff\modules\LoggerException('Logger creation failed: '.$e->getMessage());
+        } catch (\ReflectionException $e) {
+            throw new \pff\modules\LoggerException('Logger creation failed: ' . $e->getMessage());
         }
 
     }
 
     public function __destruct() {
-        if(isset($this->_loggers[0])){
-            foreach ($this->_loggers as $logger){
+        if (isset($this->_loggers[0])) {
+            foreach ($this->_loggers as $logger) {
                 unset($logger);
             }
             $this->reset();
@@ -63,6 +64,7 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule {
     /**
      * Returns a Logegr instance
      *
+     * @param string $confFile
      * @return Logger
      */
     public static function getInstance($confFile = 'logger/logger.conf.yaml') {
@@ -96,14 +98,14 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule {
      *
      * @param string $message Message to log
      * @param int $level Log level, 0 = low 3 = high
-     * @throws \pff\modules\LoggerException
+     * @throws \Exception|LoggerException
+     * @return void
      */
     public function log($message, $level = 0) {
-        foreach ($this->_loggers as $logger){
-            try{
+        foreach ($this->_loggers as $logger) {
+            try {
                 $logger->logMessage($message, $level);
-            }
-            catch(\pff\modules\LoggerException $e){
+            } catch (\pff\modules\LoggerException $e) {
                 throw $e;
             }
         }
@@ -113,4 +115,3 @@ class Logger extends \pff\AModule implements \pff\IConfigurableModule {
         return $this->_loggers;
     }
 }
-

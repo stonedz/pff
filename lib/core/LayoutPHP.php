@@ -10,8 +10,7 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class LayoutPHP extends \pff\ViewPHP
-{
+class LayoutPHP extends \pff\ViewPHP {
 
     /**
      * @var \pff\AView[]
@@ -23,8 +22,7 @@ class LayoutPHP extends \pff\ViewPHP
      *
      * @param \pff\AView $view
      */
-    public function addContent(\pff\AView $view)
-    {
+    public function addContent(\pff\AView $view) {
         $this->_contentView[] = $view;
     }
 
@@ -36,8 +34,7 @@ class LayoutPHP extends \pff\ViewPHP
      *
      * @param int $index
      */
-    public function content($index = 0)
-    {
+    public function content($index = 0) {
         $this->_contentView[$index]->render();
     }
 }

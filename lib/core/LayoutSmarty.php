@@ -10,11 +10,9 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class LayoutSmarty extends \pff\ViewSmarty
-{
+class LayoutSmarty extends \pff\ViewSmarty {
 
-    public function __construct($tempalteName, \pff\App $app)
-    {
+    public function __construct($tempalteName, \pff\App $app) {
         parent::__construct($tempalteName, $app);
         $this->_smarty->registerPlugin('function', 'content', array($this, 'smarty_plugin_contentPlaceholder'));
 
@@ -30,13 +28,11 @@ class LayoutSmarty extends \pff\ViewSmarty
      *
      * @param \pff\AView $view
      */
-    public function addContent(\pff\AView $view)
-    {
+    public function addContent(\pff\AView $view) {
         $this->_contentView[] = $view;
     }
 
-    public function smarty_plugin_contentPlaceholder($params, $smarty)
-    {
+    public function smarty_plugin_contentPlaceholder($params, $smarty) {
         if (!isset($params['index']) || is_int($params['index'])) {
             $params['index'] = 0;
         }
@@ -45,6 +41,4 @@ class LayoutSmarty extends \pff\ViewSmarty
             $this->_contentView[$params['index']]->render();
         }
     }
-
-
 }

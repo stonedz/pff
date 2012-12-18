@@ -6,7 +6,8 @@ namespace pff\modules;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class HtmlPurifier extends \pff\AModule {
+class HtmlPurifier extends \pff\AModule
+{
 
     /**
      * Purifies an HTML string with htmlpurifier
@@ -15,6 +16,7 @@ class HtmlPurifier extends \pff\AModule {
      * @return string
      */
     public function purify($output) {
+        /** @var $purifierConfig \HTMLPurifier_Config */
         $purifierConfig = \HTMLPurifier_Config::createDefault();
         $purifierConfig->set('Core.Encoding', 'UTF-8');
         $purifierConfig->set('Attr.EnableID', true);

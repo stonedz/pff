@@ -20,10 +20,10 @@ class ViewPHP extends \pff\AView {
 
     public function render() {
         $templatePath = ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile;
-        if(!file_exists($templatePath)){
-            throw new \pff\ViewException('Template file '.$templatePath.' does not exist');
+        if (!file_exists($templatePath)) {
+            throw new \pff\ViewException('Template file ' . $templatePath . ' does not exist');
         }
-        if(is_array($this->_data)) {
+        if (is_array($this->_data)) {
             extract($this->_data); // Extract set data to scope vars
         }
 
@@ -45,6 +45,7 @@ class ViewPHP extends \pff\AView {
      * @return string
      */
     public function preView($output) {
+        /** @var $purifierConfig \HTMLPurifier_Config */
         $purifierConfig = \HTMLPurifier_Config::createDefault();
         $purifierConfig->set('Core.Encoding', 'UTF-8');
         $purifierConfig->set('HTML.TidyLevel', 'medium');
@@ -55,6 +56,4 @@ class ViewPHP extends \pff\AView {
 
         return $output;
     }
-
-
 }

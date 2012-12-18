@@ -1,19 +1,28 @@
 <?php
 
 namespace pff;
+
 /**
+ * Layouts factory
  *
  * @author paolo.fagni<at>gmail.com
  */
-class FLayout
-{
+class FLayout {
 
-    static public function create($templateName, \pff\App $app, $templateType = null)
-    {
+    /**
+     * Gets an ALayout object
+     *
+     * @static
+     * @param string $templateName The name of the template
+     * @param App $app
+     * @param string $templateType Te type of the template
+     * @return \pff\AView
+     */
+    static public function create($templateName, \pff\App $app, $templateType = null) {
 
         if ($templateType === null) {
-            $tmp = explode('.', $templateName);
-            $templateType = $tmp[count($tmp)-1];
+            $tmp          = explode('.', $templateName);
+            $templateType = $tmp[count($tmp) - 1];
         } else {
             $templateType = strtolower($templateType);
         }

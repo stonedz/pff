@@ -16,10 +16,10 @@ class HelperManager
      * @param string $helperName Name of the helper to include
      * @throws \pff\HelperException
      */
-    public function load($helperName)
-    {
+    public function load($helperName) {
         $helperFilePathUser = ROOT . DS . 'app' . DS . 'helpers' . DS . $helperName . '.php';
-        $helperFilePathPff = ROOT . DS . 'lib' . DS . 'helpers' . DS . $helperName . '.php';
+        $helperFilePathPff  = ROOT . DS . 'lib' . DS . 'helpers' . DS . $helperName . '.php';
+
         $found = false;
 
         if (file_exists($helperFilePathUser)) {

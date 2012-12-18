@@ -48,11 +48,11 @@ class ModuleManager {
     /**
      * Autoload modules specified in config files
      *
-     *  @return void
+     * @return void
      */
     public function initModules() {
         $moduleList = $this->_config->getConfigData('modules');
-        if(count($moduleList) > 0) {
+        if (count($moduleList) > 0) {
             foreach ($this->_config->getConfigData('modules') as $moduleName) {
                 $this->loadModule($moduleName);
             }
@@ -65,10 +65,10 @@ class ModuleManager {
      * @var $phpExtensions array An array of php extesions names
      * @throws \pff\ModuleException
      */
-    private function checkPhpExtensions ($phpExtensions) {
-        foreach($phpExtensions as $extension) {
-            if(!extension_loaded($extension)){
-                throw new \pff\ModuleException("Module loagin failed! A module needs the following php extension in order to load: ".$extension);
+    private function checkPhpExtensions($phpExtensions) {
+        foreach ($phpExtensions as $extension) {
+            if (!extension_loaded($extension)) {
+                throw new \pff\ModuleException("Module loagin failed! A module needs the following php extension in order to load: " . $extension);
             }
         }
     }
@@ -81,28 +81,28 @@ class ModuleManager {
      * @throws \pff\ModuleException
      */
     public function loadModule($moduleName) {
-        $moduleFilePathUser = ROOT . DS . 'app' . DS . 'modules' . DS . $moduleName . DS .'module.yaml';
-        $moduleFilePathPff = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName. DS .'module.yaml';
+        $moduleFilePathUser = ROOT . DS . 'app' . DS . 'modules' . DS . $moduleName . DS . 'module.yaml';
+        $moduleFilePathPff  = ROOT . DS . 'lib' . DS . 'modules' . DS . $moduleName . DS . 'module.yaml';
 
-        if(file_exists($moduleFilePathUser)){
+        if (file_exists($moduleFilePathUser)) {
             $moduleFilePath = $moduleFilePathUser;
-        }elseif(file_exists($moduleFilePathPff)){
+        } elseif (file_exists($moduleFilePathPff)) {
             $moduleFilePath = $moduleFilePathPff;
-        }else{
-            throw new \pff\ModuleException("Specified module \"".$moduleName."\" does not exist");
+        } else {
+            throw new \pff\ModuleException("Specified module \"" . $moduleName . "\" does not exist");
         }
         try {
             $moduleConf = $this->_yamlParser->parse(file_get_contents($moduleFilePath));
 
-            if(isset($moduleConf['requires_php_extension']) && is_array($moduleConf['requires_php_extension'])){
+            if (isset($moduleConf['requires_php_extension']) && is_array($moduleConf['requires_php_extension'])) {
                 $this->checkPhpExtensions($moduleConf['requires_php_extension']);
             }
 
-            $tmpModule  = new \ReflectionClass('\\pff\\modules\\'.$moduleConf['class']);
+            $tmpModule = new \ReflectionClass('\\pff\\modules\\' . $moduleConf['class']);
             if ($tmpModule->isSubclassOf('\\pff\\AModule')) {
                 $moduleName = strtolower($moduleConf['name']);
 
-                if(isset($this->_modules[$moduleName])) { //Module has already been loaded
+                if (isset($this->_modules[$moduleName])) { //Module has already been loaded
                     return $this->_modules[$moduleName];
                     //return true;
                 }
@@ -114,11 +114,11 @@ class ModuleManager {
                 $this->_modules[$moduleName]->setConfig($this->_config);
                 $this->_modules[$moduleName]->setApp($this->_app);
 
-                if($tmpModule->isSubclassOf('\pff\IHookProvider') && $this->_hookManager !== null){
+                if ($tmpModule->isSubclassOf('\pff\IHookProvider') && $this->_hookManager !== null) {
                     $this->_hookManager->registerHook($this->_modules[$moduleName]);
                 }
 
-                if(isset ($moduleConf['requires']) && is_array($moduleConf['requires'])){
+                if (isset ($moduleConf['requires']) && is_array($moduleConf['requires'])) {
                     $this->_modules[$moduleName]->setModuleRequirements($moduleConf['requires']);
                     foreach ($moduleConf['requires'] as $requiredModuleName) {
                         $this->loadModule($requiredModuleName);
@@ -127,17 +127,15 @@ class ModuleManager {
                 }
                 return $this->_modules[$moduleName];
 
+            } else {
+                throw new \pff\ModuleException("Invalid module: " . $moduleConf['name']);
             }
-            else {
-                throw new \pff\ModuleException("Invalid module: ".$moduleConf['name']);
-            }
-        }
-        catch( \Symfony\Component\Yaml\Exception\ParseException $e ) {
+        } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
             throw new \pff\ModuleException("Unable to parse module configuration
-                                                file for $moduleName: ".$e->getMessage());
+                                                file for $moduleName: " . $e->getMessage());
         }
-        catch( \ReflectionException $e) {
-            throw new \pff\ModuleException("Unable to create module instance: ". $e->getMessage());
+        catch (\ReflectionException $e) {
+            throw new \pff\ModuleException("Unable to create module instance: " . $e->getMessage());
         }
 
     }
@@ -153,12 +151,11 @@ class ModuleManager {
         $moduleName = strtolower($moduleName);
         if (isset($this->_modules[$moduleName])) {
             return $this->_modules[$moduleName];
-        }
-        else {
-            try{
-               $this->loadModule($moduleName);
+        } else {
+            try {
+                $this->loadModule($moduleName);
             }
-            catch(\Exception $e) {
+            catch (\Exception $e) {
                 throw new \pff\ModuleException("Cannot find requested module: $moduleName");
             }
         }
@@ -182,8 +179,8 @@ class ModuleManager {
      * Sets the Controller for each module
      */
     public function setController(\pff\AController $controller) {
-        if(count($this->_modules) > 0) {
-            foreach($this->_modules as $module) {
+        if (count($this->_modules) > 0) {
+            foreach ($this->_modules as $module) {
                 $module->setController($controller);
             }
         }
