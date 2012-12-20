@@ -1,0 +1,8 @@
+#!/bin/bash
+rsync -rlvz --exclude "app/proxies" --exclude "app/config/config.user.php" . root@venditaBengine:/var/www/venditaBengine
+
+ssh root@venditaBengine "chmod -R 777 /var/www/venditaBengine/app/views/smarty/compiled_templates"
+
+ssh root@venditaBengine "chmod -R 777 /var/www/venditaBengine/tmp/logs"
+
+ssh root@venditaBengine "chmod -R 777 /var/www/venditaBengine/app/public"
