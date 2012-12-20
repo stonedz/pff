@@ -1,3 +1,3 @@
 #!/bin/bash
 cd ..
-phpab --output app/autoload.php app
+phpab --exclude 'app/public/*' --output app/autoload.php app
