@@ -1,0 +1,4 @@
+name: Search
+version: "0.1"
+desc: Search trought database
+class: search
