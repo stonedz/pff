@@ -70,7 +70,7 @@ class Mail extends \pff\AModule
 
     }
 
-    public function sendMail($to, $from, $fromName, $subject, $body, $attachment = null)
+    public function sendMail($to, $from, $fromName, $subject, $body, $addressReply = null, $attachment = null)
     {
         $this->message = new \Swift_Message();
         $this->message->setTo($to);
@@ -79,6 +79,9 @@ class Mail extends \pff\AModule
         $this->message->setBody($body);
         $this->message->setCharset("UTF-8");
         $this->message->setContentType("text/html");
+        if($addressReply != null){
+            $this->message->setReplyTo($addressReply);
+        }
         //$this->message->attach($attachment);
         return $this->mailer->send($this->message);
     }
