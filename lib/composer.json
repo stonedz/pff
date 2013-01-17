@@ -2,8 +2,8 @@
     "require": {
         "doctrine/orm": "2.2.*",
         "behat/mink": "dev-master",
-        "symfony/yaml": "dev-master",
-        "symfony/console": "dev-master",
+        "symfony/yaml": "2.0.*",
+        "symfony/console": "2.0.*",
         "smarty/smarty": "dev-master",
         "swiftmailer/swiftmailer": "4.2.1"
     }
