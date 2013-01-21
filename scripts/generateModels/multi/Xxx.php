@@ -21,7 +21,7 @@ class XXX extends \pff\AModel {
     private $data;
 
     /**
-     * @Column(length=100)
+     * @Column(type="text")
      */
     private $copertina;
 

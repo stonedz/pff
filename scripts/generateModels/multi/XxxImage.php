@@ -16,7 +16,7 @@ class XXXImage extends \pff\AModel {
     private $id;
 
     /**
-     * @Column(length=100)
+     * @Column(type="text")
      */
     private $foto;
 
@@ -130,8 +130,6 @@ class XXXImage extends \pff\AModel {
     {
         return $this->xxx;
     }
-
-
 
 }
 
