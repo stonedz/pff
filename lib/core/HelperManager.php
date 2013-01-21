@@ -14,6 +14,7 @@ class HelperManager
      * Load an helper file
      *
      * @param string $helperName Name of the helper to include
+     * @return bool
      * @throws \pff\HelperException
      */
     public function load($helperName) {
@@ -33,6 +34,9 @@ class HelperManager
 
         if (!($found)) {
             throw new \pff\HelperException("Helper not found: " . $helperName);
+        }
+        else {
+            return true;
         }
     }
 
