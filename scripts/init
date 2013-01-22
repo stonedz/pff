@@ -60,6 +60,15 @@ else
     echo -e "${GREEN}[OK]"
 fi
 
+
+# Clean old htmlpurifier if prensent
+if [ -d ../lib/vendor/htmlpurifier-4.4.0-standalone ]
+then
+    echo -ne "\n${CYAN}Clean old packages..."
+    rm -rf ../lib/vendor/htmlpurifier-4.4.0-standalone
+    echo -e "${GREEN}[OK]"
+fi
+
 # INSTALL COMPOSER PACKAGES
 if [ -f composer.phar ]
 then
@@ -80,22 +89,22 @@ else
 fi
 
 # HTMLPURIFIER STANDALONE
-if [ -f ../lib/vendor/htmlpurifier-4.4.0-standalone//HTMLPurifier.standalone.php -a "$1" != "-f" ]
-then
-    echo -e "\n${GREEN}* [OK] ${BLUE}HTMLPurifier is already installed"
-else
-    echo -ne "\n${CYAN}Installing Htmlpurifier..."
-    wget -q http://htmlpurifier.org/releases/htmlpurifier-4.4.0-standalone.tar.gz 
-    if [ -f  htmlpurifier-4.4.0-standalone.tar.gz ]
-    then
-        tar -xzvf htmlpurifier-4.4.0-standalone.tar.gz -C ../lib/vendor/ > /dev/null
-        rm htmlpurifier-4.4.0-standalone.tar.gz
-        echo -e "${GREEN}[OK]"
-    else
-        fail=true
-        echo -e "${RED}[FAIL]"
-    fi
-fi
+#if [ -f ../lib/vendor/htmlpurifier-4.4.0-standalone//HTMLPurifier.standalone.php -a "$1" != "-f" ]
+#then
+#    echo -e "\n${GREEN}* [OK] ${BLUE}HTMLPurifier is already installed"
+#else
+#    echo -ne "\n${CYAN}Installing Htmlpurifier..."
+#    wget -q http://htmlpurifier.org/releases/htmlpurifier-4.4.0-standalone.tar.gz
+#    if [ -f  htmlpurifier-4.4.0-standalone.tar.gz ]
+#    then
+#        tar -xzvf htmlpurifier-4.4.0-standalone.tar.gz -C ../lib/vendor/ > /dev/null
+#        rm htmlpurifier-4.4.0-standalone.tar.gz
+#        echo -e "${GREEN}[OK]"
+#    else
+#        fail=true
+#        echo -e "${RED}[FAIL]"
+#    fi
+#fi
 
 # GENERATE app FOLDER
 echo -ne "\n${CYAN}Initializing app..."
