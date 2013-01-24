@@ -97,7 +97,7 @@ class App {
      * @codeCoverageIgnore
      */
     private function stripSlashesDeep($value) {
-        $value = is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
+        $value = is_array($value) ? array_map(array($this, 'stripSlashesDeep'), $value) : stripslashes($value);
         return $value;
     }
 
