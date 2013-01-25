@@ -32,11 +32,8 @@ for module in `ls lib/app_skeleton/config/modules/`; do
     fi
 done
 
-
-echo -ne "\n${CYAN}Generating autoload.php files..."
+#Runs the init
 cd scripts
-sh generateAutoload.sh &> /dev/null
-cd ..
-echo -e "${GREEN}[OK]"
+./init
 
 echo -e ${NC}

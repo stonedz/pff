@@ -97,7 +97,7 @@ class App {
      * @codeCoverageIgnore
      */
     private function stripSlashesDeep($value) {
-        $value = is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
+        $value = is_array($value) ? array_map(array($this, 'stripSlashesDeep'), $value) : stripslashes($value);
         return $value;
     }
 
@@ -223,6 +223,12 @@ class App {
         //$action = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
         $action = null;
 
+        //Prepare the GET params in order to pass them to the Controller
+        $myGet = $_GET;
+        if(isset($myGet['url'])){
+            unset($myGet['url']);
+        }
+
         if ($this->applyStaticRouting($tmpController)) {
             $this->_hookManager->runBefore(); // Runs before controller hooks
             include(ROOT . DS . $tmpController);
@@ -230,12 +236,12 @@ class App {
         } elseif ($this->applyRouting($tmpController, $action)) {
             ($action === null) ? $action = 'index' : $action;
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
-            $controller = new $tmpController($tmpController, $this, $action, $urlArray);
+            $controller = new $tmpController($tmpController, $this, $action, array_merge($urlArray,$myGet));
         } elseif (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($tmpController) . '_Controller.php')) {
             $action = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
             include (ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($tmpController) . '_Controller.php');
             $controllerClassName = ucfirst($tmpController) . '_Controller';
-            $controller          = new $controllerClassName($tmpController, $this, $action, $urlArray);
+            $controller          = new $controllerClassName($tmpController, $this, $action, array_merge($urlArray,$myGet));
         } else {
             throw new RoutingException('Cannot find a valid controller.', 404);
         }

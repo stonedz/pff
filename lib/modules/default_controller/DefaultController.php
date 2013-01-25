@@ -3,7 +3,7 @@
 namespace pff\modules;
 
 /**
- * This module load a specific controller if the user requested controller is not valid
+ * This module loads a specific controller if the user requested controller is not valid
  *
  * @author paolo.fagni<at>gmail.com
  */

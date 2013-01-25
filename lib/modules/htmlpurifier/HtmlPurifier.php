@@ -6,8 +6,13 @@ namespace pff\modules;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class HtmlPurifier extends \pff\AModule
-{
+class HtmlPurifier extends \pff\AModule {
+
+    public function __construct() {
+        if (!defined('HTMLPURIFIER_PREFIX')) {
+            define('HTMLPURIFIER_PREFIX', realpath(dirname(__FILE__) . '/../../vendor/ezyang/htmlpurifier/library'));
+        }
+    }
 
     /**
      * Purifies an HTML string with htmlpurifier

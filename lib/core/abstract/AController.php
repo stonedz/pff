@@ -61,6 +61,11 @@ abstract class AController {
     protected $_moduleManager;
 
     /**
+     * @var \pff\HelperManager
+     */
+    protected $_helpermaager;
+
+    /**
      * Creates a controller
      *
      * @param string $controllerName The controller's name (used to load correct model)
@@ -76,6 +81,7 @@ abstract class AController {
         $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
         $this->_params         = $params;
         $this->_moduleManager  = $this->_app->getModuleManager();
+        $this->_helpermaager   = $this->_app->getHelperManager();
 
         if ($this->_config->getConfigData('orm')) {
             $this->initORM();
@@ -207,5 +213,21 @@ abstract class AController {
      */
     public function getApp() {
         return $this->_app;
+    }
+
+    /**
+     * @param string $moduleName Name of the module to load
+     * @return AModule
+     */
+    public function loadModule($moduleName) {
+        return $this->_moduleManager->getModule($moduleName);
+    }
+
+    /**
+     * @param string $helperName Name of the helper to load
+     * @return bool
+     */
+    public function loadHelper($helperName) {
+        return $this->_helpermaager->load($helperName);
     }
 }
