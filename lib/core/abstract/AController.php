@@ -230,4 +230,22 @@ abstract class AController {
     public function loadHelper($helperName) {
         return $this->_helpermaager->load($helperName);
     }
+
+    /**
+     * Gets a parameter (GET)
+     *
+     * @param int $index
+     * @param string $errorMessage
+     * @param int $errorCode
+     * @throws PffException
+     * @return string
+     */
+    public function getParam($index, $errorMessage = "Page not found", $errorCode = 404) {
+        if(isset($this->_params[$index])){
+            return $this->_params[$index];
+        }
+        else{
+             throw new \pff\PffException($errorMessage, $errorCode);
+        }
+    }
 }
