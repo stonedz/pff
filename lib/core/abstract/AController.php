@@ -234,7 +234,7 @@ abstract class AController {
     /**
      * Gets a parameter (GET)
      *
-     * @param int $index
+     * @param int|string $index
      * @param string $errorMessage
      * @param int $errorCode
      * @throws PffException

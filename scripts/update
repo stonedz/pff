@@ -26,7 +26,7 @@ for module in `ls lib/app_skeleton/config/modules/`; do
             'app/config/modules/'${module}'/module.conf.yaml' &> /dev/null
 
         if [ $? -ne 0 ] ; then
-           echo -e ${red}"- "${module}" configuration in app/config/modules/${module} differs, chek it!"
+           echo -e ${red}"- "${module}" configuration in app/config/modules/${module} differs, check it!"
         fi
 
     fi
