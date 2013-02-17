@@ -251,7 +251,9 @@ class App {
             $this->_hookManager->runBefore(); // Runs before controller hooks
             if ((int)method_exists($controller, $action)) {
                 call_user_func_array(array($controller, "beforeAction"), $urlArray);
+                call_user_func(array($controller, "beforeFilter"));
                 call_user_func_array(array($controller, $action), $urlArray);
+                call_user_func(array($controller, "afterFilter"));
                 call_user_func_array(array($controller, "afterAction"), $urlArray);
                 $this->_hookManager->runAfter(); // Runs after controller hooks
             } else {

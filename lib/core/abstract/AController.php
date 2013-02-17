@@ -66,6 +66,20 @@ abstract class AController {
     protected $_helpermaager;
 
     /**
+     * Contains the registered beforeFilters
+     *
+     * @var array
+     */
+    protected $_beforeFilters;
+
+    /**
+     * Contains the registered afterFilters
+     *
+     * @var array
+     */
+    protected $_afterFilters;
+
+    /**
      * Creates a controller
      *
      * @param string $controllerName The controller's name (used to load correct model)
@@ -246,6 +260,52 @@ abstract class AController {
         }
         else{
              throw new \pff\PffException($errorMessage, $errorCode);
+        }
+    }
+
+    /**
+     * Registers a BeforeFilter
+     *
+     * @param string $actionName
+     * @param \callable $method
+     */
+    public function registerBeforeFilter($actionName,$method) {
+        $this->_beforeFilters[$actionName][] = $method;
+    }
+
+    /**
+     * Registers an AfterFilter
+     *
+     * @param string $actionName
+     * @param \callable $method
+     */
+    public function registerAfterFilter($actionName, $method) {
+        $this->_afterFilters[$actionName][] = $method;
+    }
+
+    /**
+     * Executes all the registered beforeFilters for the current action
+     */
+    public function beforeFilter() {
+        if(!isset($this->_beforeFilters[$this->_action])) {
+            return false;
+        }
+
+        foreach($this->_beforeFilters[$this->_action] as $method) {
+            call_user_func($method);
+        }
+    }
+
+    /**
+     * Execute all the registered afterFilters for the current action
+     */
+    public function afterFilter() {
+        if(!isset($this->_afterFilters[$this->_action])) {
+            return false;
+        }
+
+        foreach($this->_afterFilters[$this->_action] as $method) {
+            call_user_func($method);
         }
     }
 }
