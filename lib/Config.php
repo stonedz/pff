@@ -5,7 +5,7 @@ namespace pff;
 /**
  * Manages pff configuration.
  *
- * Main configuration file is in ROOT/config/config.php
+ * Main configuration file is in ROOT/app/config/config.user.php
  * Additional configuration files may be added from modules.
  *
  * @author paolo.fagni<at>gmail.com
