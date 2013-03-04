@@ -63,7 +63,7 @@ abstract class AController {
     /**
      * @var \pff\HelperManager
      */
-    protected $_helpermaager;
+    protected $_helperManager;
 
     /**
      * Contains the registered beforeFilters
@@ -95,7 +95,7 @@ abstract class AController {
         $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
         $this->_params         = $params;
         $this->_moduleManager  = $this->_app->getModuleManager();
-        $this->_helpermaager   = $this->_app->getHelperManager();
+        $this->_helperManager   = $this->_app->getHelperManager();
 
         if ($this->_config->getConfigData('orm')) {
             $this->initORM();
@@ -242,7 +242,7 @@ abstract class AController {
      * @return bool
      */
     public function loadHelper($helperName) {
-        return $this->_helpermaager->load($helperName);
+        return $this->_helperManager->load($helperName);
     }
 
     /**
