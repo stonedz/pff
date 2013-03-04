@@ -19,7 +19,7 @@ if (!function_exists("phpr_getImageName")){
     }
 }
 
-if (!function_exists("phpr_getImageName")){
+if (!function_exists("phpr_getThumbName")){
     /**
      * Gets the thumbnail filename
      *
