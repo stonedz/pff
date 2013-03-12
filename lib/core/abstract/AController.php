@@ -63,7 +63,21 @@ abstract class AController {
     /**
      * @var \pff\HelperManager
      */
-    protected $_helpermaager;
+    protected $_helperManager;
+
+    /**
+     * Contains the registered beforeFilters
+     *
+     * @var array
+     */
+    protected $_beforeFilters;
+
+    /**
+     * Contains the registered afterFilters
+     *
+     * @var array
+     */
+    protected $_afterFilters;
 
     /**
      * Creates a controller
@@ -81,7 +95,7 @@ abstract class AController {
         $this->_config         = $app->getConfig(); //Even if we have an \pff\App reference we keep this for legacy reasons.
         $this->_params         = $params;
         $this->_moduleManager  = $this->_app->getModuleManager();
-        $this->_helpermaager   = $this->_app->getHelperManager();
+        $this->_helperManager   = $this->_app->getHelperManager();
 
         if ($this->_config->getConfigData('orm')) {
             $this->initORM();
@@ -228,6 +242,70 @@ abstract class AController {
      * @return bool
      */
     public function loadHelper($helperName) {
-        return $this->_helpermaager->load($helperName);
+        return $this->_helperManager->load($helperName);
+    }
+
+    /**
+     * Gets a parameter (GET)
+     *
+     * @param int|string $index
+     * @param string $errorMessage
+     * @param int $errorCode
+     * @throws PffException
+     * @return string
+     */
+    public function getParam($index, $errorMessage = "Page not found", $errorCode = 404) {
+        if(isset($this->_params[$index])){
+            return $this->_params[$index];
+        }
+        else{
+             throw new \pff\PffException($errorMessage, $errorCode);
+        }
+    }
+
+    /**
+     * Registers a BeforeFilter
+     *
+     * @param string $actionName
+     * @param \callable $method
+     */
+    public function registerBeforeFilter($actionName,$method) {
+        $this->_beforeFilters[$actionName][] = $method;
+    }
+
+    /**
+     * Registers an AfterFilter
+     *
+     * @param string $actionName
+     * @param \callable $method
+     */
+    public function registerAfterFilter($actionName, $method) {
+        $this->_afterFilters[$actionName][] = $method;
+    }
+
+    /**
+     * Executes all the registered beforeFilters for the current action
+     */
+    public function beforeFilter() {
+        if(!isset($this->_beforeFilters[$this->_action])) {
+            return false;
+        }
+
+        foreach($this->_beforeFilters[$this->_action] as $method) {
+            call_user_func($method);
+        }
+    }
+
+    /**
+     * Execute all the registered afterFilters for the current action
+     */
+    public function afterFilter() {
+        if(!isset($this->_afterFilters[$this->_action])) {
+            return false;
+        }
+
+        foreach($this->_afterFilters[$this->_action] as $method) {
+            call_user_func($method);
+        }
     }
 }
