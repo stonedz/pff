@@ -27,7 +27,8 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
         } else {
             $viewPath = '..' . DS . '..' . DS . 'lib' . DS . 'modules' . DS . 'exception_handler' . DS . 'views' . DS . 'defaultError_View.php';
         }
-        //die($viewPath);
+
+        header(':', true, $code);
 
         $view = \pff\FView::create($viewPath, $this->getApp());
         $view->set('message', $exception->getMessage());
