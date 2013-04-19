@@ -43,9 +43,14 @@ class Encryption extends \pff\AModule {
      * Encrypts a text
      *
      * @param string $plaintext the text to encrypt
+     * @param null|string $key User specified
      * @return string
      */
-    public function encrypt($plaintext) {
+    public function encrypt($plaintext, $key = null) {
+        if($key != null) {
+            $this->_key = md5($key);
+        }
+
         $td = mcrypt_module_open($this->_cypher, '', self::MODE, '');
         $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
         mcrypt_generic_init($td, $this->_key, $iv);
@@ -58,9 +63,14 @@ class Encryption extends \pff\AModule {
      * Decrypt a previously encrypted text
      *
      * @param string $crypttext
+     * @param null|string $key User specified key
      * @return string
      */
-    public function decrypt($crypttext) {
+    public function decrypt($crypttext, $key = null) {
+        if($key != null) {
+            $this->_key = md5($key);
+        }
+
         $crypttext = base64_decode($crypttext);
         $plaintext = '';
         $td        = mcrypt_module_open($this->_cypher, '', self::MODE, '');
