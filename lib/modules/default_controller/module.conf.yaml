@@ -1,2 +1,2 @@
 moduleConf:
-  defaultController: Test
+  defaultController: Index
