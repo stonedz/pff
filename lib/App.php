@@ -248,6 +248,7 @@ class App {
 
         if (isset($controller)) {
             $this->_moduleManager->setController($controller); // We have a controller, let the modules know about it
+            ob_start();
             $this->_hookManager->runBefore(); // Runs before controller hooks
             if ((int)method_exists($controller, $action)) {
                 call_user_func_array(array($controller, "beforeAction"), $urlArray);
@@ -256,6 +257,7 @@ class App {
                 call_user_func(array($controller, "afterFilter"));
                 call_user_func_array(array($controller, "afterAction"), $urlArray);
                 $this->_hookManager->runAfter(); // Runs after controller hooks
+                ob_end_flush();
             } else {
                 throw new RoutingException('Not a valid action: ' . $action, 400);
             }
