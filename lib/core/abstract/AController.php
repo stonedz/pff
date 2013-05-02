@@ -142,6 +142,9 @@ abstract class AController {
 
 
         $this->_em = EntityManager::create($connectionOptions, $config);
+
+        $platform = $this->_em->getConnection()->getDatabasePlatform();
+        $platform->registerDoctrineTypeMapping('enum', 'string');
     }
 
     /**
