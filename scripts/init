@@ -78,6 +78,15 @@ then
     cd $tmp
 fi
 
+# INSTALL APP COMPOSER PACKAGES
+if [ -f composer.phar -a -f ../app/composer.json ]
+then
+    tmp=`pwd`
+    cd ../app
+    php ../scripts/composer.phar update
+    cd $tmp
+fi
+
 # BEHAT
 if [ -f behat.phar -a "$1" != "-f" ]
 then
