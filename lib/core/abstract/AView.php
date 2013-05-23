@@ -63,6 +63,8 @@ abstract class AView {
 
     abstract public function render();
 
+    abstract public function renderHtml();
+
     /**
      * @param $controller
      * @param string $action
