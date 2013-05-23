@@ -46,8 +46,8 @@ abstract class AView {
         $this->_cssFolder    = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'css' . DS;
         $this->_imgFolder    = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'img' . DS;
         $this->_jsFolder     = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'js' . DS;
-        $this->_filesFolder     = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'files' . DS;
-        $this->_vendorFolder     = $this->_app->getExternalPath() . 'app' . DS . 'vendor' . DS;
+        $this->_filesFolder  = $this->_app->getExternalPath() . 'app' . DS . 'public' . DS . 'files' . DS;
+        $this->_vendorFolder = $this->_app->getExternalPath() . 'app' . DS . 'vendor' . DS;
 
         $this->set('pff_path_public', $this->_publicFolder);
         $this->set('pff_path_css', $this->_cssFolder);
@@ -61,8 +61,18 @@ abstract class AView {
 
     abstract public function set($name, $value);
 
+    /**
+     * Renderes the view
+     *
+     * @return mixed
+     */
     abstract public function render();
 
+    /**
+     * Returns the rendered HTML without output to browser
+     *
+     * @return mixed
+     */
     abstract public function renderHtml();
 
     /**

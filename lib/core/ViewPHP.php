@@ -47,10 +47,8 @@ class ViewPHP extends \pff\AView {
             extract($this->_data); // Extract set data to scope vars
         }
 
-        ob_start();
         include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile);
         $output = ob_get_contents();
-        ob_end_clean();
         return $output;
     }
 
