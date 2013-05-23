@@ -38,6 +38,22 @@ class ViewPHP extends \pff\AView {
         //ob_end_flush();
     }
 
+    public function renderHtml() {
+        $templatePath = ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile;
+        if (!file_exists($templatePath)) {
+            throw new \pff\ViewException('Template file ' . $templatePath . ' does not exist');
+        }
+        if (is_array($this->_data)) {
+            extract($this->_data); // Extract set data to scope vars
+        }
+
+        ob_start();
+        include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile);
+        $output = ob_get_contents();
+        ob_end_clean();
+        return $output;
+    }
+
     /**
      * Callback method to sanitize HTML output
      *

@@ -42,4 +42,8 @@ class ViewSmarty extends \pff\AView {
     public function render() {
         $this->_smarty->display($this->_templateFile);
     }
+
+    public function renderHtml() {
+        return $this->_smarty->fetch($this->_templateFile,null,null,null,false);
+    }
 }
