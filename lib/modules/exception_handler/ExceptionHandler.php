@@ -23,7 +23,7 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
      * @todo refactor
      */
     public function manageExceptions(\Exception $exception) {
-        $code = (int) $exception->getCode();
+        $code = (int)$exception->getCode();
         header(' ', true, $code);
 
         if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . 'smarty' . DS . 'templates' . DS .$code . '_View.tpl')){
