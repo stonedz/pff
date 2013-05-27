@@ -33,7 +33,7 @@ class LayoutSmarty extends \pff\ViewSmarty {
     }
 
     public function smarty_plugin_contentPlaceholder($params, $smarty) {
-        if (!isset($params['index']) || is_int($params['index'])) {
+        if (!isset($params['index']) || !is_int($params['index'])) {
             $params['index'] = 0;
         }
 
