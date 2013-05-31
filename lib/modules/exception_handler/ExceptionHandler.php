@@ -1,6 +1,7 @@
 <?php
 
 namespace pff\modules;
+use pff\PffException;
 
 /**
  * Manages uncaught exceptions
@@ -50,6 +51,14 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
         $view->set('message', $exception->getMessage());
         $view->set('trace', $exception->getTrace());
 
+        if(is_a($exception, '\pff\PffException')){
+            /** @var PffException $exception */
+            $exceptionParams = $exception->getViewParams();
+            $view->set('exceptionParams', $exceptionParams);
+            foreach($exceptionParams as $k=>$v){
+                $view->set($k, $v);
+            }
+        }
         $view->render();
     }
 }
