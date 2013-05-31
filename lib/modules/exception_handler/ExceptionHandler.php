@@ -54,9 +54,11 @@ class ExceptionHandler extends \pff\AModule implements \pff\IBeforeSystemHook {
         if(is_a($exception, '\pff\PffException')){
             /** @var PffException $exception */
             $exceptionParams = $exception->getViewParams();
-            $view->set('exceptionParams', $exceptionParams);
-            foreach($exceptionParams as $k=>$v){
-                $view->set($k, $v);
+            if($exceptionParams !== null && is_array($exceptionParams)) {
+                $view->set('exceptionParams', $exceptionParams);
+                foreach($exceptionParams as $k=>$v){
+                    $view->set($k, $v);
+                }
             }
         }
         $view->render();
