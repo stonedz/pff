@@ -259,7 +259,7 @@ class App {
                 $this->_hookManager->runAfter(); // Runs after controller hooks
                 ob_end_flush();
             } else {
-                throw new RoutingException('Not a valid action: ' . $action, 400);
+                throw new RoutingException('Not a valid action: ' . $action, 404);
             }
         }
 
