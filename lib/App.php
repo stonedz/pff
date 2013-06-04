@@ -182,17 +182,25 @@ class App {
      * Apply user-defined MVC routes.
      *
      * @param string $request
-     * @param null|string $action If the route has an action specified (ex. admin/show will be filled wiith "show")
+     * @param null|string $action If the route has an action specified (ex. admin/show will be filled with "show")
+     * @param null $urlArray array of parameters passed to the controller
      * @return bool True if a match is found
      */
-    public function applyRouting(&$request, &$action = null) {
+    public function applyRouting(&$request, &$action = null, &$urlArray = null) {
         if (isset($this->_routes[strtolower($request)])) {
-            $explodedTarget = explode('/', $this->_routes[strtolower($request)]);
+            $route          = $this->_routes[strtolower($request)];
+            $explodedTarget = explode('/', $route);
+
             if (isset($explodedTarget[1])) { // we have an action for this route!
                 $action = $explodedTarget[1];
             }
             $request = $explodedTarget[0];
             $request = ucfirst($request) . '_Controller';
+            // Params, if more than 2 elements are specified
+            if(count($explodedTarget) > 2){
+                $routeParams = array_slice($explodedTarget, 2);
+                $urlArray = array_merge($routeParams, $urlArray);
+            }
             return true;
         }
         return false;
@@ -219,8 +227,6 @@ class App {
 
         // If present take the first element as the controller
         $tmpController = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
-        // If present take the second element as the action
-        //$action = isset($urlArray[0]) ? array_shift($urlArray) : 'index';
         $action = null;
 
         //Prepare the GET params in order to pass them to the Controller
@@ -233,7 +239,7 @@ class App {
             $this->_hookManager->runBefore(); // Runs before controller hooks
             include(ROOT . DS . $tmpController);
             $this->_hookManager->runAfter(); // Runs after controller hooks
-        } elseif ($this->applyRouting($tmpController, $action)) {
+        } elseif ($this->applyRouting($tmpController, $action, $urlArray)) {
             ($action === null) ? $action = 'index' : $action;
             include(ROOT . DS . 'app' . DS . 'controllers' . DS . $tmpController . '.php');
             $controller = new $tmpController($tmpController, $this, $action, array_merge($urlArray,$myGet));
