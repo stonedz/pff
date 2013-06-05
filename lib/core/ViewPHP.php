@@ -14,6 +14,14 @@ class ViewPHP extends \pff\AView {
      */
     private $_data;
 
+    public function __construct($templateName, \pff\App $app) {
+        $templatePath = ROOT . DS . 'app' . DS . 'views' . DS . $templateName;
+        if (!file_exists($templatePath)) {
+            throw new \pff\ViewException('Template file ' . $templatePath . ' does not exist');
+        }
+        parent::__construct($templateName, $app);
+    }
+
     public function set($name, $value) {
         $this->_data[$name] = $value;
     }

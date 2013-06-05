@@ -7,7 +7,7 @@ namespace pff;
  *
  * @author paolo.fagni<at>gmail.com
  */
-abstract class AView {
+abstract class AView implements IRenderable {
 
     /**
      * @var \pff\App
@@ -58,22 +58,6 @@ abstract class AView {
         $this->set('pff_root_ext', $this->_app->getExternalPath());
 
     }
-
-    abstract public function set($name, $value);
-
-    /**
-     * Renderes the view
-     *
-     * @return mixed
-     */
-    abstract public function render();
-
-    /**
-     * Returns the rendered HTML without output to browser
-     *
-     * @return mixed
-     */
-    abstract public function renderHtml();
 
     /**
      * @param $controller

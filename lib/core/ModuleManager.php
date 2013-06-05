@@ -162,6 +162,20 @@ class ModuleManager {
     }
 
     /**
+     * Checks if a module is currently loaded
+     *
+     * @param string $moduleName
+     */
+    public function isLoaded($moduleName) {
+        if(isset($this->_modules[$moduleName])){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * @param \pff\HookManager $hookManager
      */
     public function setHookManager($hookManager) {

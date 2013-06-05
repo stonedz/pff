@@ -1,0 +1,14 @@
+moduleConf:
+  # name of the session variable wich holds the viewer device details
+  sessionVarName: pff_is_mobile
+
+  # name of the session variable (true or false, see below), if set to false the module will ignore
+  # requests made from a mobile device
+  sessionVarAutoName: pff_show_mobile
+
+  # default behaviour, if false then, in order to show mobile views for mobile devices, the session var should be
+  # set accordingly
+  showMobileVersion: true
+
+  # name of the suffix that will be added to the view's filename (e.g. product.tpl -> product_mobile.tpl)
+  filenameSuffix: mobile

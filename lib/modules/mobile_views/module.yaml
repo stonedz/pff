@@ -1,0 +1,8 @@
+name: Mobile_Views
+version: "0.1"
+desc: Loads a mobile view if the user is using a mobile phone or tablet
+class: MobileViews
+requires:
+  - session
+uses-git:
+  - "serbanghita/Mobile-Detect"
