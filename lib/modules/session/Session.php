@@ -7,10 +7,17 @@ namespace pff\modules;
  *
  * @author paolo.fagni<at>gmail.com
  */
-class Session extends \pff\AModule implements \pff\IBeforeHook {
+class Session extends \pff\AModule implements \pff\IBeforeSystemHook {
 
 
-    public function doBefore() {
+    /**
+     * Executed before the system startup
+     *
+     * @return mixed
+     */
+    public function doBeforeSystem()
+    {
         session_start();
+        // TODO: Implement doBeforeSystem() method.
     }
 }

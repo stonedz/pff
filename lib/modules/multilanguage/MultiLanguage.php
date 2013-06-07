@@ -23,11 +23,25 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook {
     private $_saveOnCookies;
 
     /**
+     * If true saves the preferred language on session!
+     *
+     * @var bool
+     */
+    private $_saveOnSession;
+
+    /**
      * The name of the cookie to save
      *
      * @var string
      */
     private $_cookieName;
+
+    /**
+     * The key of the session array to save
+     *
+     * @var string
+     */
+    private $_sessionKeyName;
 
     /**
      * Contains the specified default language, this could be overrider by $pffConfig['default_language']
@@ -45,9 +59,11 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook {
      * Loads the configuration file
      */
     private function _loadConfig($parsedConfig) {
-        $this->_defaultLang   = $parsedConfig['moduleConf']['default_language'];
-        $this->_saveOnCookies = $parsedConfig['moduleConf']['save_on_cookies'];
-        $this->_cookieName    = $parsedConfig['moduleConf']['cookie_name'];
+        $this->_defaultLang     = $parsedConfig['moduleConf']['default_language'];
+        $this->_saveOnCookies   = $parsedConfig['moduleConf']['save_on_cookies'];
+        $this->_cookieName      = $parsedConfig['moduleConf']['cookie_name'];
+        $this->_saveOnSession   = $parsedConfig['moduleConf']['save_on_session'];
+        $this->_sessionKeyName  = $parsedConfig['moduleConf']['session_key_name'];
     }
 
     /**
@@ -92,6 +108,10 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook {
     private function saveLanguage() {
         if ($this->_saveOnCookies) {
             $this->getRequiredModules('cookies')->setCookie($this->_cookieName, $this->_selectedLanguage, 30 * 24);
+        }
+        if ($this->_saveOnSession) {
+            $_SESSION[$this->_sessionKeyName] = $this->_selectedLanguage;
+            $_SESSION['default_language'] = $this->_defaultLang;
         }
     }
 
