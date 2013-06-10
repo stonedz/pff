@@ -3,3 +3,6 @@ moduleConf:
   # If set to true saves the language
   save_on_cookies: false
   cookie_name: pff_language
+  # If set to true saves on session
+  save_on_session: false
+  session_key_name: pff_language
