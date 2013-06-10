@@ -12,3 +12,6 @@ moduleConf:
 
   # name of the suffix that will be added to the view's filename (e.g. product.tpl -> product_mobile.tpl)
   filenameSuffix: mobile
+
+  #if true the mobile views will always be loaded
+  showMobileOnly: false
