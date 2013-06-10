@@ -88,7 +88,7 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
     }
 
     public function isMobile() {
-        return !$this->_isMobile;
+        return $this->_isMobile;
     }
 
     /**
