@@ -32,6 +32,13 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
     private $_sessionAutoName;
 
     /**
+     * Session var name to force mobile view
+     *
+     * @var bool
+     */
+    private $_sessionForceMobile = false;
+
+    /**
      * @var bool
      */
     private $_defaultBehaviour;
@@ -58,10 +65,11 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
      * @return mixed
      */
     public function loadConfig($parsedConfig) {
-        $this->_suffix           = $parsedConfig['moduleConf']['filenameSuffix'];
-        $this->_sessionName      = $parsedConfig['moduleConf']['sessionVarName'];
-        $this->_sessionAutoName  = $parsedConfig['moduleConf']['sessionVarAutoName'];
-        $this->_defaultBehaviour = $parsedConfig['moduleConf']['showMobileVersion'];
+        $this->_suffix             = $parsedConfig['moduleConf']['filenameSuffix'];
+        $this->_sessionName        = $parsedConfig['moduleConf']['sessionVarName'];
+        $this->_sessionAutoName    = $parsedConfig['moduleConf']['sessionVarAutoName'];
+        $this->_defaultBehaviour   = $parsedConfig['moduleConf']['showMobileVersion'];
+        $this->_sessionForceMobile = $parsedConfig['moduleConf']['showMobileOnly'];
 
         $this->_md = new \Mobile_Detect();
     }
@@ -159,5 +167,20 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
         return $this->_suffix;
     }
 
+    /**
+     * @param boolean $sessionForceMobile
+     */
+    public function setMobileViewOnly($sessionForceMobile)
+    {
+        $this->_sessionForceMobile = $sessionForceMobile;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getMobileViewOnly()
+    {
+        return $this->_sessionForceMobile;
+    }
 
 }
