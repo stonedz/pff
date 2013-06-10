@@ -97,6 +97,9 @@ class MultiLanguage extends \pff\AModule implements \pff\IBeforeSystemHook {
 
             $processedUrl = implode('/', $splittedUrl);
         } else {
+            $this->_selectedLanguage = $this->_defaultLang;
+            $this->saveLanguage();
+
             $processedUrl = $url;
         }
         return $processedUrl;
