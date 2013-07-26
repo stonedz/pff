@@ -82,7 +82,10 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
     public function doBefore() {
         $this->_isMobile = $this->_md->isMobile();
 
-        $_SESSION[$this->_sessionAutoName] = $this->_defaultBehaviour;
+        if(!isset($_SESSION[$this->_sessionAutoName])){
+            $_SESSION[$this->_sessionAutoName] = $this->_defaultBehaviour;
+        }
+
         $_SESSION[$this->_sessionName]     = $this->_isMobile;
     }
 
