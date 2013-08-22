@@ -5,6 +5,7 @@ namespace pff\modules;
 use pff\AModule;
 use pff\IBeforeHook;
 use pff\IConfigurableModule;
+use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 
 class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
 
@@ -39,6 +40,13 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
     private $_sessionForceMobile = false;
 
     /**
+     * If false desktop version will be displayed to tablets.
+     *
+     * @var bool
+     */
+    private $_allowMobileForTablet = false;
+
+    /**
      * @var bool
      */
     private $_defaultBehaviour;
@@ -52,6 +60,11 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
      * @var bool
      */
     private $_isMobile = false;
+
+    /**
+     * @var bool
+     */
+    private $_isTablet = false;
 
     /**
      * @param string $confFile Path to configuration file
@@ -71,6 +84,10 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
         $this->_defaultBehaviour   = $parsedConfig['moduleConf']['showMobileVersion'];
         $this->_sessionForceMobile = $parsedConfig['moduleConf']['showMobileOnly'];
 
+        if(isset($parsedConfig['moduleConf']['allowMobileForTablet'])) {
+            $this->_allowMobileForTablet = $parsedConfig['moduleConf']['allowMobileForTablet'];
+        }
+
         $this->_md = new \Mobile_Detect();
     }
 
@@ -81,12 +98,13 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
      */
     public function doBefore() {
         $this->_isMobile = $this->_md->isMobile();
+        $this->_isTablet = $this->_md->isTablet();
 
         if(!isset($_SESSION[$this->_sessionAutoName])){
             $_SESSION[$this->_sessionAutoName] = $this->_defaultBehaviour;
         }
 
-        $_SESSION[$this->_sessionName]     = $this->_isMobile;
+        $_SESSION[$this->_sessionName] = $this->_isMobile;
     }
 
     public function shouldLoadMobileViews() {
@@ -99,6 +117,12 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
     }
 
     public function isMobile() {
+        if($this->_isTablet && $this->_allowMobileForTablet) {
+            return true;
+        }
+        elseif($this->_isTablet) {
+            return false;
+        }
         return $this->_isMobile;
     }
 
@@ -173,16 +197,14 @@ class MobileViews extends AModule implements IConfigurableModule, IBeforeHook {
     /**
      * @param boolean $sessionForceMobile
      */
-    public function setMobileViewOnly($sessionForceMobile)
-    {
+    public function setMobileViewOnly($sessionForceMobile) {
         $this->_sessionForceMobile = $sessionForceMobile;
     }
 
     /**
      * @return boolean
      */
-    public function getMobileViewOnly()
-    {
+    public function getMobileViewOnly() {
         return $this->_sessionForceMobile;
     }
 
