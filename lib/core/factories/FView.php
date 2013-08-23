@@ -26,7 +26,7 @@ class FView {
         if($mm->isLoaded('mobile_views')) {
             /** @var \pff\modules\MobileViews $mobileViews */
             $mobileViews = $mm->getModule('mobile_views');
-            if(($mobileViews->isMobile() && $mobileViews->getAutoMode()) || $mobileViews->getMobileViewOnly()) {
+            if($mobileViews->isMobile() || $mobileViews->getMobileViewOnly()) {
 
                 $tmp          = explode('.', $templateName);
                 $tmp[0]      .= '_mobile';
