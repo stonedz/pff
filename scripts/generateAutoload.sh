@@ -2,6 +2,9 @@
 
 cd ..
 phpab --exclude 'lib/vendor/ezyang/htmlpurifier/maintenance/*' \
+    --exclude 'lib/vendor/doctrine/cache/tests/*' \
+    --exclude 'lib/vendor/doctrine/annotations/tests/*' \
+    --exclude 'lib/vendor/doctrine/inflector/tests/*' \
     --exclude 'lib/vendor/doctrine/common/tests*' \
     --exclude 'lib/vendor/doctrine/dbal/tests*' \
     --exclude 'lib/vendor/doctrine/orm/tests*' \
