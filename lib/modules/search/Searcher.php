@@ -47,6 +47,20 @@ class Searcher extends \pff\AModule
                         $return[$model] = $this->searchText($what, $model, $_em);
                     }
                     break;
+                case "number":
+                    if(isset($excludeArray[$model])){
+                        $return[$model] = $this->searchNumber($what, $model, $_em, $excludeArray[$model]);
+                    }else{
+                        $return[$model] = $this->searchNumber($what, $model, $_em);
+                    }
+                    break;
+                case "numberExact":
+                    if(isset($excludeArray[$model])){
+                        $return[$model] = $this->searchNumberExact($what, $model, $_em, $excludeArray[$model]);
+                    }else{
+                        $return[$model] = $this->searchNumberExact($what, $model, $_em);
+                    }
+                    break;
                 case "textExact":
                     if(isset($excludeArray[$model])){
                         $return[$model] = $this->searchTextExact($what, $model, $_em, $excludeArray[$model]);
@@ -93,6 +107,78 @@ class Searcher extends \pff\AModule
         foreach($searchableProperties as $prop){
             $or->add($qb->expr()->like("f.{$prop}", ":{$key}" ));
             $qb->setParameter($key, "%{$what}%");
+        }
+        $qb->where($or);
+        $results = $qb->getQuery()->getResult();
+        if(count($results) == 0){
+            return false;
+        }
+        return $results;
+    }
+
+    /**
+     * @param $what
+     * @param $modelname
+     * @param $_em
+     * @param array $excludeArray
+     * @return bool, array
+     * return an array of entity matching $what, false otherwise
+     */
+    private function searchNumber($what, $modelname, $_em, $excludeArray = array()){
+        $reflector = new \ReflectionClass("\pff\models\\".$modelname);
+        $properties = $this->my_class_type($reflector);
+        $searchableProperties = array();
+        foreach($properties as $key=>$value){
+            if((($value == "integer") || ($value == "float")) &&  !in_array($key, $excludeArray)){
+                array_push($searchableProperties, $key);
+            }
+        }
+        if(count($searchableProperties) == 0){
+            return false;
+        }
+        $qb = $_em->createQueryBuilder();
+        $qb->select('f')
+            ->from("pff\models\\".$modelname, 'f');
+        $or = $qb->expr()->orx();
+        foreach($searchableProperties as $prop){
+            $or->add($qb->expr()->like("f.{$prop}", ":{$key}" ));
+            $qb->setParameter($key, "%{$what}%");
+        }
+        $qb->where($or);
+        $results = $qb->getQuery()->getResult();
+        if(count($results) == 0){
+            return false;
+        }
+        return $results;
+    }
+
+    /**
+     * @param $what
+     * @param $modelname
+     * @param $_em
+     * @param array $excludeArray
+     * @return bool, array
+     * return an array of entity matching $what, false otherwise
+     */
+    private function searchNumberExact($what, $modelname, $_em, $excludeArray = array()){
+        $reflector = new \ReflectionClass("\pff\models\\".$modelname);
+        $properties = $this->my_class_type($reflector);
+        $searchableProperties = array();
+        foreach($properties as $key=>$value){
+            if((($value == "integer") || ($value == "float")) &&  !in_array($key, $excludeArray)){
+                array_push($searchableProperties, $key);
+            }
+        }
+        if(count($searchableProperties) == 0){
+            return false;
+        }
+        $qb = $_em->createQueryBuilder();
+        $qb->select('f')
+            ->from("pff\models\\".$modelname, 'f');
+        $or = $qb->expr()->orx();
+        foreach($searchableProperties as $prop){
+            $or->add($qb->expr()->like("f.{$prop}", ":{$key}" ));
+            $qb->setParameter($key, "{$what}");
         }
         $qb->where($or);
         $results = $qb->getQuery()->getResult();
