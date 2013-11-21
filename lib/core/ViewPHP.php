@@ -57,6 +57,7 @@ class ViewPHP extends \pff\AView {
 
         include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_templateFile);
         $output = ob_get_contents();
+        ob_clean();
         return $output;
     }
 
