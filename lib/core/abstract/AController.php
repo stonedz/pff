@@ -121,7 +121,8 @@ abstract class AController {
         if ($this->_config->getConfigData('development_environment') == true) {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         } else {
-            $cache = new \Doctrine\Common\Cache\ApcCache(array('prefix'=>$this->_app->getConfig()->getConfigData('app_name')));
+            $cache = new \Doctrine\Common\Cache\ApcCache;
+            $cache->setNamespace($this->_app->getConfig()->getConfigData('app_name'));
         }
 
         $config = new \Doctrine\ORM\Configuration();
