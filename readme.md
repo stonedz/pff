@@ -1,3 +1,3 @@
-**Pff is a MVC PHP framework**
+# Pff, MVC PHP framework
 
-Please take a look at the [wiki] for an up to date documentation (Work in progress, in italian only).
+### Deprecated! New version [here](https://github.com/stonedz/pff2).
