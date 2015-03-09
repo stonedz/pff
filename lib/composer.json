@@ -8,6 +8,6 @@
         "smarty/smarty": "dev-master",
         "swiftmailer/swiftmailer": "4.2.1",
         "ezyang/htmlpurifier": "dev-master",
-        "mobiledetect/mobiledetectlib": "2.6.1"
+        "mobiledetect/mobiledetectlib": "2.8.*"
     }
 }
