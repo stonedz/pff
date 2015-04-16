@@ -122,6 +122,7 @@ abstract class AController {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         } else {
             $cache = new \Doctrine\Common\Cache\ApcCache;
+            $cache->setNamespace($this->_app->getConfig()->getConfigData('app_name'));
         }
 
         $config = new \Doctrine\ORM\Configuration();
