@@ -1,9 +1,9 @@
 <IfModule mod_rewrite.c>
-
     RewriteEngine on
-RewriteCond %{REQUEST_URI} !app/public/([^/]+)
+    RewriteCond %{REQUEST_URI} !app/public/([^/]+)
     #RewriteRule    ^app/public/(.*) app/public/$1  [L]
+    RewriteRule  mercurio/(.*) mercurio/$1 [L]
     RewriteRule    ^$    public/    [L]
-RewriteCond %{REQUEST_URI} !app/public/([^/]+)
+    RewriteCond %{REQUEST_URI} !app/public/([^/]+)
     RewriteRule    (.*) public/$1    [L]
  </IfModule>
