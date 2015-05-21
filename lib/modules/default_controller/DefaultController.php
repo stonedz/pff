@@ -37,7 +37,10 @@ class DefaultController extends \pff\AModule implements \pff\IConfigurableModule
         $tmpUrl = $this->_app->getUrl();
         $tmpUrl = explode('/', $tmpUrl);
         if (file_exists(ROOT . DS . 'app' . DS . 'controllers' . DS . ucfirst($tmpUrl[0]) . '_Controller.php')) {
-            return;
+          return;
+        }
+        elseif (file_exists(ROOT.DS.'app'.DS.'pages'.DS.$tmpUrl[0]) && $tmpUrl[0] != '') {
+          return;
         }
         $this->_app->setUrl($this->_defaultController.'/'.implode('/',$tmpUrl));
     }
